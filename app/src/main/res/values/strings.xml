@@ -1,0 +1,335 @@
+<resources>
+    <string name="app_name">SchafferBaseLibrary</string>
+    <string name="update_password_hint">修改密码需要输入原始密码</string>
+    <string name="import_oldpassword">请输入原始密码</string>
+    <string name="set_newpassword">请设置新密码</string>
+    <string name="import_newpassword">请输入新密码</string>
+    <string name="affirm_newpassword">请确认新密码</string>
+    <string name="reimport_newpassword">请再次输入新密码</string>
+
+    <string name="trip_mode">出行方式</string>
+    <string name="expressbus">快车</string>
+    <string name="ridesharing">顺风车</string>
+    <string name="tailored">专车</string>
+    <string name="carrental">租车</string>
+    <string name="expressage">快递</string>
+    <string name="substitutedriving">代驾</string>
+    <string name="user_not_empty">请填写非空的用户名</string>
+    <string name="pass_not_empty">请填写非空的登录密码</string>
+    <string name="phone_not_empty">请填写非空的手机号</string>
+    <string name="phone_right">请输入正确的手机号</string>
+    <string name="yzm_not_empty">请填写非空的验证码</string>
+    <string name="newpass_not_empty">请填写非空的新密码</string>
+    <string name="realname_not_empty">请填写非空的昵称</string>
+    <string name="oldpsw_not_empty">请填写非空的旧登录密码</string>
+    <string name="psw_right">密码为字母和数字组成6~20个字符</string>
+    <string name="oldnew_password_distinctive">新旧密码不能一样，请重新输入</string>
+    <string name="paypass_not_empty">请填写非空的支付密码</string>
+    <string name="userregister_protocol">请勾选用户注册协议</string>
+    <string name="boundnumber_not_empty">请填写非空的绑定账户</string>
+    <string name="seat_num_not_empty">请填写非空的人数</string>
+    <string name="origin_not_empty">请选择出发地</string>
+
+    <string name="destination_not_empty">请选择目的地</string>
+    <string name="time_not_empty">请选择时间</string>
+    <string name="double_password_distinctive">两次密码输入不一致，请重新输入</string>
+    <string name="newpsw_not_empty">请填写非空的新登录密码</string>
+    <string name="exit_again">再按一次退出</string>
+    <string name="complain_text">亲，哪里不给力？欢迎指导建议！</string>
+    <string name="setting_updatepassword">修改密码</string>
+    <string name="next">下一步</string>
+    <string name="title_consumeragreement">用户服务协议</string>
+    <string name="retrieve_password">找回密码</string>
+    <string name="personal_info_phone">手机号</string>
+    <string name="verification_code">验证码</string>
+    <string name="obtain_verification_code">获取验证码</string>
+    <string name="set_password">重置密码</string>
+    <string name="user_agreement">用户协议</string>
+    <string name="existing_account">已有账号</string>
+    <string name="loging">登录</string>
+    <string name="loging_username">用户名</string>
+    <string name="password">密码</string>
+    <string name="forget_password">忘记密码?</string>
+    <string name="new_user_register">新用户注册</string>
+    <string name="mine_center_my_wallte">我的钱包</string>
+    <string name="mine_center_my_order">我的订单</string>
+    <string name="mine_center_my_evaluate">评价广场</string>
+    <string name="mine_center_my_coupon">优惠券</string>
+    <string name="main_setting">设置</string>
+    <string name="invite_friends">邀请好友</string>
+    <string name="register_nickname">昵称</string>
+    <string name="mine_center_my_age">年龄</string>
+    <string name="mine_center_my_sex">性别</string>
+    <string name="common_problem">常见问题</string>
+    <string name="mine_center_my_autograph">个性签名</string>
+    <string name="mine_center_my_update">修改</string>
+    <string name="register">注册</string>
+    <string name="set_password2">设置密码</string>
+    <string name="register_loging">已有账号,去登陆</string>
+    <string name="register_ralename">真实姓名</string>
+    <string name="register_idcard">身份证号</string>
+    <string name="register_agree">同意</string>
+    <string name="register_agreement">《用户协议》</string>
+    <string name="register_start_route">即刻开始行程</string>
+    <string name="ensure">确定</string>
+    <string name="abrogate">取消</string>
+    <string name="import_newphone">请输入新手机号</string>
+    <string name="import_password">输入您的登陆密码</string>
+    <string name="select_picture">选择图片</string>
+    <string name="photo_album">相册</string>
+    <string name="photograph">拍照</string>
+    <string name="loading">加载中...</string>
+    <string name="authentication">验证身份</string>
+
+    <string name="password_authentication_failed">原密码验证失败</string>
+
+    <string name="update_fail">修改失败！</string>
+    <string name="update_succes">修改成功！</string>
+    <string name="send_fail">发送失败！</string>
+    <string name="reset_fail">重置失败！</string>
+    <string name="reset_succeed">重置成功！</string>
+
+    <string name="loging_fail">登录失败！</string>
+    <string name="loging_succeed">登录成功！</string>
+
+    <string name="reset_verification_code">重获验证码</string>
+    <string name="verification_code_succeed">验证码已发送</string>
+    <string name="title_userinfo">个人信息</string>
+
+    <string name="please_choose">请选择</string>
+    <string name="user_boys">男</string>
+    <string name="user_girl">女</string>
+
+    <string name="ralename_no_chinase">真实姓名不是中文 ，请重新输入！</string>
+    <string name="idcard_no_error">身份证账号格式错误，请重新输入！</string>
+
+    <string name="register_fail">注册失败！</string>
+    <string name="register_succeed2">注册成功！</string>
+    <string name="register_succeed">注册成功，您的账号信息平台正在积极审核，请耐心等待！</string>
+
+    <string name="verification_fail">验证失败！</string>
+    <string name="verification_succeed">验证成功！</string>
+
+    <string name="update_phone">修改手机</string>
+
+    <string name="check_update_fail">检查版本更新失败</string>
+    <string name="setting_reloging">登陆过期，请重新登陆</string>
+
+    <string name="common_address">常用地址</string>
+
+    <string name="setting_feedback">意见反馈</string>
+    <string name="setting_clause">法律条款</string>
+    <string name="setting_about">关于我们</string>
+    <string name="setting_update">版本更新</string>
+    <string name="setting_signout">退出登录</string>
+
+
+    <string name="setting_feedback_message">反馈信息</string>
+    <string name="setting_phone">请输入手机号码，方便我们第一时间联系到你</string>
+    <string name="setting_commit">提  交</string>
+
+    <string name="contact_the_customer_service">联系客服</string>
+
+
+    <string name="import_feedback_message">请输入反馈信息</string>
+    <string name="feedback_phone_fail">手机号码格式错误</string>
+    <string name="feedback_fail">反馈失败！</string>
+    <string name="feedback_succeed">反馈成功！</string>
+
+
+    <string name="insurance_service">保险服务</string>
+    <string name="credit_services">信用服务</string>
+    <string name="law_clause">法律条款</string>
+    <string name="about_us">关于我们</string>
+
+    <string name="logout_success">注销成功</string>
+
+    <string name="mine_center_my_schedule">我的行程</string>
+
+    <string name="load_failed">数据获取失败，请稍候再试。</string>
+
+    <string name="myorder_null">暂无订单</string>
+
+    <string name="mycoupon_null">暂无优惠券数据</string>
+
+    <string name="permission_storage">为了正常使用，需要获取存储权限、定位权限</string>
+
+
+    <string name="carrental_select_time_fail">必须提前一小时提前预约</string>
+
+    <string name="carrental_half_day_rent">半日租(4小时)</string>
+    <string name="carrental_day_long_rent">整日租(8小时)</string>
+
+    <string name="carrental_seletal_time">请选择开始时间</string>
+
+    <string name="carrental_day">天</string>
+
+    <string name="carrental_seletal_usetime">请选择用车时长</string>
+
+    <string name="carrental_impore_num">请输入乘车人数</string>
+
+    <string name="select_car">筛选车辆</string>
+
+    <string name="authorization_expires">授权过期</string>
+    <string name="mine_center_messagecenter">消息中心</string>
+
+    <string name="photograph_success">拍摄成功</string>
+
+
+    <string name="cp_select_city">选择城市</string>
+    <string name="cp_hot_city">热门城市</string>
+    <string name="cp_located_city">定位城市</string>
+    <string name="cp_hint_search_box">请输入城市名或拼音</string>
+    <string name="cp_nothing_found">没有搜索结果~</string>
+    <string name="cp_locating">正在定位…</string>
+    <string name="cp_located_failed">定位失败</string>
+
+    <string name="car_detailed">车辆详情</string>
+    <string name="car_sure_lease">确认租车</string>
+
+    <string name="accomplish">完成</string>
+
+
+    <string name="please_homeaddress">请设置家的地址</string>
+    <string name="please_companyaddress">请设置公司的地址</string>
+    <string name="sure_delete_homeaddress">你确定删除家的地址吗?</string>
+    <string name="sure_delete_companyaddress">你确定删除公司的地址吗?</string>
+
+    <string name="delete_fail">删除失败！</string>
+    <string name="delete_success">删除成功！</string>
+
+    <string name="send_again">秒重新发送</string>
+
+    <string name="again_according_to_exit">再按一次退出程序</string>
+
+
+    <string name="update_hint">更新提示：</string>
+    <string name="update_now">立即更新</string>
+    <string name="temporarily_not_update">暂不更新</string>
+
+    <string name="economy_car">经济型</string>
+    <string name="comfortable_car">舒适型</string>
+    <string name="business_type_car">商务型</string>
+    <string name="bus_type_car">大巴型</string>
+
+    <string name="please_import_name">请输入联系人</string>
+    <string name="please_import_phone">请输入联系方式</string>
+    <string name="please_import_seat">请输入座位数</string>
+    <string name="seat_must_greater">座位数必须大于等于1</string>
+
+    <string name="seat">座</string>
+
+    <string name="no_search_to_the_results">未搜索到结果</string>
+
+    <string name="home">家     </string>
+    <string name="company">公司</string>
+    <string name="set_company_poi">请设置公司的地址</string>
+    <string name="set_home_poi">请设置家的地址</string>
+    <string name="start_time">出发时间</string>
+    <string name="choose_start_poi">请选择起点</string>
+    <string name="choose_end_poi">请选择终点</string>
+    <string name="exchange_route">切换路线</string>
+    <string name="hint_route_name">给路线起个名字,如:上班</string>
+    <string name="commit_add_route">确认添加</string>
+    <string name="add_common_route">+             添加常用路线</string>
+    <string name="chat_msg">消息</string>
+    <string name="location">位置</string>
+    <string name="request_order_of_guest">发送请求，等待司机确认</string>
+    <string name="click_orders_of_guest_for_request"> </string>
+    <string name="guests_together_maybe">同行车主</string>
+    <string name="hitch_publish">发布城内行程</string>
+    <string name="common_route">常用路线</string>
+    <string name="common_route_config">管理</string>
+    <string name="rest_of_seats">空余座位数</string>
+    <string name="publish_submit">发布行程</string>
+    <string name="adjust_price">请输入调整您的报价(选填) XX 元/人</string>
+    <string name="plateform_suggest_price">平台建议价：</string>
+    <string name="units_price">元/人</string>
+    <string name="choose_city">选择城市</string>
+    <string name="keyword">请输入关键字</string>
+    <string name="cancel">取消</string>
+    <string name="num_of_guests">司机人数</string>
+    <string name="search_now">立即搜索</string>
+    <string name="add_common_route_1">添加常用路线</string>
+    <string name="sort_all">综合</string>
+    <string name="sort_distance_from">起点近</string>
+    <string name="sort_distance_end">终点近</string>
+    <string name="sort_time">时间</string>
+    <string name="position">位置</string>
+    <string name="tel">电话</string>
+    <string name="hitch_has_published">行程已发布</string>
+    <string name="offer_mine">我的报价：</string>
+    <string name="has_paid">成功支付</string>
+    <string name="units_money">元</string>
+    <string name="divide">----------------------------------------------------------------------------------</string>
+    <string name="submit_evaluate">提交评价</string>
+    <string name="call">确定要给他/她打电话吗?</string>
+    <string name="hitch">顺风车</string>
+    <string name="common_position">常用地址</string>
+    <string name="time_during">(以约定时间为准)</string>
+    <string name="none_driver_trip">您现在没有发布任何顺风车订单!</string>
+    <string name="send_request_success">发送请求成功!</string>
+    <string name="employer_trip_detail">司机发布的行程</string>
+    <string name="do_not_get_more">不接</string>
+    <string name="do_get_more">去接单</string>
+    <string name="rest_1">此行程您还剩余</string>
+    <string name="rest_2">个空位\n是否还要接其他司机的订单</string>
+    <string name="employer_trips_title">司机行程列表</string>
+    <string name="hitch_detail_title">订单详情</string>
+    <string name="failed_get_order_info">获得订单详情失败</string>
+    <string name="units_seat">座</string>
+    <string name="guests_title">司机列表</string>
+    <string name="cancel_order_sucess">取消订单成功</string>
+    <string name="data_error">数据错误</string>
+    <string name="evaluate_success">评价成功!</string>
+    <string name="common_route_title">我的常用路线</string>
+    <string name="evaluate">评价</string>
+    <string name="success_add">添加成功!</string>
+    <string name="get_location_failed">定位失败</string>
+    <string name="auth_apply_success">认证申请成功，等待审核</string>
+    <string name="delete_route_success">删除常用路线成功</string>
+    <string name="cancel_trip_success">取消行程成功</string>
+    <string name="failed_get_location">获得当前地址失败</string>
+    <string name="failed_get_route">获取路线失败</string>
+    <string name="my_trip_detail">行程详情</string>
+
+    <string name="price_of_employer">乘客报价:</string>
+
+
+    <string name="system_message">系统消息</string>
+    <string name="chat_message">聊天消息</string>
+
+    <string name="message_detailed">消息详情</string>
+
+    <string name="mymessage_null">暂无消息</string>
+
+    <string name="recommended_prize">推荐有奖</string>
+
+    <string name="the_driver_recruitment">司机招募</string>
+
+    <string name="emergency_contact">紧急联系人</string>
+    <string name="user_guide">用户指南</string>
+
+    <string name="mine_center_recommended_prize">推荐有奖</string>
+    <string name="my_coupon">我的优惠券</string>
+    <string name="withdrawal">提现</string>
+    <string name="submit">提交</string>
+    <string name="select_bankcard">选择银行卡</string>
+    <string name="add_bankcard">添加银行卡</string>
+    <string name="my_bankcard">我的银行卡</string>
+    <string name="string_withdraw_tips">推广分享出去，需用户注册并消费获得奖励。\n注：可用奖励满100元后方可申请提现。\n\n</string>
+
+    <string name="user_age">年龄：</string>
+    <string name="user_sui">岁</string>
+    <string name="trip_number">出行次数：</string>
+    <string name="user_ci">次</string>
+    <string name="user_above">千以上</string>
+
+    <string name="permission_call">拨打电话需要获取通话权限</string>
+
+    <string name="confirm_an_order">确认下单</string>
+
+    <string name="bankcardno_empty">请填写银行卡号</string>
+
+    <string name="bankcardtype_empty">请填写银行卡类型</string>
+</resources>
