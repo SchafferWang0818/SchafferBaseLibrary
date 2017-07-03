@@ -1,17 +1,25 @@
 <resources>
-
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowAnimationStyle">@style/activityAnim</item>
     </style>
 
-
+    <!--popupWindow动画-->
     <style name="popup_anim">
         <item name="android:windowEnterAnimation">@anim/anim_fade_in</item>
         <item name="android:windowExitAnimation">@anim/anim_fade_out</item>
     </style>
 
+    <!--activity动画-->
+    <style name="activityAnim">
+        <item name="android:activityOpenEnterAnimation">@anim/enter_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/enter_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/exit_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/exit_out</item>
+    </style>
 </resources>

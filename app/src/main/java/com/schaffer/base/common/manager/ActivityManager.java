@@ -1,4 +1,4 @@
-package com.schaffer.base.common;
+package com.schaffer.base.common.manager;
 
 import android.app.Activity;
 

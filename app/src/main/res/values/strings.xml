@@ -263,7 +263,7 @@
     <string name="units_money">元</string>
     <string name="divide">----------------------------------------------------------------------------------</string>
     <string name="submit_evaluate">提交评价</string>
-    <string name="call">确定要给他/她打电话吗?</string>
+    <string name="call">拨打电话:</string>
     <string name="hitch">顺风车</string>
     <string name="common_position">常用地址</string>
     <string name="time_during">(以约定时间为准)</string>
