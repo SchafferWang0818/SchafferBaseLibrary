@@ -1,6 +1,6 @@
 package com.schaffer.base.common.base;
 
-import com.schaffer.base.common.utils.LTUtil;
+import com.schaffer.base.common.utils.LTUtils;
 
 import rx.subscriptions.CompositeSubscription;
 
@@ -31,7 +31,7 @@ public class BasePresenter<V extends BaseView> {
 	}
 
 	public void showLog(String content) {
-		LTUtil.w(tag, content);
+		LTUtils.w(tag, content);
 	}
 
 //	public abstract class CustomObserver<T> implements Observer<T> {

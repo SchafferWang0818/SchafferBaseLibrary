@@ -2,7 +2,7 @@ package com.schaffer.base.common.utils;
 
 
 
-public class AMapUtil {
+public class AMapUtils {
 //    /**
 //     * 判断editText是否null
 //     */
@@ -91,7 +91,7 @@ public class AMapUtil {
 //    public static ArrayList<LatLng> convertArrList(List<LatLonPoint> shapes) {
 //        ArrayList<LatLng> lineShapes = new ArrayList<LatLng>();
 //        for (LatLonPoint point : shapes) {
-//            LatLng latLngTemp = AMapUtil.convertToLatLng(point);
+//            LatLng latLngTemp = AMapUtils.convertToLatLng(point);
 //            lineShapes.add(latLngTemp);
 //        }
 //        return lineShapes;

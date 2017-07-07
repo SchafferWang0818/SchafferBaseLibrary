@@ -22,7 +22,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.schaffer.base.R;
-import com.schaffer.base.common.utils.LTUtil;
+import com.schaffer.base.common.utils.LTUtils;
 import com.schaffer.base.widget.ProgressDialogs;
 
 import org.greenrobot.eventbus.EventBus;
@@ -30,7 +30,10 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.List;
 
 /**
- * Created by Schaffer on 2017/5/13.
+ * <pre>
+ *     Created by Schaffer on 2017/5/13.
+ * </pre>
+ *
  */
 
 public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V>> extends AppCompatActivity implements BaseView {
@@ -39,11 +42,11 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
     private ProgressDialogs mProgressDialogs;
     protected Handler handler;
     protected boolean mActivityBeShown = false;
-    protected P mPresenter;
     private boolean isFirstInit = true;
+    protected P mPresenter;
     private BaseApplication application;
     private FrameLayout mFrameContent;
-    protected boolean eventbusEnable = false;
+    protected boolean eventbusEnable = false;//需要用户自己initEventBus()之前设定
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,13 +69,25 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
         }
     }
 
-
+    /**
+     * 提醒继承者填充FrameLayout
+     */
     protected abstract void inflateView();
 
+    /**
+     * 提醒初始化Presenter
+     * @return  MVP中的Presenter
+     */
     protected abstract P initPresenter();
 
+    /**
+     * 进入界面时填充数据
+     */
     protected abstract void initData();
 
+    /**
+     * 刷新数据,定义为空则不刷新
+     */
     protected abstract void refreshData();
 
     @Override
@@ -187,7 +202,7 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
 
     @Override
     public void showLog(String msg) {
-        LTUtil.w(tag, msg);
+        LTUtils.w(tag, msg);
     }
 
     @Override
@@ -198,7 +213,7 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
     @Override
     public void showToast(String msg) {
         showLog(msg);
-        LTUtil.showShort(this, msg);
+        LTUtils.showToastShort(this, msg);
     }
 
     @Override

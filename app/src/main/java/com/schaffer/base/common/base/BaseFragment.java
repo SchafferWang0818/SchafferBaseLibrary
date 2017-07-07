@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.schaffer.base.R;
-import com.schaffer.base.common.utils.LTUtil;
+import com.schaffer.base.common.utils.LTUtils;
 import com.schaffer.base.widget.ProgressDialogs;
 
 /**
@@ -76,7 +76,7 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V
 
 	@Override
 	public void showLog(String msg) {
-		LTUtil.w(tag, msg);
+		LTUtils.w(tag, msg);
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V
 	@Override
 	public void showToast(String msg) {
 		showLog(msg);
-		LTUtil.showShort(activity, msg);
+		LTUtils.showToastShort(activity, msg);
 	}
 
 	@Override

@@ -12,9 +12,9 @@ import java.util.TimeZone;
  * Created by SchafferWang on 2016/11/1.
  */
 
-public class DTUtil {
+public class DTUtils {
 
-    private DTUtil() {
+    private DTUtils() {
     }
 
 

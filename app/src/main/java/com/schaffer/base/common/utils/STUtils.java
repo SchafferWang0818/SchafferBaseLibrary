@@ -17,18 +17,18 @@ import java.util.Date;
  * Created by SchafferWang on 2017/4/20 0020.
  */
 
-public class STUtil {
+public class STUtils {
 
 
-    private static STUtil mSelectTimeUtils;
+    private static STUtils mSelectTimeUtils;
 
     ArrayList<String> item1s = new ArrayList<>();
     ArrayList<ArrayList<String>> item2s = new ArrayList<>();
     ArrayList<ArrayList<ArrayList<IPickerViewData>>> item3s = new ArrayList<>();
 
-    public static STUtil getInstance() {
+    public static STUtils getInstance() {
         if (mSelectTimeUtils == null) {
-            mSelectTimeUtils = new STUtil();
+            mSelectTimeUtils = new STUtils();
         }
         return mSelectTimeUtils;
     }
@@ -306,15 +306,15 @@ public class STUtil {
         String chooseTime = chooseHour.substring(2) + chooseMinute;
         Date choose = null;
         try {
-            choose = DTUtil.formatStringToDate(chooseDate + chooseTime, "yyyy年MM月dd日 HH时mm分");
+            choose = DTUtils.formatStringToDate(chooseDate + chooseTime, "yyyy年MM月dd日 HH时mm分");
 
-            long l = DTUtil.formatDateToTimeStamp(choose);
-            long l1 = DTUtil.formatDateToTimeStamp(new Date());
+            long l = DTUtils.formatDateToTimeStamp(choose);
+            long l1 = DTUtils.formatDateToTimeStamp(new Date());
             if (l < l1) {
-                LTUtil.showShort(context, "选择的时间不能早于当前时间");
+                LTUtils.showToastShort(context, "选择的时间不能早于当前时间");
                 return;
             }
-            String timePicked = DTUtil.formatDateToString(choose,"yyyy-MM-dd HH:mm");//转换成 yyyy-MM-dd HH:mm
+            String timePicked = DTUtils.formatDateToString(choose,"yyyy-MM-dd HH:mm");//转换成 yyyy-MM-dd HH:mm
             if (mTvTime == null) {
             } else {
                 mTvTime.setText(timePicked);

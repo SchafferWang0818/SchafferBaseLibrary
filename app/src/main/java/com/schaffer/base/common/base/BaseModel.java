@@ -1,7 +1,7 @@
 package com.schaffer.base.common.base;
 
 import com.schaffer.base.common.api.ApiService;
-import com.schaffer.base.common.utils.LTUtil;
+import com.schaffer.base.common.utils.LTUtils;
 
 import java.lang.reflect.Field;
 import java.security.SecureRandom;
@@ -65,9 +65,9 @@ public abstract class BaseModel<T> {
 			@Override
 			public void log(String message) {
 				if (message.startsWith("{") && message.endsWith("}")) {
-					LTUtil.w("json:\n" + message + "\n");
+					LTUtils.w("json:\n" + message + "\n");
 				} else {
-					LTUtil.d(message);
+					LTUtils.d(message);
 				}
 			}
 		});

@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
  *  Created by SchafferWang on 2016/12/5 0005.
  */
 
-public class SPUtil {
+public class SPUtils {
 
 	public static void saveSetting(Context context, String name, String content) {
 		SharedPreferences.Editor user_setting;

@@ -15,6 +15,7 @@ import com.schaffer.base.common.block.BlockLooper;
 import com.schaffer.base.common.listener.OnLowMemoryListener;
 import com.schaffer.base.common.manager.ActivityController;
 import com.schaffer.base.common.manager.ActivityManager;
+import com.schaffer.base.common.utils.Utils;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -77,6 +78,7 @@ public /*abstract*/ class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         app = this;
+        Utils.init(this);
         configBlock();
         mActivityManager = ActivityManager.getScreenManager();
         mLowMemoryListeners = new ArrayList<WeakReference<OnLowMemoryListener>>();
@@ -190,9 +192,9 @@ public /*abstract*/ class BaseApplication extends Application {
         //Realm的配置与使用    http://www.jianshu.com/p/28912c2f31db
         Realm.init(this);
         Realm.setDefaultConfiguration(new RealmConfiguration
-                        .Builder()
-                        .name("realm")
-                        .deleteRealmIfMigrationNeeded().build());
+                .Builder()
+                .name("realm")
+                .deleteRealmIfMigrationNeeded().build());
     }
 
 
