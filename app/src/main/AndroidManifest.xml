@@ -2,14 +2,36 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.schaffer.base">
 
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <application
+        android:name=".common.base.BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TestActivity">
+        <activity android:name=".test.TestActivity">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
+        <activity android:name=".test.TestFragmentActivity">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
+        <!--            android:theme="@style/AppActivityTheme"-->
+        <activity
+            android:name=".test.TestStatusActivity"
+            android:label="TestStatusActivity1"
+            android:theme="@style/AppActivityTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

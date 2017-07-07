@@ -1,10 +1,11 @@
-package com.schaffer.base;
+package com.schaffer.base.test;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
+import com.schaffer.base.R;
 import com.schaffer.base.common.base.BasePageAdapter;
 import com.schaffer.base.common.transformer.ViewPagerTransformer;
 

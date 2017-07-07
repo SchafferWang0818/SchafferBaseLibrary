@@ -6,16 +6,20 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.schaffer.base.R;
 import com.schaffer.base.common.utils.LTUtil;
@@ -39,13 +43,15 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
     private boolean isFirstInit = true;
     private BaseApplication application;
     private FrameLayout mFrameContent;
+    protected boolean eventbusEnable = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base1);
+        setContentView(R.layout.activity_base);
         mFrameContent = (FrameLayout) findViewById(R.id.layout_group_content);
         inflateView();
+        setToolbar();
         initEventBus();
         mPresenter = initPresenter();
         tag = getClass().getSimpleName();
@@ -55,8 +61,8 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
     }
 
     protected void inflateContent(int resId) {
-        if (mFrameContent!=null){
-                    mFrameContent.addView(View.inflate(this,resId,null), new  FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        if (mFrameContent != null) {
+            mFrameContent.addView(View.inflate(this, resId, null), new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         }
     }
 
@@ -110,6 +116,7 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
     }
 
     private void initEventBus() {
+        if (!eventbusEnable) return;
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         } else {
@@ -235,6 +242,13 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
         showLog(throwable.getMessage() + throwable.getCause());
     }
 
+    public void showSnackbar(String content, int duration) {
+        if (duration != Snackbar.LENGTH_SHORT || duration != Snackbar.LENGTH_LONG)
+            return;
+        Snackbar.make(null, content, duration).show();
+    }
+
+
     private void clearMemory() {
         ActivityManager activityManger = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> appList = activityManger.getRunningAppProcesses();
@@ -250,4 +264,27 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
             }
         }
     }
+
+    public void setToolbar() {
+        if (findViewById(R.id.layout_toolbar_tb) == null) return;
+        if (this instanceof AppCompatActivity) {
+            Toolbar toolbar = (Toolbar) findViewById(R.id.layout_toolbar_tb);
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                android.widget.Toolbar toolbar = (android.widget.Toolbar) findViewById(R.id.layout_toolbar_tb);
+                setActionBar(toolbar);
+                getActionBar().setDisplayShowTitleEnabled(false);
+            }
+        }
+        ((TextView) findViewById(R.id.layout_toolbar_tv_title)).setText(getTitle());
+        findViewById(R.id.layout_toolbar_iv_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
 }

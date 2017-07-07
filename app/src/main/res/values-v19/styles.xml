@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="AppTheme" parent="BaseAppTheme">
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
+    </style>
 
+    <style name="AppActivityTheme" parent="BaseAppTheme">
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
 
+    <style name="Design.AppBarLayoutFit" parent="Design">
+        <item name="android:fitsSystemWindows">false</item>
+    </style>
+
+    <style name="Design.CollpasingToolbarLayoutFit" parent="Design">
+        <item name="android:fitsSystemWindows">false</item>
+    </style>
+
+    <style name="Design.ImageViewFit" parent="Design">
+        <item name="android:fitsSystemWindows">false</item>
+    </style>
+
+    <style name="Design.ToolbarFit" parent="Design">
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
 </resources>

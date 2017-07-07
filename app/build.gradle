@@ -1,22 +1,73 @@
 apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+//    签名文件账号密码
+//    signingConfigs {
+//        config {
+//            keyAlias 'name'
+//            keyPassword 'ezcx@2'
+//            storeFile file('../jksName.jks')
+//            storePassword 'ezcx@2'
+//        }
+//    }
     defaultConfig {
         applicationId "com.schaffer.base"
-        minSdkVersion 15
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+
+//        签名文件
+//        signingConfig signingConfigs.config
+
+//        直接简单粗暴的兼容armeabi
+//        ndk {
+//            abiFilters "armeabi"
+//        }
+
     }
     buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        debug {
+//        签名文件
+//        signingConfig signingConfigs.config
         }
+        release {
+            minifyEnabled false //是否开启混淆
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+//        签名文件
+//        signingConfig signingConfigs.config
+
+//            shrinkResources true                  //gradle去除无用资源
+        }
+        applicationVariants.all { variant ->
+            variant.outputs.each { output ->
+                def outputFile = output.outputFile
+                if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                    def versionName = defaultConfig.versionName.replace(".", "_")
+                    def fileName = outputFile.name.replace(".apk", "-v${versionName}.apk")
+                    fileName = fileName.replace("app", "${defaultConfig.applicationId}")
+                    if (variant.buildType.name.equals('release')) {
+                        output.outputFile = file("${outputFile.parent}/release/${defaultConfig.versionName}/${fileName}")
+                    } else {
+                        output.outputFile = file("${outputFile.parent}/${fileName}")
+                    }
+                }
+            }
+        }
+
     }
+
+//    lintOptions{
+//        checkReleaseBuilds false     //在打包Release版本的时候进行(多语言等)检测
+//        abortOnError false              //打包报错是否停止打包
+//    }
+
 }
 
 dependencies {
@@ -24,24 +75,23 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile 'com.android.support:multidex:1.0.0'
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
-    compile 'io.reactivex:rxandroid:1.1.0'
-    compile 'io.reactivex:rxjava:1.1.0'
-    compile 'com.squareup.okhttp3:okhttp:3.4.1'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
-    compile 'com.google.code.gson:gson:2.6.2'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'de.hdodenhof:circleimageview:2.1.0'
-    compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'com.xingliuhua:xlhratingbar_lib:1.0.1'
-    compile 'com.bigkoo:pickerview:2.1.1'
-//    compile 'com.shawnlin:number-picker:2.3.0'
+    compile rootProject.ext.dependencies["appcompat-v7"]
+    compile rootProject.ext.dependencies["constraint"]
+    compile rootProject.ext.dependencies["design"]
+    compile rootProject.ext.dependencies["recyclerview"]
+    compile rootProject.ext.dependencies["multidex"]
+    compile rootProject.ext.dependencies["retrofit"]
+    compile rootProject.ext.dependencies["retrofit-converter"]
+    compile rootProject.ext.dependencies["retrofit-adapter"]
+    compile rootProject.ext.dependencies["okhttp"]
+    compile rootProject.ext.dependencies["okhttp-logging"]
+    compile rootProject.ext.dependencies["rxandroid"]
+    compile rootProject.ext.dependencies["rxjava"]
+    compile rootProject.ext.dependencies["gson"]
+    compile rootProject.ext.dependencies["glide"]
+    compile rootProject.ext.dependencies["circleimageview"]
+    compile rootProject.ext.dependencies["eventbus"]
+    compile rootProject.ext.dependencies["xlhratingbar_lib"]
+    compile rootProject.ext.dependencies["pickerview"]
 }
