@@ -1536,6 +1536,59 @@ public final class ImageUtils {
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
     }
 
+    /**
+     * 根据路径获得图片并压缩返回Bitmap
+     *
+     * @param filePath
+     * @return
+     */
+    public static Bitmap getSmallBitmap(String filePath) {
+
+        return getSmallBitmap(filePath, 480, 800);
+    }
+
+
+    /**
+     * 根据路径获得图片并压缩返回Bitmap
+     *
+     * @param filePath  文件路劲
+     * @param reqWidth  目标宽度
+     * @param reqHeight 目标高度
+     * @return
+     */
+    public static Bitmap getSmallBitmap(String filePath, int reqWidth, int reqHeight) {
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(filePath, options);
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        options.inJustDecodeBounds = false;
+
+        return BitmapFactory.decodeFile(filePath, options);
+    }
+
+    /**
+     * @param bitmap
+     * @param quality
+     * @param filePath
+     * @return
+     */
+    public static boolean saveBitmap(Bitmap bitmap, int quality, String filePath, Bitmap.CompressFormat compressFormat) {
+        if (null == bitmap) {
+            return false;
+        }
+        try {
+            File file = new File(filePath);
+            FileOutputStream fos = new FileOutputStream(file);
+            bitmap.compress(compressFormat, quality, fos);
+            return true;
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     private static boolean isSpace(final String s) {
         if (s == null) return true;
         for (int i = 0, len = s.length(); i < len; ++i) {

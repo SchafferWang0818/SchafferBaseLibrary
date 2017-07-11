@@ -18,6 +18,17 @@
         android:padding="@dimen/dimen_5dp"
         android:src="@mipmap/icon_back_white" />
 
+    <TextView
+        android:id="@+id/layout_toolbar_tv_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_10dp"
+        android:layout_marginRight="@dimen/dimen_5dp"
+        android:text="关闭"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textSize_14sp"
+        android:visibility="gone" />
+
 
     <TextView
         android:id="@+id/layout_toolbar_tv_title"
