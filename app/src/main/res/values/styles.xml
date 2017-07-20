@@ -28,9 +28,9 @@
 
     <!--activity动画-->
     <style name="activityAnim">
-        <item name="android:activityOpenEnterAnimation">@anim/enter_in</item>
-        <item name="android:activityOpenExitAnimation">@anim/enter_out</item>
-        <item name="android:activityCloseEnterAnimation">@anim/exit_in</item>
-        <item name="android:activityCloseExitAnimation">@anim/exit_out</item>
+        <item name="android:activityOpenEnterAnimation">@anim/anim_enter_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/anim_enter_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/anim_exit_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/anim_exit_out</item>
     </style>
 </resources>

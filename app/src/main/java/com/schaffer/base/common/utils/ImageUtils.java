@@ -22,6 +22,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.os.Build;
+import android.os.Environment;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
@@ -65,7 +66,7 @@ import java.io.OutputStream;
  * addImageWatermark               : 添加图片水印
  * toAlpha                         : 转为alpha位图
  * toGray                          : 转为灰度图片
- * save                            : 保存图片
+ * {@link ImageUtils#save(Bitmap, String, CompressFormat)}                            : 保存图片
  * isImage                         : 根据文件名判断文件是否为图片
  * getImageType                    : 获取图片类型
  * compressByScale                 : 按缩放压缩
@@ -1597,5 +1598,11 @@ public final class ImageUtils {
             }
         }
         return true;
+    }
+
+
+    public static void saveBitmap2Png(Bitmap bitmap) {
+        String directory = Environment.getDownloadCacheDirectory() + "/" + System.currentTimeMillis() + ".png";
+        ImageUtils.save(bitmap, directory, Bitmap.CompressFormat.PNG, false);
     }
 }

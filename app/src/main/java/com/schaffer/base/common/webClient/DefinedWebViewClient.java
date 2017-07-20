@@ -47,6 +47,27 @@ public class DefinedWebViewClient extends WebViewClient {
     @Override
     public void onPageFinished(WebView view, String url) {
         super.onPageFinished(view, url);
+        view.loadUrl("javascript:new function() {\n" +
+                "\t\t\t\tvar imgs = document.getElementsByTagName('img');\n" +
+                "\t\t\t\tvar paths = \"\";\n" +
+                "\n" +
+                "\t\t\t\tfor(var i = 0; i < imgs.length; i++) {\n" +
+                "\t\t\t\t\tpaths += imgs[i].src + \"\\n\";\n" +
+                "\t\t\t\t}\n" +
+                "\n" +
+                "\t\t\t\tfor(var i = 0; i < imgs.length; i++) {\n" +
+                "\t\t\t\t\timgs[i].onclick = function() {\n" +
+                "\t\t\t\t\t\t//点击出现显示图片界面\n" +
+                "\t\t\t\t\t\tvar u = navigator.userAgent;\n" +
+                "\t\t\t\t\t\tvar isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端\n" +
+                "//\t\t\t\t\t\tvar isiOS = !!u.match(/\\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端\n" +
+                "\t\t\t\t\t\tif(isAndroid) {\n" +
+                "\t\t\t\t\t\t\twindow.android.getImgsPath2Show(paths,i);\n" +
+                "\t\t\t\t\t\t}\n" +
+                "\t\t\t\t\t}\n" +
+                "\t\t\t\t}\n" +
+                "\n" +
+                "\t\t\t}");
     }
 
     /**

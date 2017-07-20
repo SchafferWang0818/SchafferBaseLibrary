@@ -14,9 +14,9 @@ import java.util.List;
 
 public class BasePageAdapter extends PagerAdapter {
 
-    private final Context context;
-    private final List<String> titles;
-    private final List<? extends View> views;
+    protected final Context context;
+    protected final List<String> titles;
+    protected final List<? extends View> views;
 
     public BasePageAdapter(Context context, List<String> titles, List<? extends View> views) {
         this.context = context;

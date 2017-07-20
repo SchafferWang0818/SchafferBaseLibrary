@@ -1,6 +1,7 @@
 package com.schaffer.base.common.base;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -35,6 +36,7 @@ import com.schaffer.base.common.utils.LTUtils;
 import com.schaffer.base.common.utils.NetworkUtils;
 import com.schaffer.base.common.webClient.DefinedWebChromeClient;
 import com.schaffer.base.common.webClient.DefinedWebViewClient;
+import com.schaffer.base.ui.activity.ImgsShowActivity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -58,6 +60,9 @@ public class BaseWebActivity extends AppCompatActivity {
     private List<Bitmap> mBitmapList;
     private boolean isGetPicture;
     private String tempPath;
+    static final String INTENT_DATA_IMG_PATHS = "img_paths";
+    static final String INTENT_DATA_IMG_RES = "img_resIds";
+    static final String INTENT_DATA_IMG_CURRENT_INDEX = "img_current";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -244,7 +249,7 @@ public class BaseWebActivity extends AppCompatActivity {
      *
      * @param functionName 函数名称必须有"()"或者有参
      */
-    public void callJsFunction(final String functionName) {
+    protected void callJsFunction(final String functionName) {
         mWvWeb.post(new Runnable() {
             @Override
             public void run() {
@@ -277,7 +282,7 @@ public class BaseWebActivity extends AppCompatActivity {
     /**
      * 从相机获取压缩图
      */
-    public void getPhotoFromCameraCompress() {
+    private void getPhotoFromCameraCompress() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         tempPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/" + System.currentTimeMillis() + ".png";
         Uri uri = Uri.fromFile(new File(tempPath));
@@ -293,7 +298,7 @@ public class BaseWebActivity extends AppCompatActivity {
      * @param oInterface 接口基类的子类
      * @param jsName     接口类在js中的名称
      */
-    public void setJsCallInterface(String url, JsInterface oInterface, String jsName) {
+    protected void setJsCallInterface(String url, JsInterface oInterface, String jsName) {
         mWvWeb.addJavascriptInterface(oInterface, jsName);
         mWvWeb.loadUrl(url);
 // for example:
@@ -302,16 +307,49 @@ public class BaseWebActivity extends AppCompatActivity {
     }
 
 
+    //    @SuppressLint("JavascriptInterface")
     public static class JsInterface {
 
+        private final Context context;
+
+        public JsInterface(Context context) {
+            this.context = context;
+        }
+
         @JavascriptInterface
-        public void baseMethodWithoutback() {
+        public void onBack() {
 
         }
 
         @JavascriptInterface
-        public Object baseMethod() {
+        public void onFinish() {
+
+        }
+
+        @JavascriptInterface
+        public Object onReturn() {
             return null;
+        }
+
+        /**
+         * 获取图片时需要 设置当前类的代用名为"android"
+         *
+         * @param pathStr      所有图片路径
+         * @param currentIndex 当前点击的图片顺序
+         */
+        @JavascriptInterface
+        public void getImgsPath2Show(String pathStr, int currentIndex) {
+            if (TextUtils.isEmpty(pathStr.trim())) return;
+            String[] paths = pathStr.split("\n");
+            int index = currentIndex >= paths.length ? 0 : currentIndex;
+            Intent intent = new Intent(context, ImgsShowActivity.class);
+            ArrayList<String> pathList = new ArrayList<>();
+            for (int i = 0; i < paths.length; i++) {
+                pathList.add(paths[i]);
+            }
+            intent.putStringArrayListExtra(INTENT_DATA_IMG_PATHS, pathList);
+            intent.putExtra(INTENT_DATA_IMG_CURRENT_INDEX, index);
+            context.startActivity(intent);
         }
 
     }
@@ -344,6 +382,7 @@ public class BaseWebActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+
         if (mWvWeb.canGoBack()) {
             mWvWeb.goBack();
         } else {
@@ -380,20 +419,20 @@ public class BaseWebActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    public void showLog(String msg) {
+    protected void showLog(String msg) {
         LTUtils.w(TAG, msg);
     }
 
-    public void showLog(int resId) {
+    protected void showLog(int resId) {
         showLog(getString(resId));
     }
 
-    public void showToast(String msg) {
+    protected void showToast(String msg) {
         showLog(msg);
         LTUtils.showToastShort(this, msg);
     }
 
-    public void showToast(int resId) {
+    protected void showToast(int resId) {
         showToast(getString(resId));
     }
 

@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -51,6 +52,9 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
     protected boolean eventbusEnable = false;//需要用户自己 onCreate()之前设定
     private static final int REQUEST_CODE_PERMISSIONS = 20;
     private static final int REQUEST_CODE_PERMISSION = 19;
+    public static final String INTENT_DATA_IMG_PATHS = "img_paths";
+    public static final String INTENT_DATA_IMG_RES = "img_resIds";
+    public static final String INTENT_DATA_IMG_CURRENT_INDEX = "img_current";
 
 
     @Override
@@ -69,13 +73,25 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
     }
 
     protected void inflateContent(int resId) {
-        if (mFrameContent != null) {
-            mFrameContent.addView(View.inflate(this, resId, null), new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        inflateContent(resId, null);
+    }
+
+    protected void inflateContent(View inflateView) {
+        inflateContent(inflateView, null);
+    }
+
+    protected void inflateContent(int resId, FrameLayout.LayoutParams params) {
+        inflateContent(View.inflate(this, resId, null), params);
+    }
+
+    protected void inflateContent(View inflateView, FrameLayout.LayoutParams params) {
+        if (mFrameContent != null && inflateView != null) {
+            mFrameContent.addView(inflateView, params == null ? new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT) : params);
         }
     }
 
     /**
-     * 提醒继承者填充FrameLayout
+     * 提醒继承者填充FrameLayout,可以使用{@link BaseActivity#inflateContent(int)}系列函数
      */
     protected abstract void inflateView();
 
@@ -154,19 +170,19 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
 //	@Override
 //	public void finish() {
 //		super.finish();
-//		overridePendingTransition(R.anim.exit_in, R.anim.exit_out);
+//		overridePendingTransition(R.anim.anim_exit_in, R.anim.anim_exit_out);
 //	}
 //
 //	@Override
 //	public void startActivity(Intent intent) {
 //		super.startActivity(intent);
-//		overridePendingTransition(R.anim.enter_in, R.anim.enter_out);
+//		overridePendingTransition(R.anim.anim_enter_in, R.anim.anim_enter_out);
 //	}
 //
 //	@Override
 //	public void startActivityForResult(Intent intent, int requestCode) {
 //		super.startActivityForResult(intent, requestCode);
-//		overridePendingTransition(R.anim.enter_in, R.anim.enter_out);
+//		overridePendingTransition(R.anim.anim_enter_in, R.anim.anim_enter_out);
 //	}
 //
 //	@Override
@@ -270,6 +286,41 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
     }
 
 
+    /**
+     * 倒计时
+     *
+     * @param second 倒计时时间总秒数
+     */
+    protected void countDown(int second) {
+        if (second <= 0) return;
+        new CountDownTimer(second * 1000, 1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                int secondUntilFinished = Math.round(millisUntilFinished / 1000);
+                onCountDownTick(secondUntilFinished);
+            }
+
+            @Override
+            public void onFinish() {
+                onCountDownFinish();
+            }
+        }.start();
+    }
+
+    /**
+     * 倒计时秒的处理
+     *
+     * @param secondUntilFinished 剩余秒数
+     */
+    protected void onCountDownTick(int secondUntilFinished) {
+
+    }
+
+    protected void onCountDownFinish() {
+
+    }
+
     private void clearMemory() {
         ActivityManager activityManger = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> appList = activityManger.getRunningAppProcesses();
@@ -335,7 +386,7 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
         if (requestCode == REQUEST_CODE_PERMISSION) {//单个权限申请结果
             if (grantResults.length == 0) return;
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {//权限申请成功
-                onRequestPermissionSuccess(permissions,grantResults);
+                onRequestPermissionSuccess(permissions, grantResults);
             } else {//权限申请失败
                 if (!ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0])) {//已点不再询问
                     showSnackbar("权限已被禁止,并不再询问,请在设置中打开", Snackbar.LENGTH_LONG);
@@ -347,7 +398,7 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
                         }
                     }).setNegativeButton("取消", null).create().show();
                 } else {//再次询问?
-                    onRequestPermissionFailed(permissions,grantResults);
+                    onRequestPermissionFailed(permissions, grantResults);
                 }
             }
         }
@@ -397,13 +448,17 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
                 getActionBar().setDisplayShowTitleEnabled(false);
             }
         }
-        ((TextView) findViewById(R.id.layout_toolbar_tv_title)).setText(getTitle());
+        setActivityTitle(getTitle());
         findViewById(R.id.layout_toolbar_iv_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+    }
+
+    protected void setActivityTitle(CharSequence charSequence) {
+        ((TextView) findViewById(R.id.layout_toolbar_tv_title)).setText(charSequence);
     }
 
 }
