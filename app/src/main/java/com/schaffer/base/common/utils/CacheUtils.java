@@ -36,20 +36,20 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * <pre>
- * getInstance    : 获取缓存实例
- * put            : 缓存中写入数据
- * getBytes       : 缓存中读取字节数组
- * getString      : 缓存中读取String
- * getJSONObject  : 缓存中读取JSONObject
- * getJSONArray   : 缓存中读取JSONArray
- * getBitmap      : 缓存中读取Bitmap
- * getDrawable    : 缓存中读取Drawable
- * getParcelable  : 缓存中读取Parcelable
- * getSerializable: 缓存中读取Serializable
- * getCacheSize   : 获取缓存大小
- * getCacheCount  : 获取缓存个数
- * remove         : 根据键值移除缓存
- * clear          : 清除所有缓存
+ * {@link CacheUtils#getInstance()}    : 获取缓存实例
+ * {@link CacheUtils#put(String, Bitmap)}            : 缓存中写入数据
+ * {@link CacheUtils#getBytes(String, byte[])}      : 缓存中读取字节数组
+ * {@link CacheUtils#getString(String, String)}       : 缓存中读取String
+ * {@link CacheUtils#getJSONObject(String, JSONObject)}   : 缓存中读取JSONObject
+ * {@link CacheUtils#getJSONArray(String, JSONArray)}    : 缓存中读取JSONArray
+ * {@link CacheUtils#getBitmap(String)}      : 缓存中读取Bitmap
+ * {@link CacheUtils#getDrawable(String, Drawable)}     : 缓存中读取Drawable
+ * {@link CacheUtils#getParcelable(String, Parcelable.Creator)}   : 缓存中读取Parcelable
+ * {@link CacheUtils#getSerializable(String)} : 缓存中读取Serializable
+ * {@link CacheUtils#getCacheSize()}    : 获取缓存大小
+ * {@link CacheUtils#getCacheCount()}  : 获取缓存个数
+ * {@link CacheUtils#remove(String)}         : 根据键值移除缓存
+ * {@link CacheUtils#clear()}           : 清除所有缓存
  * </pre>
  */
 public class CacheUtils {

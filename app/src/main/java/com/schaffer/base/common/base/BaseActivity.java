@@ -1,6 +1,7 @@
 package com.schaffer.base.common.base;
 
 import android.Manifest;
+import android.animation.Animator;
 import android.app.ActivityManager;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
@@ -19,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
@@ -55,12 +58,17 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
     public static final String INTENT_DATA_IMG_PATHS = "img_paths";
     public static final String INTENT_DATA_IMG_RES = "img_resIds";
     public static final String INTENT_DATA_IMG_CURRENT_INDEX = "img_current";
+    private CountDownTimer countDownTimer;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//21
+//            getWindow().setEnterTransition(new Fade());
+//            getWindow().setExitTransition(new Fade());
+//        }//新转场动画
         mFrameContent = (FrameLayout) findViewById(R.id.layout_group_content);
         inflateView();
         setToolbar();
@@ -142,6 +150,9 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
     protected void onDestroy() {
         super.onDestroy();
         initEventBus();
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
         if (mPresenter != null) {
             mPresenter.detach();
         }
@@ -185,6 +196,31 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
 //		overridePendingTransition(R.anim.anim_enter_in, R.anim.anim_enter_out);
 //	}
 //
+/*@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+@Override
+public void startActivity(Intent intent) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        super.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this)
+                .toBundle());
+    }else{
+        super.startActivity(intent);
+    }
+//    overridePendingTransition(R.anim.anim_enter_in, R.anim.anim_enter_out);
+}
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        super.startActivityForResult(intent, requestCode);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            super.startActivityForResult(intent,requestCode, ActivityOptions.makeSceneTransitionAnimation(this)
+                    .toBundle());
+        }else{
+            super.startActivityForResult(intent,requestCode);
+        }
+//        overridePendingTransition(R.anim.anim_enter_in, R.anim.anim_enter_out);
+    }*/
+
 //	@Override
 //	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //		super.onActivityResult(requestCode, resultCode, data);
@@ -291,35 +327,50 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
      *
      * @param second 倒计时时间总秒数
      */
-    protected void countDown(int second) {
+    protected void countDown(int second, final CountDownTimeListener listener) {
         if (second <= 0) return;
-        new CountDownTimer(second * 1000, 1000) {
+        countDownTimer = new CountDownTimer(second * 1000, 1000) {
 
             @Override
             public void onTick(long millisUntilFinished) {
                 int secondUntilFinished = Math.round(millisUntilFinished / 1000);
-                onCountDownTick(secondUntilFinished);
+                if (listener != null)
+                    listener.onCountDownTick(secondUntilFinished);
             }
 
             @Override
             public void onFinish() {
-                onCountDownFinish();
+                if (listener != null)
+                    listener.onCountDownFinish();
             }
-        }.start();
+        };
+        countDownTimer.start();
+    }
+
+    public interface CountDownTimeListener {
+        /**
+         * 倒计时秒的操作
+         *
+         * @param secondUntilFinished 剩余秒数
+         */
+        void onCountDownTick(int secondUntilFinished);
+
+        /**
+         * 倒计时结束时的操作
+         */
+        void onCountDownFinish();
     }
 
     /**
-     * 倒计时秒的处理
-     *
-     * @param secondUntilFinished 剩余秒数
+     * 5.0揭露动画
      */
-    protected void onCountDownTick(int secondUntilFinished) {
-
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void animCircularReveal(View view, int centerX, int centerY, float startRadius, float endRadius, int seconds) {
+        Animator anim = ViewAnimationUtils.createCircularReveal(view, centerX, centerY, startRadius, endRadius);
+        anim.setDuration(seconds * 1000);
+        anim.start();
     }
 
-    protected void onCountDownFinish() {
-
-    }
 
     private void clearMemory() {
         ActivityManager activityManger = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
@@ -378,7 +429,6 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
             ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE_PERMISSION);
         }
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

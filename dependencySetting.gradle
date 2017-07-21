@@ -41,6 +41,14 @@ ext {
 
             //Realm数据库
 //            , "realm"             : "io.realm:realm-gradle-plugin:2.0.2"
+
+            //动画
+//            , "svganimview"             : "com.github.mcxtzhang:PathAnimView:V1.0.0"//https://github.com/mcxtzhang/PathAnimView
+//            , "realm"             : "io.realm:realm-gradle-plugin:2.0.2"
+//            , "realm"             : "io.realm:realm-gradle-plugin:2.0.2"
+//            , "realm"             : "io.realm:realm-gradle-plugin:2.0.2"
+
+
     ]
 
 }

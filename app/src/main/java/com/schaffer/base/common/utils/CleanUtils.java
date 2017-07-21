@@ -7,13 +7,13 @@ import java.io.File;
 /**
  * <pre>
  *     清理工具类
- * cleanInternalCache   : 清除内部缓存
- * cleanInternalFiles   : 清除内部文件
- * cleanInternalDbs     : 清除内部数据库
- * cleanInternalDbByName: 根据名称清除数据库
- * cleanInternalSP      : 清除内部SP
- * cleanExternalCache   : 清除外部缓存
- * cleanCustomCache     : 清除自定义目录下的文件
+ * {@link CleanUtils#cleanInternalCache()}    : 清除内部缓存
+ * {@link CleanUtils#cleanInternalFiles()}    : 清除内部文件
+ * {@link CleanUtils#cleanInternalDbs()}      : 清除内部数据库
+ * {@link CleanUtils#cleanInternalDbByName(String)} : 根据名称清除数据库
+ * {@link CleanUtils#cleanInternalSP()}      : 清除内部SP
+ * {@link CleanUtils#cleanExternalCache()}    : 清除外部缓存
+ * {@link CleanUtils#cleanCustomCache(File)}     : 清除自定义目录下的文件
  * </pre>
  */
 public final class CleanUtils {

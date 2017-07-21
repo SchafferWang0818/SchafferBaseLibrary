@@ -9,12 +9,12 @@ import android.net.Uri;
 /**
  * <pre>
  *   剪贴板相关工具类
- * copyText  : 复制文本到剪贴板
- * getText   : 获取剪贴板的文本
- * copyUri   : 复制uri到剪贴板
- * getUri    : 获取剪贴板的uri
- * copyIntent: 复制意图到剪贴板
- * getIntent : 获取剪贴板的意图
+ * {@link ClipboardUtils#copyText(CharSequence)}   : 复制文本到剪贴板
+ * {@link ClipboardUtils#getText()}   : 获取剪贴板的文本
+ * {@link ClipboardUtils#copyUri(Uri)}   : 复制uri到剪贴板
+ * {@link ClipboardUtils#getUri()}    : 获取剪贴板的uri
+ * {@link ClipboardUtils#copyIntent(Intent)} : 复制意图到剪贴板
+ * {@link ClipboardUtils#getIntent()}  : 获取剪贴板的意图
  * </pre>
  */
 public final class ClipboardUtils {
