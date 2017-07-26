@@ -67,4 +67,6 @@
     <dimen name="dimen_280dp">280dp</dimen>
     <dimen name="dimen_290dp">290dp</dimen>
     <dimen name="dimen_300dp">300dp</dimen>
+
+
 </resources>

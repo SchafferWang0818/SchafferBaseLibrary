@@ -6,19 +6,19 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowAnimationStyle">@style/activityAnim</item>
+        <item name="clock_background">@color/whiteSmoke</item>
+        <item name="clock_textColor">@color/black</item>
     </style>
 
 
-    <style name="AppTheme" parent="BaseAppTheme">
+    <style name="AppTheme" parent="BaseAppTheme" />
 
-    </style>
-    <style name="AppActivityTheme" parent="AppTheme">
 
-    </style>
-    <!--Material Design 类型-->
-    <style name="Design">
+    <!--状态栏颜色延伸主题,与Toolbar 的android:fitsSystemWindows 配合使用-->
+    <style name="TransStatusTheme" parent="AppTheme" />
 
-    </style>
+    <!--Material Design 控件使用的基础Style-->
+    <style name="Design" />
 
     <!--popupWindow动画-->
     <style name="popup_anim">
@@ -33,4 +33,31 @@
         <item name="android:activityCloseEnterAnimation">@anim/anim_exit_in</item>
         <item name="android:activityCloseExitAnimation">@anim/anim_exit_out</item>
     </style>
+
+
+    <!--夜间模式BaseAppTheme-->
+    <style name="BaseAppTheme.Night" parent="BaseAppTheme">
+        <item name="colorPrimary">#3F3F3F</item>
+        <item name="colorPrimaryDark">#3A3A3A</item>
+        <item name="colorAccent">#868686</item>
+        <item name="clock_background">@color/black</item>
+        <item name="clock_textColor">@color/whiteSmoke</item>
+    </style>
+    <!--夜间模式AppTheme-->
+    <style name="AppTheme.Night" parent="AppTheme">
+        <item name="colorPrimary">#3F3F3F</item>
+        <item name="colorPrimaryDark">#3A3A3A</item>
+        <item name="colorAccent">#868686</item>
+        <item name="clock_background">@color/black</item>
+        <item name="clock_textColor">@color/whiteSmoke</item>
+    </style>
+    <!--夜间模式TransStatusTheme-->
+    <style name="TransStatusTheme.Night" parent="TransStatusTheme">
+        <item name="colorPrimary">#3F3F3F</item>
+        <item name="colorPrimaryDark">#3A3A3A</item>
+        <item name="colorAccent">#868686</item>
+        <item name="clock_background">@color/black</item>
+        <item name="clock_textColor">@color/whiteSmoke</item>
+    </style>
+
 </resources>

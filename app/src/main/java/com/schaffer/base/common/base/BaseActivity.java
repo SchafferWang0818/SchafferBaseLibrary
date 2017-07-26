@@ -2,10 +2,15 @@ package com.schaffer.base.common.base;
 
 import android.Manifest;
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.app.ActivityManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,22 +23,28 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.schaffer.base.DayNight;
 import com.schaffer.base.R;
 import com.schaffer.base.common.utils.LTUtils;
+import com.schaffer.base.helper.DayNightHelper;
 import com.schaffer.base.widget.ProgressDialogs;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,7 +70,10 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
     public static final String INTENT_DATA_IMG_RES = "img_resIds";
     public static final String INTENT_DATA_IMG_CURRENT_INDEX = "img_current";
     private CountDownTimer countDownTimer;
-
+    protected List<TextView> textViews = new ArrayList<>();
+    protected List<? extends ViewGroup> viewGroups = new ArrayList<>();
+    protected List<RecyclerView> recyclerViews = new ArrayList<>();
+    protected List<? extends AdapterView<?>> adapterViews = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,7 +84,7 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
 //            getWindow().setExitTransition(new Fade());
 //        }//新转场动画
         mFrameContent = (FrameLayout) findViewById(R.id.layout_group_content);
-        inflateView();
+        inflateView(textViews, viewGroups, recyclerViews, adapterViews);
         setToolbar();
         initEventBus();
         mPresenter = initPresenter();
@@ -100,8 +114,13 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
 
     /**
      * 提醒继承者填充FrameLayout,可以使用{@link BaseActivity#inflateContent(int)}系列函数
+     *
+     * @param textViews     TextView 加入集合用于改变对应颜色
+     * @param viewGroups    ViewGroup 加入集合用于改变对应颜色
+     * @param recyclerViews recyclerView加入集合用于改变对应颜色
+     * @param adapterViews  adapterView加入集合用于改变对应颜色
      */
-    protected abstract void inflateView();
+    protected abstract void inflateView(List<TextView> textViews, List<? extends ViewGroup> viewGroups, List<RecyclerView> recyclerViews, List<? extends AdapterView<?>> adapterViews);
 
     /**
      * 提醒初始化Presenter
@@ -158,7 +177,6 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
         }
         if (handler != null) {
             handler.removeCallbacksAndMessages(null);
-            handler = null;
         }
         application.getActivityManager().popActivity(this);
     }
@@ -511,4 +529,163 @@ public void startActivity(Intent intent) {
         ((TextView) findViewById(R.id.layout_toolbar_tv_title)).setText(charSequence);
     }
 
+    /**
+     * 需要有切换主题需求时使用
+     */
+    private void initTheme() {
+        DayNightHelper helper = new DayNightHelper(this);
+        if (helper.isDay()) {
+            setTheme(R.style.AppTheme);
+        } else {
+            setTheme(R.style.AppTheme_Night);
+        }
+    }
+
+    /**
+     * 切换主题设置
+     */
+    private void toggleThemeSetting() {
+        DayNightHelper helper = new DayNightHelper(this);
+        if (helper.isDay()) {
+            helper.setMode(DayNight.NIGHT);
+            setTheme(R.style.AppTheme_Night);
+        } else {
+            helper.setMode(DayNight.DAY);
+            setTheme(R.style.AppTheme);
+        }
+    }
+
+    private void RefreshUIForChangeTheme() {
+        TypedValue background = new TypedValue();//背景色
+        TypedValue textColor = new TypedValue();//字体颜色
+        Resources.Theme theme = getTheme();
+        theme.resolveAttribute(R.attr.clock_background, background, true);
+        theme.resolveAttribute(R.attr.clock_textColor, textColor, true);
+        if (textViews.size() > 0) {
+            for (TextView textView : textViews) {
+                textView.setBackgroundResource(background.resourceId);
+                textView.setTextColor(textColor.resourceId);
+            }
+        }
+
+        if (viewGroups.size() > 0) {
+            for (ViewGroup viewGroup : viewGroups) {
+                viewGroup.setBackgroundResource(background.resourceId);
+            }
+        }
+
+        if (adapterViews.size() > 0) {
+            //todo adapterViews
+        }
+
+        if (recyclerViews.size() > 0) {
+            //todo recyclerViews
+        }
+        //RecyclerView 解决方案
+
+//        int childCount = mRecyclerView.getChildCount();
+//        for (int childIndex = 0; childIndex < childCount; childIndex++) {
+//            ViewGroup childView = (ViewGroup) mRecyclerView.getChildAt(childIndex);
+//            childView.setBackgroundResource(background.resourceId);
+//            View infoLayout = childView.findViewById(R.id.info_layout);
+//            infoLayout.setBackgroundResource(background.resourceId);
+//            TextView nickName = (TextView) childView.findViewById(R.id.tv_nickname);
+//            nickName.setBackgroundResource(background.resourceId);
+//            nickName.setTextColor(resources.getColor(textColor.resourceId));
+//            TextView motto = (TextView) childView.findViewById(R.id.tv_motto);
+//            motto.setBackgroundResource(background.resourceId);
+//            motto.setTextColor(resources.getColor(textColor.resourceId));
+//        }
+//
+//        //让 RecyclerView 缓存在 Pool 中的 Item 失效
+//        //那么，如果是ListView，要怎么做呢？这里的思路是通过反射拿到 AbsListView 类中的 RecycleBin 对象，然后同样再用反射去调用 clear 方法
+//        Class<RecyclerView> recyclerViewClass = RecyclerView.class;
+//        try {
+//            Field declaredField = recyclerViewClass.getDeclaredField("mRecycler");
+//            declaredField.setAccessible(true);
+//            Method declaredMethod = Class.forName(RecyclerView.Recycler.class.getName()).getDeclaredMethod("clear", (Class<?>[]) new Class[0]);
+//            declaredMethod.setAccessible(true);
+//            declaredMethod.invoke(declaredField.get(mRecyclerView), new Object[0]);
+//            RecyclerView.RecycledViewPool recycledViewPool = mRecyclerView.getRecycledViewPool();
+//            recycledViewPool.clear();
+//
+//        } catch (NoSuchFieldException e) {
+//            e.printStackTrace();
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchMethodException e) {
+//            e.printStackTrace();
+//        } catch (InvocationTargetException e) {
+//            e.printStackTrace();
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        }
+
+        refreshStatusBar();
+    }
+
+    /**
+     * 刷新 StatusBar
+     */
+    private void refreshStatusBar() {
+        if (Build.VERSION.SDK_INT >= 21) {
+            TypedValue typedValue = new TypedValue();
+            Resources.Theme theme = getTheme();
+            theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
+            getWindow().setStatusBarColor(getResources().getColor(typedValue.resourceId));
+        }
+    }
+
+    /**
+     * 展示一个切换动画
+     */
+    private void showAnimation() {
+        final View decorView = getWindow().getDecorView();
+        Bitmap cacheBitmap = getCacheBitmapFromView(decorView);
+        if (decorView instanceof ViewGroup && cacheBitmap != null) {
+            final View view = new View(this);
+            view.setBackgroundDrawable(new BitmapDrawable(getResources(), cacheBitmap));
+            ViewGroup.LayoutParams layoutParam = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT);
+            ((ViewGroup) decorView).addView(view, layoutParam);
+            ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(view, "alpha", 1f, 0f);
+            objectAnimator.setDuration(300);
+            objectAnimator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    ((ViewGroup) decorView).removeView(view);
+                }
+            });
+            objectAnimator.start();
+        }
+    }
+
+    /**
+     * 获取一个 View 的缓存视图
+     *
+     * @param view
+     * @return
+     */
+    private Bitmap getCacheBitmapFromView(View view) {
+        final boolean drawingCacheEnabled = true;
+        view.setDrawingCacheEnabled(drawingCacheEnabled);
+        view.buildDrawingCache(drawingCacheEnabled);
+        final Bitmap drawingCache = view.getDrawingCache();
+        Bitmap bitmap;
+        if (drawingCache != null) {
+            bitmap = Bitmap.createBitmap(drawingCache);
+            view.setDrawingCacheEnabled(false);
+        } else {
+            bitmap = null;
+        }
+        return bitmap;
+    }
+
+    public void changeTheme() {
+        showAnimation();
+        toggleThemeSetting();
+        RefreshUIForChangeTheme();
+    }
 }
+

@@ -8,12 +8,6 @@
     <string name="reimport_newpassword">请再次输入新密码</string>
 
     <string name="trip_mode">出行方式</string>
-    <string name="expressbus">快车</string>
-    <string name="ridesharing">顺风车</string>
-    <string name="tailored">专车</string>
-    <string name="carrental">租车</string>
-    <string name="expressage">快递</string>
-    <string name="substitutedriving">代驾</string>
     <string name="user_not_empty">请填写非空的用户名</string>
     <string name="pass_not_empty">请填写非空的登录密码</string>
     <string name="phone_not_empty">请填写非空的手机号</string>
@@ -30,7 +24,6 @@
     <string name="seat_num_not_empty">请填写非空的人数</string>
     <string name="origin_not_empty">请选择出发地</string>
 
-    <string name="destination_not_empty">请选择目的地</string>
     <string name="time_not_empty">请选择时间</string>
     <string name="double_password_distinctive">两次密码输入不一致，请重新输入</string>
     <string name="newpsw_not_empty">请填写非空的新登录密码</string>

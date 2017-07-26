@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="BaseAppTheme">
-        <!--<item name="android:windowTranslucentStatus">true</item>-->
-    </style>
+    <!--<style name="AppTheme" parent="BaseAppTheme">-->
+        <!--&lt;!&ndash;<item name="android:windowTranslucentStatus">true</item>&ndash;&gt;-->
+    <!--</style>-->
 
-    <style name="AppActivityTheme" parent="BaseAppTheme">
+    <style name="TransStatusTheme" parent="AppTheme">
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
+    <!--Material Design 控件使用的Style-->
     <style name="Design.AppBarLayoutFit" parent="Design">
         <item name="android:fitsSystemWindows">false</item>
     </style>
