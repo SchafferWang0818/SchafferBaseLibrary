@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <paths>
+        <!--前两个是bugly需要的路径-->
+        <external-path
+            name="beta_external_path"
+            path="Download/" />
+        <external-path
+            name="beta_external_files_path"
+            path="Android/data/" />
+
+
+        <external-path
+            name="sdcard_files"
+            path="" />
+
+        <!--相机相册裁剪-->
+        <external-files-path
+            name="camera_has_sdcard"
+            path="" />
+
+        <files-path
+            name="camera_no_sdcard"
+            path="" />
+
+        <!-- files-path        getFileDir()                /data/data/packageName/files目录-->
+        <!--cache-path      getCacheDir()            /data/data/packageName/cache目录-->
+        <!--external-path     Environment.getExternalStorageDirectory()-->
+        <!--external-files-path     context.getExternalFilesDir(String)
+            context.getExternalFilesDir(null)== sdcard/Android/data/packageName/files/目录 -->
+        <!--external-cache-path     context.getExternalCacheDir() -->
+                <!--path,name代表目录和字段-->
+                <!--例如：<external-path  path="Android/data/" />-->
+                    <!-- 整个目录相当于Environment.getExternalStorageDirectory()+"/Android/data/" -->
+                <!--例如： name="myExternalName" -->
+                    <!--当请求的文件名为"文件名.png" 则此时  content://packageName.providerName/myExternalName/文件名.png-->
+    </paths>
+</resources>

@@ -36,7 +36,7 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.schaffer.base.DayNight;
+import com.schaffer.base.common.constants.DayNight;
 import com.schaffer.base.R;
 import com.schaffer.base.common.utils.LTUtils;
 import com.schaffer.base.helper.DayNightHelper;

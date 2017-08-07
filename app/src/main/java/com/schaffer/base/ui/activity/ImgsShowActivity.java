@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.schaffer.base.common.adapter.ImgsPathShowAdapter;
 import com.schaffer.base.common.adapter.ImgsResShowAdapter;
@@ -89,9 +90,14 @@ public class ImgsShowActivity extends BaseActivity<ImgsShowActivity, ImgsShowPre
                 final ImageView view = new ImageView(this);
                 Glide.with(this).load(paths[i].trim())
                         /*.fit()*/
+//                        .asGif()//当前加载的图片不是一个正确的 Gif 格式，则会去显示 error() 配置的图片。
+//                        .asBitmap()//显示GIF第一帧
                         .centerCrop()
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                        .priority(Priority.IMMEDIATE)
                         .transform(new GlideCircleTransformer(this))
+                        .crossFade()//动画  默认 300ms
+//                        .dontAnimate() //禁用动画效果。
                         /*.placeholder(R.drawable.placeholder)
                         .error(R.drawable.imagenotfound)*/
                         .into(view);

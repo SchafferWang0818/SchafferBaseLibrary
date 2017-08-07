@@ -3,7 +3,7 @@ package com.schaffer.base.helper;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.schaffer.base.DayNight;
+import com.schaffer.base.common.constants.DayNight;
 
 /**
  * Created by a7352 on 2017/7/26.

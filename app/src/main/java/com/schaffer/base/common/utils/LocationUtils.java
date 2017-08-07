@@ -62,6 +62,10 @@ public final class LocationUtils {
         return lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER) || lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
+    public static boolean isLocationEnabled(Context context) {
+        return Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE,
+                Settings.Secure.LOCATION_MODE_OFF) != Settings.Secure.LOCATION_MODE_OFF;
+    }
     /**
      * 打开Gps设置界面
      */

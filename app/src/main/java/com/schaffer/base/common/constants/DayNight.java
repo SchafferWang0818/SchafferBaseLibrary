@@ -1,4 +1,4 @@
-package com.schaffer.base;
+package com.schaffer.base.common.constants;
 
 
 public enum DayNight {

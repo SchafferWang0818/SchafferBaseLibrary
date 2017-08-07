@@ -39,7 +39,7 @@ android {
         release {
             minifyEnabled false //是否开启混淆
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
+            zipAlignEnabled true //对齐操作 使应用更快读取和运行,减少内存占用
 //        签名文件
 //        signingConfig signingConfigs.config
 
@@ -67,7 +67,12 @@ android {
 //        checkReleaseBuilds false     //在打包Release版本的时候进行(多语言等)检测
 //        abortOnError false              //打包报错是否停止打包
 //    }
-
+    productFlavors{
+        app_main{
+            applicationId "com.schaffer.base"
+//            manifestPlaceholders = [app_name:"",CHANNEL_NAME:"",UMENG_APPKEY:""]
+        }
+    }
 }
 
 dependencies {

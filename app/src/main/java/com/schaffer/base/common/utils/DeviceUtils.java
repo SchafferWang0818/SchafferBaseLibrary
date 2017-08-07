@@ -3,6 +3,8 @@ package com.schaffer.base.common.utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
@@ -33,6 +35,16 @@ public final class DeviceUtils {
 
     private DeviceUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
+    }
+
+
+    public static boolean isTelevision(Context context) {
+        int uiMode = context.getResources().getConfiguration().uiMode;
+        return (uiMode & Configuration.UI_MODE_TYPE_MASK) == Configuration.UI_MODE_TYPE_TELEVISION;
+    }
+
+    public static boolean isWear(final Context context) {
+        return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_WATCH);
     }
 
     /**
