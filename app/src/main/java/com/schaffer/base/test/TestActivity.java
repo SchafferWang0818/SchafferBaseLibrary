@@ -19,6 +19,7 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 //        testViewPage();
+
     }
 
     public void testViewPage() {
