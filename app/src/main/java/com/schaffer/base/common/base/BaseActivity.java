@@ -687,5 +687,20 @@ public void startActivity(Intent intent) {
         toggleThemeSetting();
         RefreshUIForChangeTheme();
     }
+
+
+    /**
+     *  栈内部是否只有当前一个Activity用于判断是否点击图标重新开始
+     */
+    public void onSplashCreateTaskRootJudgment(){
+        if (!isTaskRoot()) {
+            Intent intent = getIntent();
+            String action = intent.getAction();
+            if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) && action != null && action.equals(Intent.ACTION_MAIN)) {
+                finish();
+            }
+        }
+    }
+
 }
 

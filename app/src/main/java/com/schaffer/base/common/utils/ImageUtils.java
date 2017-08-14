@@ -46,32 +46,32 @@ import java.io.OutputStream;
 /**
  * <pre>
  *     desc  : 图片相关工具类
- * bitmap2Bytes, bytes2Bitmap      : bitmap与byteArr互转
- * drawable2Bitmap, bitmap2Drawable: drawable与bitmap互转
- * drawable2Bytes, bytes2Drawable  : drawable与byteArr互转
- * getBitmap                       : 获取bitmap
- * scale                           : 缩放图片
- * clip                            : 裁剪图片
- * skew                            : 倾斜图片
- * rotate                          : 旋转图片
- * getRotateDegree                 : 获取图片旋转角度
- * toRound                         : 转为圆形图片
- * toRoundCorner                   : 转为圆角图片
- * fastBlur                        : 快速模糊
- * renderScriptBlur                : renderScript模糊图片
- * stackBlur                       : stack模糊图片
- * addFrame                        : 添加颜色边框
- * addReflection                   : 添加倒影
- * addTextWatermark                : 添加文字水印
- * addImageWatermark               : 添加图片水印
- * toAlpha                         : 转为alpha位图
- * toGray                          : 转为灰度图片
- * {@link ImageUtils#save(Bitmap, String, CompressFormat)}                            : 保存图片
- * isImage                         : 根据文件名判断文件是否为图片
- * getImageType                    : 获取图片类型
- * compressByScale                 : 按缩放压缩
- * compressByQuality               : 按质量压缩
- * compressBySampleSize            : 按采样大小压缩
+ * {@link #bitmap2Bytes}, {@link #bytes2Bitmap  }    :           bitmap与byteArr互转
+ * {@link #drawable2Bitmap}, {@link #bitmap2Drawable}:  drawable与bitmap互转
+ * {@link #drawable2Bytes}, {@link #bytes2Drawable } :      drawable与byteArr互转
+ * {@link #getBitmap }                      : 获取bitmap
+ * {@link #scale   }                        : 缩放图片
+ * {@link #clip    }                        : 裁剪图片
+ * {@link #skew    }                        : 倾斜图片
+ * {@link #rotate   }                       : 旋转图片
+ * {@link #getRotateDegree   }              : 获取图片旋转角度
+ * {@link #toRound       }                  : 转为圆形图片
+ * {@link #toRoundCorner   }                : 转为圆角图片
+ * {@link #fastBlur     }                   : 快速模糊
+ * {@link #renderScriptBlur }               : renderScript模糊图片
+ * {@link #stackBlur        }               : stack模糊图片
+ * {@link #addFrame    }                    : 添加颜色边框
+ * {@link #addReflection }                  : 添加倒影
+ * {@link #addTextWatermark }               : 添加文字水印
+ * {@link #addImageWatermark  }             : 添加图片水印
+ * {@link #toAlpha        }                 : 转为alpha位图
+ * {@link #toGray     }                     : 转为灰度图片
+ * {@link #save}: 保存图片
+ * {@link #isImage }                        : 根据文件名判断文件是否为图片
+ * {@link #getImageType}                    : 获取图片类型
+ * {@link #compressByScale  }               : 按缩放压缩
+ * {@link #compressByQuality  }             : 按质量压缩
+ * {@link #compressBySampleSize }           : 按采样大小压缩
  * </pre>
  */
 public final class ImageUtils {
