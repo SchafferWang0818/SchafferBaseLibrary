@@ -45,6 +45,9 @@
 			- measureHeight
 			- getLocalVisibleRect(Rect)
 			- getGlobalVisibleRect(Rect,Point)
+			- getLocationOnScreen(int[2])
+			- getLocationInWindow(int[2])
+
 
 
 ---
@@ -88,4 +91,18 @@
 
 
 
+#### 2. 绝对坐标 ####
+	
+		来源链接：http://www.jianshu.com/p/665449c78c74
 
+- `getLocationOnScreen(int[2])`：计算该视图在Android坐标系中的x，y值，获取在当前屏幕内的绝对坐标（这个值是要从屏幕顶端算起，当然包括了通知栏和状态栏的高度）
+
+- `getLocationInWindow(int[2])`: 计算该视图在它所在的window的坐标x，y值，获取在整个window的绝对坐标
+
+
+		例如:
+
+		    int[] location = new int[2];
+		    view.getLocationOnScreen(location);
+		    int x = location[0];
+		    int y = location[1];
