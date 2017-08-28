@@ -209,6 +209,23 @@
 
 #### 3. 特殊权限
 
+- SYSTEM_ ALERT_ WINDOW
+
+	在 android api 23以上需要判断是否可以在其他应用上层显示弹框,需要手动申请跳转界面
+
+		//判断是否可以上层显示并跳转
+		 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M&& !Settings.canDrawOverlays(this)) {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:" + getPackageName()));
+            startActivityForResult(intent,10);
+        }
+
+
+		
+		
+		
+- WRITE_ SETTINGS
+	
 
 
 ### 权限处理
