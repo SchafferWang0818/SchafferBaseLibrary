@@ -36,8 +36,8 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.schaffer.base.common.constants.DayNight;
 import com.schaffer.base.R;
+import com.schaffer.base.common.constants.DayNight;
 import com.schaffer.base.common.utils.LTUtils;
 import com.schaffer.base.helper.DayNightHelper;
 import com.schaffer.base.widget.ProgressDialogs;
@@ -178,6 +178,7 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
         if (handler != null) {
             handler.removeCallbacksAndMessages(null);
         }
+        if (permissionResultListener != null) permissionResultListener = null;
         application.getActivityManager().popActivity(this);
     }
 
@@ -428,7 +429,7 @@ public void startActivity(Intent intent) {
         }
     }
 
-    String[] permissions = {
+    String[] dangerousPermissions = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE//读写权限0
             , Manifest.permission.CAMERA//相机权限1
             , Manifest.permission.WRITE_CONTACTS//写入联系人2
@@ -440,12 +441,23 @@ public void startActivity(Intent intent) {
             , Manifest.permission.WRITE_CALENDAR//日历写入8
     };
 
-    protected void requestPermission(String... permissions) {
+     void requestPermission(String... permissions) {
         if (permissions.length > 1) {
             ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE_PERMISSIONS);
         } else {
             ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE_PERMISSION);
         }
+    }
+
+    /**
+     * 请求运行时权限
+     *
+     * @param listener
+     * @param permissions
+     */
+    protected void requestPermission(PermissionResultListener listener, String... permissions) {
+        permissionResultListener = listener;
+        requestPermission(permissions);
     }
 
     @Override
@@ -454,7 +466,8 @@ public void startActivity(Intent intent) {
         if (requestCode == REQUEST_CODE_PERMISSION) {//单个权限申请结果
             if (grantResults.length == 0) return;
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {//权限申请成功
-                onRequestPermissionSuccess(permissions, grantResults);
+                if (permissionResultListener != null)
+                    permissionResultListener.onSinglePermissionGranted(permissions[0]);
             } else {//权限申请失败
                 if (!ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0])) {//已点不再询问
                     showSnackbar("权限已被禁止,并不再询问,请在设置中打开", Snackbar.LENGTH_LONG);
@@ -466,25 +479,42 @@ public void startActivity(Intent intent) {
                         }
                     }).setNegativeButton("取消", null).create().show();
                 } else {//再次询问?
-                    onRequestPermissionFailed(permissions, grantResults);
+                    if (permissionResultListener != null)
+                        permissionResultListener.onSinglePermissionDenied(permissions[0]);
                 }
             }
         }
         if (requestCode == REQUEST_CODE_PERMISSIONS) {//多个权限申请结果
             if (grantResults.length == 0) return;
-
-
+            List<String> deniedPermissions = new ArrayList<>();
+            for (int i = 0; i < permissions.length; i++) {
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                    deniedPermissions.add(permissions[i]);
+                }
+            }
+            if (deniedPermissions.size() != 0) {//有权限未允许
+                if (permissionResultListener != null)
+                    permissionResultListener.onPermissionsDenied(deniedPermissions);
+            } else {//权限已被完全允许
+                if (permissionResultListener != null)
+                    permissionResultListener.onPermissionsGrantedAll();
+            }
         }
     }
 
+    PermissionResultListener permissionResultListener;
 
-    protected void onRequestPermissionFailed(String[] permissions, int[] grantResults) {
+    interface PermissionResultListener {
+        void onSinglePermissionDenied(String permission);
+
+        void onSinglePermissionGranted(String permission);
+
+        void onPermissionsGrantedAll();
+
+        void onPermissionsDenied(List<String> deniedPermissions);
 
     }
 
-    protected void onRequestPermissionSuccess(String[] permissions, int[] grantResults) {
-
-    }
 
     /**
      * 打开应用设置界面
@@ -690,9 +720,9 @@ public void startActivity(Intent intent) {
 
 
     /**
-     *  栈内部是否只有当前一个Activity用于判断是否点击图标重新开始
+     * 栈内部是否只有当前一个Activity用于判断是否点击图标重新开始
      */
-    public void onSplashCreateTaskRootJudgment(){
+    public void onSplashCreateTaskRootJudgment() {
         if (!isTaskRoot()) {
             Intent intent = getIntent();
             String action = intent.getAction();

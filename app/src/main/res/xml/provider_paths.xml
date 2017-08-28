@@ -29,10 +29,29 @@
         <!--external-files-path     context.getExternalFilesDir(String)
             context.getExternalFilesDir(null)== sdcard/Android/data/packageName/files/目录 -->
         <!--external-cache-path     context.getExternalCacheDir() -->
-                <!--path,name代表目录和字段-->
-                <!--例如：<external-path  path="Android/data/" />-->
-                    <!-- 整个目录相当于Environment.getExternalStorageDirectory()+"/Android/data/" -->
-                <!--例如： name="myExternalName" -->
-                    <!--当请求的文件名为"文件名.png" 则此时  content://packageName.providerName/myExternalName/文件名.png-->
+        <!--path,name代表目录和字段-->
+        <!--例如：<external-path  path="Android/data/" />-->
+        <!-- 整个目录相当于Environment.getExternalStorageDirectory()+"/Android/data/" -->
+        <!--例如： name="myExternalName" -->
+        <!--当请求的文件名为"文件名.png" 则此时  content://packageName.providerName/myExternalName/文件名.png-->
+        <root-path
+            name="root"
+            path="" />
+        <files-path
+            name="files"
+            path="" />
+        <cache-path
+            name="cache"
+            path="" />
+        <external-path
+            name="external"
+            path="" />
+        <external-files-path
+            name="external_files"
+            path="" />
+        <external-cache-path
+            name="external_cache"
+            path="" />
+
     </paths>
 </resources>
