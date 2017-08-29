@@ -8,6 +8,7 @@
 		- WindowManager$LayoutParams
 			- flags
 			- type
+			- softInputMode 请查看关于键盘的内容 相关文献: http://blog.csdn.net/i_lovefish/article/details/8050025
 		- Window创建过程
 			- activity
 			- dialog
@@ -201,9 +202,9 @@ flags|flags含义
 
 type|type 含义
 :--|:-----
-`TYPE_BASE_APPLICATION`	|所有程序窗口的“基地”窗口，其他应用程序窗口都显示在它上面。
-`TYPE_APPLICATION`	|应用层级,普通的应用程序window，token指向某个activity
-`TYPE_APPLICATION_STARTING`	|用于应用程序启动时所显示的窗口。应用本身不要使用这种类型。它用于让系统显示些信息，直到应用程序可以开启自己的窗口
+`TYPE_BASE_APPLICATION`	|应用层级，所有程序窗口的“基地”窗口，其他应用程序窗口都显示在它上面。
+`TYPE_APPLICATION`	|应用层级，普通的应用程序window，token指向某个activity
+`TYPE_APPLICATION_STARTING`	|应用层级，用于应用程序启动时所显示的窗口。应用本身不要使用这种类型。它用于让系统显示些信息，直到应用程序可以开启自己的窗口
 -----------分界线-------------------|-----------分界线-------------------
 `TYPE_APPLICATION_PANEL`	|面板窗口，显示于宿主窗口上层
 `TYPE_APPLICATION_MEDIA`	|媒体窗口，例如视频。显示于宿主窗口下层。
@@ -221,7 +222,7 @@ type|type 含义
 `TYPE_SYSTEM_DIALOG`	|系统层级，系统对话框。（例如音量调节框）
 `TYPE_KEYGUARD_DIALOG`	|系统层级，锁屏时显示的对话框
 `TYPE_SYSTEM_ERROR`	|系统层级，系统内部错误提示，显示于所有内容之上
-`TYPE_INPUT_METHOD`	|内部输入法窗口，显示于普通UI之上。应用程序可重新布局以免被此窗口覆盖
-`TYPE_INPUT_METHOD_DIALOG`	|内部输入法对话框，显示于当前输入法窗口之上
+`TYPE_INPUT_METHOD`	|系统层级，内部输入法窗口，显示于普通UI之上。应用程序可重新布局以免被此窗口覆盖
+`TYPE_INPUT_METHOD_DIALOG`	|系统层级，内部输入法对话框，显示于当前输入法窗口之上
 `TYPE_WALLPAPER`	|系统层级，用于墙纸的window
 `TYPE_STATUS_BAR_PANEL`	|系统层级，状态栏的滑动面板
