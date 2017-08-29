@@ -8,12 +8,13 @@
 
 ### <font color="red"> 路径 </font> ###
 
-
+````
 	- /data/app 	: 存放着所有安装的app的apk文件
 	- /data/data/包名/shared_prefs 	APP的SP信息
 	- /data/data/包名/databases APP的数据库信息
 	- /data/data/包名/files APP的文件信息
 	- /data/data/包名/cache APP的缓存信息
-
+````
 
 ### <font color="red"> 使用方式 </font> ###
+
