@@ -16,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -94,7 +95,7 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
         application.getActivityManager().pushActivity(this);
     }
 
-    protected void inflateContent(int resId) {
+    protected void inflateContent(@LayoutRes  int resId) {
         inflateContent(resId, null);
     }
 
@@ -102,7 +103,7 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
         inflateContent(inflateView, null);
     }
 
-    protected void inflateContent(int resId, FrameLayout.LayoutParams params) {
+    protected void inflateContent(@LayoutRes int resId, FrameLayout.LayoutParams params) {
         inflateContent(View.inflate(this, resId, null), params);
     }
 
