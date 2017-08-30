@@ -85,7 +85,7 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
 //        }//新转场动画
         mFrameContent = (FrameLayout) findViewById(R.id.layout_group_content);
         inflateView(textViews, viewGroups, recyclerViews, adapterViews);
-        setToolbar();
+//        setToolbar();
         initEventBus();
         mPresenter = initPresenter();
         tag = getClass().getSimpleName();
@@ -555,6 +555,30 @@ public void startActivity(Intent intent) {
         });
     }
 
+    public void setToolbar(int visible) {
+        if (findViewById(R.id.layout_toolbar_tb) == null) return;
+        findViewById(R.id.layout_toolbar_tb).setVisibility(visible);
+        if (this instanceof AppCompatActivity) {
+            Toolbar toolbar = (Toolbar) findViewById(R.id.layout_toolbar_tb);
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                android.widget.Toolbar toolbar = (android.widget.Toolbar) findViewById(R.id.layout_toolbar_tb);
+                setActionBar(toolbar);
+                getActionBar().setDisplayShowTitleEnabled(false);
+            }
+        }
+        if (getTitle() != null) {
+            setActivityTitle(getTitle());
+        }
+        findViewById(R.id.layout_toolbar_iv_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
     protected void setActivityTitle(CharSequence charSequence) {
         ((TextView) findViewById(R.id.layout_toolbar_tv_title)).setText(charSequence);
     }
