@@ -11,30 +11,30 @@ import rx.subscriptions.CompositeSubscription;
 public class BasePresenter<V extends BaseView> {
 
 
-	protected CompositeSubscription compositeSubscription;
-	private String tag;
-	protected V mView;
+    protected CompositeSubscription compositeSubscription;
+    private String tag;
+    protected V mView;
 
-	public BasePresenter() {
-		compositeSubscription = new CompositeSubscription();
-		tag = getClass().getSimpleName();
-	}
+    public BasePresenter() {
+        compositeSubscription = new CompositeSubscription();
+        tag = getClass().getSimpleName();
+    }
 
-	public void attach(V view) {
-		this.mView = view;
-	}
+    public void attach(V view) {
+        this.mView = view;
+    }
 
-	public void detach() {
-		compositeSubscription.unsubscribe();
-		compositeSubscription = null;
-		mView = null;
-	}
+    public void detach() {
+        compositeSubscription.unsubscribe();
+        compositeSubscription = null;
+        mView = null;
+    }
 
-	public void showLog(String content) {
-		LTUtils.w(tag, content);
-	}
+    public void showLog(String content) {
+        LTUtils.w(tag, content);
+    }
 
-//	public abstract class CustomObserver<T> implements Observer<T> {
+    //	public abstract class CustomObserver<T> implements Observer<T> {
 //
 //		@Override
 //		public void onCompleted() {
@@ -48,5 +48,29 @@ public class BasePresenter<V extends BaseView> {
 //		}
 //
 //	}
+    public void example() {
+//        compositeSubscription.add(ApiModel.getInstance().cancelTrip(stroke_id, cause)
+//                .compose(new SchedulerTransformer<BaseResponse>())
+//                .subscribe(new Subscriber<BaseResponse>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(BaseResponse response) {
+//                        if (response.getSucceed() == 1) {
+//
+//                        } else {
+//
+//                        }
+//                    }
+//                }));
+    }
 
 }

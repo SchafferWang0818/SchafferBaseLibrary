@@ -1,4 +1,4 @@
-package com.schaffer.base.common.api;
+package com.schaffer.base.api;
 
 import com.schaffer.base.common.base.BaseModel;
 
@@ -29,4 +29,10 @@ public class ApiModel extends BaseModel<ApiService> {
 		}
 		return apiModel;
 	}
+
+	//    //所有retrofit 参数赋值给retrofit接口实现
+//    public  Observable<bean> methodName(int x,int y,...){
+//
+//        return getService().methodName(.....);
+//    }
 }

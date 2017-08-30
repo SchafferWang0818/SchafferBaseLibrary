@@ -1,6 +1,6 @@
 package com.schaffer.base.common.base;
 
-import com.schaffer.base.common.api.ApiService;
+import com.schaffer.base.api.ApiInterface;
 import com.schaffer.base.common.utils.LTUtils;
 
 import java.lang.reflect.Field;
@@ -42,12 +42,12 @@ public abstract class BaseModel<T> {
 							.addInterceptor(createHttpLoggingInterceptor())
 							.build();
 
-					if (ApiService.HOST_BASE_URL.startsWith("https")) {//https 跳过SSL认证
+					if (ApiInterface.HOST_BASE_URL.startsWith("https")) {//https 跳过SSL认证
 						solveHttps(client);
 					}
 
 					retrofit = new Retrofit.Builder()
-							.baseUrl(ApiService.HOST_BASE_URL)
+							.baseUrl(ApiInterface.HOST_BASE_URL)
 							.client(client)
 							.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
 							.addConverterFactory(GsonConverterFactory.create())
