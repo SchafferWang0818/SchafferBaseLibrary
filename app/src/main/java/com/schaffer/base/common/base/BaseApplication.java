@@ -12,13 +12,11 @@ import android.widget.TextView;
 import com.schaffer.base.R;
 import com.schaffer.base.common.block.BlockError;
 import com.schaffer.base.common.block.BlockLooper;
-import com.schaffer.base.common.listener.OnLowMemoryListener;
 import com.schaffer.base.common.manager.ActivityController;
 import com.schaffer.base.common.manager.ActivityManager;
 import com.schaffer.base.common.utils.Utils;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -31,7 +29,7 @@ public /*abstract*/ class BaseApplication extends Application {
 
 
     private static BaseApplication app;
-    private ArrayList<WeakReference<OnLowMemoryListener>> mLowMemoryListeners;
+
     private ActivityManager mActivityManager;
 
     protected static class DefinedActivityLifeCycleCallback implements ActivityLifecycleCallbacks {
@@ -81,7 +79,6 @@ public /*abstract*/ class BaseApplication extends Application {
         Utils.init(this);
         configBlock();
         mActivityManager = ActivityManager.getScreenManager();
-        mLowMemoryListeners = new ArrayList<WeakReference<OnLowMemoryListener>>();
         registerActivityLifecycleCallbacks(new DefinedActivityLifeCycleCallback());
         libraryInit(app);//第三方
     }
@@ -100,43 +97,7 @@ public /*abstract*/ class BaseApplication extends Application {
         return mActivityManager;
     }
 
-    // 内存空间过低的时候，被系统调用
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        int i = 0;
-        while (i < mLowMemoryListeners.size()) {
-            final OnLowMemoryListener l = mLowMemoryListeners.get(i).get();
-            if (l == null) {
-                mLowMemoryListeners.remove(i);
-            } else {
-                l.onLowMemoryReceived();
-                i++;
-            }
-        }
-    }
 
-    public void registerOnLowMemoryListener(OnLowMemoryListener listener) {
-        if (listener != null) {
-            mLowMemoryListeners
-                    .add(new WeakReference<OnLowMemoryListener>(listener));
-        }
-    }
-
-    // 移除监听
-    public void unregisterOnLowMemoryListener(OnLowMemoryListener listener) {
-        if (listener != null) {
-            int i = 0;
-            while (i < mLowMemoryListeners.size()) {
-                final OnLowMemoryListener l = mLowMemoryListeners.get(i).get();
-                if (l == null || l == listener) {
-                    mLowMemoryListeners.remove(i);
-                } else {
-                    i++;
-                }
-            }
-        }
-    }
 
     protected void setJPushAlias(final String jPushAlias) {
         final String TAG = "jpush";

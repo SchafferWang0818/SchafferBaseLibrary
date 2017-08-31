@@ -24,6 +24,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -95,7 +96,7 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
         application.getActivityManager().pushActivity(this);
     }
 
-    protected void inflateContent(@LayoutRes  int resId) {
+    protected void inflateContent(@LayoutRes int resId) {
         inflateContent(resId, null);
     }
 
@@ -336,9 +337,9 @@ public void startActivity(Intent intent) {
     }
 
     public void showSnackbar(String content, int duration) {
-        if (duration != Snackbar.LENGTH_SHORT || duration != Snackbar.LENGTH_LONG)
+        if (duration != Snackbar.LENGTH_SHORT && duration != Snackbar.LENGTH_LONG)
             return;
-        Snackbar.make(null, content, duration).show();
+        Snackbar.make(mFrameContent, content, duration).show();
     }
 
 
@@ -442,7 +443,7 @@ public void startActivity(Intent intent) {
             , Manifest.permission.WRITE_CALENDAR//日历写入8
     };
 
-     void requestPermission(String... permissions) {
+    void requestPermission(String... permissions) {
         if (permissions.length > 1) {
             ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE_PERMISSIONS);
         } else {
@@ -580,6 +581,7 @@ public void startActivity(Intent intent) {
             }
         });
     }
+
     protected void setActivityTitle(CharSequence charSequence) {
         ((TextView) findViewById(R.id.layout_toolbar_tv_title)).setText(charSequence);
     }
@@ -757,5 +759,31 @@ public void startActivity(Intent intent) {
         }
     }
 
+    /**
+     * 设置EventBus可用
+     *
+     * @param enable
+     */
+    protected void setEventbusEnable(boolean enable) {
+        eventbusEnable = enable;
+        initEventBus();
+    }
+
+    public static boolean isVisBottom(RecyclerView recyclerView) {
+        LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        //屏幕中最后一个可见子项的position
+        int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+        //当前屏幕所看到的子项个数
+        int visibleItemCount = layoutManager.getChildCount();
+        //当前RecyclerView的所有子项个数
+        int totalItemCount = layoutManager.getItemCount();
+        //RecyclerView的滑动状态
+        int state = recyclerView.getScrollState();
+        if (visibleItemCount > 0 && lastVisibleItemPosition == totalItemCount - 1 && state == recyclerView.SCROLL_STATE_IDLE) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
