@@ -16,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -36,6 +37,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.schaffer.base.R;
@@ -557,9 +559,9 @@ public void startActivity(Intent intent) {
         });
     }
 
-    public void setToolbar(int visible) {
+    public void setToolbar(int visibility) {
         if (findViewById(R.id.layout_toolbar_tb) == null) return;
-        findViewById(R.id.layout_toolbar_tb).setVisibility(visible);
+        findViewById(R.id.layout_toolbar_tb).setVisibility(visibility);
         if (this instanceof AppCompatActivity) {
             Toolbar toolbar = (Toolbar) findViewById(R.id.layout_toolbar_tb);
             setSupportActionBar(toolbar);
@@ -584,6 +586,24 @@ public void startActivity(Intent intent) {
 
     protected void setActivityTitle(CharSequence charSequence) {
         ((TextView) findViewById(R.id.layout_toolbar_tv_title)).setText(charSequence);
+    }
+
+    protected void setRightIcon(@DrawableRes int resId) {
+        setRightIcon(resId, View.VISIBLE);
+    }
+
+    protected void setRightIcon(@DrawableRes int resId, int visibility) {
+        setRightIcon(resId, visibility, null);
+    }
+
+    protected void setRightIcon(@DrawableRes int resId, int visibility, View.OnClickListener onClickListener) {
+        if (resId != 0) {
+            if (onClickListener != null) {
+                findViewById(R.id.layout_toolbar_iv_right).setOnClickListener(onClickListener);
+            }
+            findViewById(R.id.layout_toolbar_iv_right).setVisibility(visibility);
+            ((ImageView) findViewById(R.id.layout_toolbar_iv_right)).setImageResource(resId);
+        }
     }
 
     /**
