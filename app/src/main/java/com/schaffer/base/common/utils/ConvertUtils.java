@@ -10,8 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
-import com.schaffer.base.common.constants.MemoryConstants;
-import com.schaffer.base.common.constants.TimeConstants;
+import com.schaffer.base.common.constants.Contants;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -149,14 +148,14 @@ public final class ConvertUtils {
      * @param memorySize 大小
      * @param unit       单位类型
      *                   <ul>
-     *                   <li>{@link MemoryConstants#BYTE}: 字节</li>
-     *                   <li>{@link MemoryConstants#KB}  : 千字节</li>
-     *                   <li>{@link MemoryConstants#MB}  : 兆</li>
-     *                   <li>{@link MemoryConstants#GB}  : GB</li>
+     *                   <li>{@link Contants.MemoryConstants#BYTE}: 字节</li>
+     *                   <li>{@link Contants.MemoryConstants#KB}  : 千字节</li>
+     *                   <li>{@link Contants.MemoryConstants#MB}  : 兆</li>
+     *                   <li>{@link Contants.MemoryConstants#GB}  : GB</li>
      *                   </ul>
      * @return 字节数
      */
-    public static long memorySize2Byte(final long memorySize, @MemoryConstants.Unit final int unit) {
+    public static long memorySize2Byte(final long memorySize, @Contants.MemoryConstants.Unit final int unit) {
         if (memorySize < 0) return -1;
         return memorySize * unit;
     }
@@ -167,14 +166,14 @@ public final class ConvertUtils {
      * @param byteNum 字节数
      * @param unit    单位类型
      *                <ul>
-     *                <li>{@link MemoryConstants#BYTE}: 字节</li>
-     *                <li>{@link MemoryConstants#KB}  : 千字节</li>
-     *                <li>{@link MemoryConstants#MB}  : 兆</li>
-     *                <li>{@link MemoryConstants#GB}  : GB</li>
+     *                <li>{@link Contants.MemoryConstants#BYTE}: 字节</li>
+     *                <li>{@link Contants.MemoryConstants#KB}  : 千字节</li>
+     *                <li>{@link Contants.MemoryConstants#MB}  : 兆</li>
+     *                <li>{@link Contants.MemoryConstants#GB}  : GB</li>
      *                </ul>
      * @return 以unit为单位的size
      */
-    public static double byte2MemorySize(final long byteNum, @MemoryConstants.Unit final int unit) {
+    public static double byte2MemorySize(final long byteNum, @Contants.MemoryConstants.Unit final int unit) {
         if (byteNum < 0) return -1;
         return (double) byteNum / unit;
     }
@@ -190,14 +189,14 @@ public final class ConvertUtils {
     public static String byte2FitMemorySize(final long byteNum) {
         if (byteNum < 0) {
             return "shouldn't be less than zero!";
-        } else if (byteNum < MemoryConstants.KB) {
+        } else if (byteNum < Contants.MemoryConstants.KB) {
             return String.format("%.3fB", (double) byteNum + 0.0005);
-        } else if (byteNum < MemoryConstants.MB) {
-            return String.format("%.3fKB", (double) byteNum / MemoryConstants.KB + 0.0005);
-        } else if (byteNum < MemoryConstants.GB) {
-            return String.format("%.3fMB", (double) byteNum / MemoryConstants.MB + 0.0005);
+        } else if (byteNum < Contants.MemoryConstants.MB) {
+            return String.format("%.3fKB", (double) byteNum / Contants.MemoryConstants.KB + 0.0005);
+        } else if (byteNum < Contants.MemoryConstants.GB) {
+            return String.format("%.3fMB", (double) byteNum / Contants.MemoryConstants.MB + 0.0005);
         } else {
-            return String.format("%.3fGB", (double) byteNum / MemoryConstants.GB + 0.0005);
+            return String.format("%.3fGB", (double) byteNum / Contants.MemoryConstants.GB + 0.0005);
         }
     }
 
@@ -207,15 +206,15 @@ public final class ConvertUtils {
      * @param timeSpan 毫秒时间戳
      * @param unit     单位类型
      *                 <ul>
-     *                 <li>{@link TimeConstants#MSEC}: 毫秒</li>
-     *                 <li>{@link TimeConstants#SEC }: 秒</li>
-     *                 <li>{@link TimeConstants#MIN }: 分</li>
-     *                 <li>{@link TimeConstants#HOUR}: 小时</li>
-     *                 <li>{@link TimeConstants#DAY }: 天</li>
+     *                 <li>{@link Contants.TimeConstants#MSEC}: 毫秒</li>
+     *                 <li>{@link Contants.TimeConstants#SEC }: 秒</li>
+     *                 <li>{@link Contants.TimeConstants#MIN }: 分</li>
+     *                 <li>{@link Contants.TimeConstants#HOUR}: 小时</li>
+     *                 <li>{@link Contants.TimeConstants#DAY }: 天</li>
      *                 </ul>
      * @return 毫秒时间戳
      */
-    public static long timeSpan2Millis(final long timeSpan, @TimeConstants.Unit final int unit) {
+    public static long timeSpan2Millis(final long timeSpan, @Contants.TimeConstants.Unit final int unit) {
         return timeSpan * unit;
     }
 
@@ -225,15 +224,15 @@ public final class ConvertUtils {
      * @param millis 毫秒时间戳
      * @param unit   单位类型
      *               <ul>
-     *               <li>{@link TimeConstants#MSEC}: 毫秒</li>
-     *               <li>{@link TimeConstants#SEC }: 秒</li>
-     *               <li>{@link TimeConstants#MIN }: 分</li>
-     *               <li>{@link TimeConstants#HOUR}: 小时</li>
-     *               <li>{@link TimeConstants#DAY }: 天</li>
+     *               <li>{@link Contants.TimeConstants#MSEC}: 毫秒</li>
+     *               <li>{@link Contants.TimeConstants#SEC }: 秒</li>
+     *               <li>{@link Contants.TimeConstants#MIN }: 分</li>
+     *               <li>{@link Contants.TimeConstants#HOUR}: 小时</li>
+     *               <li>{@link Contants.TimeConstants#DAY }: 天</li>
      *               </ul>
      * @return 以unit为单位的时间长度
      */
-    public static long millis2TimeSpan(final long millis, @TimeConstants.Unit final int unit) {
+    public static long millis2TimeSpan(final long millis, @Contants.TimeConstants.Unit final int unit) {
         return millis / unit;
     }
 
@@ -322,9 +321,9 @@ public final class ConvertUtils {
         if (is == null) return null;
         try {
             ByteArrayOutputStream os = new ByteArrayOutputStream();
-            byte[] b = new byte[MemoryConstants.KB];
+            byte[] b = new byte[Contants.MemoryConstants.KB];
             int len;
-            while ((len = is.read(b, 0, MemoryConstants.KB)) != -1) {
+            while ((len = is.read(b, 0, Contants.MemoryConstants.KB)) != -1) {
                 os.write(b, 0, len);
             }
             return os;
