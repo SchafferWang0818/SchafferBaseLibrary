@@ -606,6 +606,25 @@ public void startActivity(Intent intent) {
         }
     }
 
+    protected void setRightText(String content) {
+        setRightText(content, View.VISIBLE);
+    }
+
+    protected void setRightText(String content, int visibility) {
+        setRightText(content, visibility, null);
+    }
+
+    protected void setRightText(String content, int visibility, View.OnClickListener onClickListener) {
+        if (!TextUtils.isEmpty(content)) {
+            ((TextView) findViewById(R.id.layout_toolbar_tv_right)).setText(content);
+            findViewById(R.id.layout_toolbar_tv_right).setVisibility(visibility == View.VISIBLE ? View.VISIBLE : View.GONE);
+            findViewById(R.id.layout_toolbar_iv_right).setVisibility(visibility == View.VISIBLE ? View.GONE : View.VISIBLE);
+            if (onClickListener != null) {
+                findViewById(R.id.layout_toolbar_tv_right).setOnClickListener(onClickListener);
+            }
+        }
+    }
+
     /**
      * 需要有切换主题需求时使用
      */
