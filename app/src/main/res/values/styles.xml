@@ -60,4 +60,20 @@
         <item name="clock_textColor">@color/whiteSmoke</item>
     </style>
 
+    <!--editText固定格式-->
+    <style name="NumberEditTextStyle">
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:inputType">numberDecimal</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <!--手写分隔线固定格式-->
+    <style name="DividerViewStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/grey</item>
+    </style>
+
+
 </resources>
