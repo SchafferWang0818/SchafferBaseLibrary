@@ -31,7 +31,7 @@
 	
 			Environment.getExternalStorageDirectory()
 					->	/storage/emulated/0
-					//	主要的外部存储目录	
+					//	主要的外部存储目录		需要使用Environment.getExternalStorageState()判断状态.
 
 			Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_ALARMS)			
 					->	/storage/emulated/0/Alarms
@@ -55,9 +55,22 @@
 ---
 
 
-### <font color="red">总结:
+###  <font color="red">总结:
 
 	1. 内部存储和外部存储都存在路径让其他应用读取;
 	2. 内部存储/data/user/0/包名/** 或 data/data/包名/ **
 	3. 外部存储文件存储都是要精确到文件夹的;
 	4. 外部存储存储在外部sdCard中,使用上下文得到的是私有的,也是常清理的位置;
+
+
+
+        showLog("Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_ALARMS)->"+ Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_ALARMS).getAbsolutePath());
+        showLog("Environment.getDownloadCacheDirectory()->"+Environment.getDownloadCacheDirectory().getAbsolutePath());
+        showLog("Environment.getDataDirectory()->"+Environment.getDataDirectory().getAbsolutePath());
+        showLog("Environment.getExternalStorageDirectory()->"+Environment.getExternalStorageDirectory().getAbsolutePath());
+        showLog("Environment.getRootDirectory()->"+ Environment.getRootDirectory().getAbsolutePath());
+        showLog("getExternalCacheDir()->"+getExternalCacheDir().getAbsolutePath());
+        showLog("getExternalFilesDir(Environment.DIRECTORY_ALARMS)->"+getExternalFilesDir(Environment.DIRECTORY_ALARMS).getAbsolutePath());
+        showLog("内部存储->"+getCacheDir().getAbsolutePath());
+        showLog("内部存储->"+getFilesDir().getAbsolutePath());
+        Environment.getExternalStorageState();
