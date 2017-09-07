@@ -444,7 +444,6 @@ public void startActivity(Intent intent) {
             , Manifest.permission.BODY_SENSORS//传感器 7  最小使用SDK 20
             , Manifest.permission.WRITE_CALENDAR//日历写入8
     };
-
     void requestPermission(String... permissions) {
         if (permissions.length > 1) {
             ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE_PERMISSIONS);
@@ -460,8 +459,31 @@ public void startActivity(Intent intent) {
      * @param permissions
      */
     protected void requestPermission(PermissionResultListener listener, String... permissions) {
-        permissionResultListener = listener;
-        requestPermission(permissions);
+
+        requestPermission(null, listener, permissions);
+    }
+
+    /**
+     * 请求运行时权限
+     *
+     * @param listener
+     * @param permissions
+     */
+    protected void requestPermission(String description, final PermissionResultListener listener, final String... permissions) {
+        if (Build.VERSION.SDK_INT > 23) {
+            new AlertDialog.Builder(this).setCancelable(false)
+                    .setMessage(TextUtils.isEmpty(description) ? "为了能正常实现功能，我们将向您申请权限。" : description).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    permissionResultListener = listener;
+                    requestPermission(permissions);
+                }
+            }).create().show();
+        } else {
+            if (listener != null) {
+                listener.onSinglePermissionGranted(permissions[0]);
+            }
+        }
     }
 
     @Override
@@ -481,7 +503,7 @@ public void startActivity(Intent intent) {
                         public void onClick(DialogInterface dialog, int which) {
                             getAppDetailSettingIntent();
                         }
-                    }).setNegativeButton("取消", null).create().show();
+                    }).create().show();
                 } else {//再次询问?
                     if (permissionResultListener != null)
                         permissionResultListener.onSinglePermissionDenied(permissions[0]);
@@ -613,9 +635,11 @@ public void startActivity(Intent intent) {
     protected void setRightText(String content, int visibility) {
         setRightText(content, visibility, null);
     }
+
     protected void setRightText(String content, View.OnClickListener onClickListener) {
         setRightText(content, View.VISIBLE, onClickListener);
     }
+
     protected void setRightText(String content, int visibility, View.OnClickListener onClickListener) {
         if (!TextUtils.isEmpty(content)) {
             ((TextView) findViewById(R.id.layout_toolbar_tv_right)).setText(content);
