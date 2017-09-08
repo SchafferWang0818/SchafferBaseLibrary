@@ -5,6 +5,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.app.ActivityManager;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -44,7 +45,6 @@ import com.schaffer.base.R;
 import com.schaffer.base.common.constants.DayNight;
 import com.schaffer.base.common.utils.LTUtils;
 import com.schaffer.base.helper.DayNightHelper;
-import com.schaffer.base.widget.ProgressDialogs;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -60,7 +60,7 @@ import java.util.List;
 public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V>> extends AppCompatActivity implements BaseView {
 
     private String tag;
-    private ProgressDialogs mProgressDialogs;
+//    private ProgressDialogs mProgressDialogs;
     protected Handler handler;
     protected boolean mActivityBeShown = false;
     private boolean isFirstInit = true;
@@ -78,6 +78,7 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
     protected List<? extends ViewGroup> viewGroups = new ArrayList<>();
     protected List<RecyclerView> recyclerViews = new ArrayList<>();
     protected List<? extends AdapterView<?>> adapterViews = new ArrayList<>();
+    private ProgressDialog progress;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,12 +89,12 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
 //            getWindow().setExitTransition(new Fade());
 //        }//新转场动画
         mFrameContent = (FrameLayout) findViewById(R.id.layout_group_content);
-        inflateView(textViews, viewGroups, recyclerViews, adapterViews);
+        inflateView();
 //        setToolbar();
         initEventBus();
         mPresenter = initPresenter();
         tag = getClass().getSimpleName();
-        mProgressDialogs = new ProgressDialogs(this);
+//        mProgressDialogs = new ProgressDialogs(this);
         application = (BaseApplication) this.getApplication();
         application.getActivityManager().pushActivity(this);
     }
@@ -118,13 +119,8 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
 
     /**
      * 提醒继承者填充FrameLayout,可以使用{@link BaseActivity#inflateContent(int)}系列函数
-     *
-     * @param textViews     TextView 加入集合用于改变对应颜色
-     * @param viewGroups    ViewGroup 加入集合用于改变对应颜色
-     * @param recyclerViews recyclerView加入集合用于改变对应颜色
-     * @param adapterViews  adapterView加入集合用于改变对应颜色
      */
-    protected abstract void inflateView(List<TextView> textViews, List<? extends ViewGroup> viewGroups, List<RecyclerView> recyclerViews, List<? extends AdapterView<?>> adapterViews);
+    protected abstract void inflateView();
 
     /**
      * 提醒初始化Presenter
@@ -304,9 +300,10 @@ public void startActivity(Intent intent) {
 
     @Override
     public void showLoading(String text) {
-        if (mProgressDialogs != null) {
-            mProgressDialogs.showDialog(text);
-        }
+//        if (mProgressDialogs != null) {
+//            mProgressDialogs.showDialog(text);
+//        }
+        progress = showProgress(text, false);
     }
 
     @Override
@@ -316,9 +313,10 @@ public void startActivity(Intent intent) {
 
     @Override
     public void dismissLoading() {
-        if (mProgressDialogs != null) {
-            mProgressDialogs.closeDialog();
-        }
+//        if (mProgressDialogs != null) {
+//            mProgressDialogs.closeDialog();
+//        }
+        dismissProgress(progress);
     }
 
     @Override
@@ -344,12 +342,28 @@ public void startActivity(Intent intent) {
         Snackbar.make(mFrameContent, content, duration).show();
     }
 
+    public ProgressDialog showProgress(String content, boolean touchOutside) {
+        ProgressDialog loadingDialog = new ProgressDialog(this);    // 创建自定义样式dialog
+        loadingDialog.setCancelable(false);
+        loadingDialog.setCanceledOnTouchOutside(touchOutside);
+        loadingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        loadingDialog.setMessage(content);
+        loadingDialog.show();
+        return loadingDialog;
+    }
+
+    public void dismissProgress(ProgressDialog dialog) {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+    }
 
     /**
      * 倒计时
      *
      * @param second 倒计时时间总秒数
      */
+
     protected void countDown(int second, final CountDownTimeListener listener) {
         if (second <= 0) return;
         countDownTimer = new CountDownTimer(second * 1000, 1000) {
@@ -444,6 +458,7 @@ public void startActivity(Intent intent) {
             , Manifest.permission.BODY_SENSORS//传感器 7  最小使用SDK 20
             , Manifest.permission.WRITE_CALENDAR//日历写入8
     };
+
     void requestPermission(String... permissions) {
         if (permissions.length > 1) {
             ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE_PERMISSIONS);
