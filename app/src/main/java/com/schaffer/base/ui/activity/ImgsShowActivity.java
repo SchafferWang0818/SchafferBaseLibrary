@@ -4,12 +4,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -43,7 +39,7 @@ public class ImgsShowActivity extends BaseActivity<ImgsShowActivity, ImgsShowPre
     private ImgsResShowAdapter resAdapter;
 
     @Override
-    protected void inflateView(List<TextView> textViews, List<? extends ViewGroup> viewGroups, List<RecyclerView> recyclerViews, List<? extends AdapterView<?>> adapterViews) {
+    protected void inflateView() {
         pager = new ViewPager(this);
         inflateContent(pager);
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
