@@ -28,6 +28,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -37,6 +38,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -60,7 +62,7 @@ import java.util.List;
 public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V>> extends AppCompatActivity implements BaseView {
 
     private String tag;
-//    private ProgressDialogs mProgressDialogs;
+    //    private ProgressDialogs mProgressDialogs;
     protected Handler handler;
     protected boolean mActivityBeShown = false;
     private boolean isFirstInit = true;
@@ -334,6 +336,7 @@ public void startActivity(Intent intent) {
     public void onFailed(Throwable throwable) {
         dismissLoading();
         showLog(throwable.getMessage() + throwable.getCause());
+        throwable.printStackTrace();
     }
 
     public void showSnackbar(String content, int duration) {
@@ -459,11 +462,30 @@ public void startActivity(Intent intent) {
             , Manifest.permission.WRITE_CALENDAR//日历写入8
     };
 
-    void requestPermission(String... permissions) {
+    void requestPermission(String description, final String... permissions) {
         if (permissions.length > 1) {
-            ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE_PERMISSIONS);
+            new AlertDialog.Builder(this).setCancelable(false)
+                    .setMessage(TextUtils.isEmpty(description) ? "为了能正常实现功能，我们将向您申请权限。" : description).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ActivityCompat.requestPermissions(BaseActivity.this, permissions, REQUEST_CODE_PERMISSIONS);
+
+                }
+            }).create().show();
         } else {
-            ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE_PERMISSION);
+            if (ActivityCompat.checkSelfPermission(this, permissions[0]) == PackageManager.PERMISSION_GRANTED) {
+                if (permissionResultListener != null)
+                    permissionResultListener.onSinglePermissionGranted(permissions[0]);
+            } else {
+                new AlertDialog.Builder(this).setCancelable(false)
+                        .setMessage(TextUtils.isEmpty(description) ? "为了能正常实现功能，我们将向您申请权限。" : description).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(BaseActivity.this, permissions, REQUEST_CODE_PERMISSION);
+                    }
+                }).create().show();
+
+            }
         }
     }
 
@@ -486,14 +508,8 @@ public void startActivity(Intent intent) {
      */
     protected void requestPermission(String description, final PermissionResultListener listener, final String... permissions) {
         if (Build.VERSION.SDK_INT > 23) {
-            new AlertDialog.Builder(this).setCancelable(false)
-                    .setMessage(TextUtils.isEmpty(description) ? "为了能正常实现功能，我们将向您申请权限。" : description).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    permissionResultListener = listener;
-                    requestPermission(permissions);
-                }
-            }).create().show();
+            permissionResultListener = listener;
+            requestPermission(description, permissions);
         } else {
             if (listener != null) {
                 listener.onSinglePermissionGranted(permissions[0]);
@@ -588,12 +604,17 @@ public void startActivity(Intent intent) {
             }
         }
         setActivityTitle(getTitle());
-        findViewById(R.id.layout_toolbar_iv_back).setOnClickListener(new View.OnClickListener() {
+        setLeftClick(null);
+    }
+
+    protected void setLeftClick(View.OnClickListener listener) {
+        findViewById(R.id.layout_toolbar_iv_back).setOnClickListener(listener != null ? listener : new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+
     }
 
     public void setToolbar(int visibility) {
@@ -840,30 +861,60 @@ public void startActivity(Intent intent) {
     }
 
     /**
-     * 设置EventBus可用
+     * 设置EventBus可用,填充界面时使用
      *
      * @param enable
      */
     protected void setEventbusEnable(boolean enable) {
         eventbusEnable = enable;
-        initEventBus();
+//        initEventBus();
     }
 
     public static boolean isVisBottom(RecyclerView recyclerView) {
         LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-        //屏幕中最后一个可见子项的position
         int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
-        //当前屏幕所看到的子项个数
         int visibleItemCount = layoutManager.getChildCount();
-        //当前RecyclerView的所有子项个数
         int totalItemCount = layoutManager.getItemCount();
-        //RecyclerView的滑动状态
         int state = recyclerView.getScrollState();
-        if (visibleItemCount > 0 && lastVisibleItemPosition == totalItemCount - 1 && state == recyclerView.SCROLL_STATE_IDLE) {
+        if (visibleItemCount > 0 && lastVisibleItemPosition == totalItemCount - 1 && state == recyclerView.SCROLL_STATE_IDLE && (layoutManager.getOrientation() == LinearLayoutManager.VERTICAL ? !recyclerView.canScrollVertically(1) : !recyclerView.canScrollHorizontally(1))) {
             return true;
         } else {
             return false;
         }
+    }
+
+    public static boolean isVisBottomStaggered(RecyclerView recyclerView) {
+        StaggeredGridLayoutManager layoutManager = (StaggeredGridLayoutManager) recyclerView.getLayoutManager();
+        //屏幕中最后一个可见子项的position
+        int lastVisibleItemPosition = getMaxElem(layoutManager.findLastVisibleItemPositions(new int[layoutManager.getSpanCount()]));
+        //当前RecyclerView的所有子项个数
+        int totalItemCount = layoutManager.getItemCount();
+        //RecyclerView的滑动状态
+        int state = recyclerView.getScrollState();
+        if (lastVisibleItemPosition == (totalItemCount - 1) && !recyclerView.canScrollVertically(1)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private static int getMaxElem(int[] arr) {
+        int size = arr.length;
+        int maxVal = Integer.MIN_VALUE;
+        for (int i = 0; i < size; i++) {
+            if (arr[i] > maxVal)
+                maxVal = arr[i];
+        }
+        return maxVal;
+    }
+
+    /**
+     * EditText 光标在最后
+     *
+     * @param editText
+     */
+    protected void judgementCursor(EditText editText) {
+        editText.setSelection(editText.getText().length());
     }
 }
 

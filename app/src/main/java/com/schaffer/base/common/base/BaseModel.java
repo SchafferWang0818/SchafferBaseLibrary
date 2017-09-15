@@ -40,6 +40,22 @@ public abstract class BaseModel<T> {
 							.writeTimeout(60, TimeUnit.SECONDS)
 //                            .addInterceptor(createUserAgentInterceptor())
 							.addInterceptor(createHttpLoggingInterceptor())
+//							.addInterceptor(new Interceptor() {//添加头部
+//								@Override
+//								public Response intercept(Chain chain) throws IOException {
+//
+//									Request original = chain.request();
+//
+//									Request request = original.newBuilder()
+//											.header("v", "AppUtils.getVersionCode(BaseApplication.getInstance())")//版本号
+//											.header("sv", Build.MANUFACTURER+" " + Build.VERSION.SDK)//系统版本号
+//											.header("type", "2")//2=android
+//											.method(original.method(), original.body())
+//											.build();
+//
+//									return chain.proceed(request);
+//								}
+//							})
 							.build();
 
 					if (ApiInterface.HOST_BASE_URL.startsWith("https")) {//https 跳过SSL认证

@@ -8,6 +8,10 @@
         <item name="android:windowAnimationStyle">@style/activityAnim</item>
         <item name="clock_background">@color/whiteSmoke</item>
         <item name="clock_textColor">@color/black</item>
+        <item name="android:windowBackground">@color/whiteSmoke</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowSoftInputMode">adjustPan</item>
+        <item name="android:fitsSystemWindows">true</item>
     </style>
 
 
