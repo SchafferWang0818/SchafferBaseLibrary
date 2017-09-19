@@ -18,31 +18,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * {@link AppUtils#getVersionCode(Context)}       : 版本号
- * {@link AppUtils#getVersionName(Context)}          :版本名
- * {@link AppUtils#getCurProcessName(Context)}     : 当前进程名称
- * {@link AppUtils#isInstallApp(String)}  : 判断App是否安装
- * {@link AppUtils#installApk(Context, File)}  : 安装App（支持7.0）
- * {@link AppUtils#installAppSilent(String)}    : 静默安装App
- * {@link AppUtils#uninstallApp(String)} : 卸载App
- * {@link AppUtils#uninstallAppSilent(String, boolean)}  : 静默卸载App
+ * {@link AppUtils#getVersionCode }       : 版本号
+ * {@link AppUtils#getVersionName }          :版本名
+ * {@link AppUtils#getCurProcessName }     : 当前进程名称
+ * {@link AppUtils#isInstallApp}  : 判断App是否安装
+ * {@link AppUtils#installApk}  : 安装App（支持7.0）
+ * {@link AppUtils#installAppSilent }    : 静默安装App
+ * {@link AppUtils#uninstallApp } : 卸载App
+ * {@link AppUtils#uninstallAppSilent }  : 静默卸载App
  * {@link AppUtils#isAppRoot()}  : 判断App是否有root权限
- * {@link AppUtils#launchApp(Activity, String, int)}  : 打开App
+ * {@link AppUtils#launchApp }  : 打开App
  * {@link AppUtils#getAppPackageName()}   : 获取App包名
- * {@link AppUtils#getAppDetailsSettings(String)} 获取App具体设置
- * {@link AppUtils#getAppName(String)} : 获取App名称
- * {@link AppUtils#getAppIcon(String)}  : 获取App图标
- * {@link AppUtils#getAppPath(String)} : 获取App路径
- * {@link AppUtils#getAppVersionName(String)}     : 获取App版本号
- * {@link AppUtils#getAppVersionCode(String)}    : 获取App版本码
- * {@link AppUtils#isSystemApp(String)}  : 判断App是否是系统应用
- * {@link AppUtils#isAppDebug(String)}    : 判断App是否是Debug版本
- * {@link AppUtils#getAppSignature(String)}    : 获取App签名
- * {@link AppUtils#getAppSignatureSHA1(String)}   : 获取应用签名的的SHA1值
- * {@link AppUtils#isAppForeground(String)} : 判断App是否处于前台
- * {@link AppUtils#getAppInfo(String)} : 获取App信息
+ * {@link AppUtils#getAppDetailsSettings  } 获取App具体设置
+ * {@link AppUtils#getAppName  } : 获取App名称
+ * {@link AppUtils#getAppIcon  }  : 获取App图标
+ * {@link AppUtils#getAppPath  } : 获取App路径
+ * {@link AppUtils#getAppVersionName  }     : 获取App版本号
+ * {@link AppUtils#getAppVersionCode  }    : 获取App版本码
+ * {@link AppUtils#isSystemApp  }  : 判断App是否是系统应用
+ * {@link AppUtils#isAppDebug  }    : 判断App是否是Debug版本
+ * {@link AppUtils#getAppSignature  }    : 获取App签名
+ * {@link AppUtils#getAppSignatureSHA1  }   : 获取应用签名的的SHA1值
+ * {@link AppUtils#isAppForeground  } : 判断App是否处于前台
+ * {@link AppUtils#getAppInfo  } : 获取App信息
  * {@link AppUtils#getAppsInfo()} : 获取所有已安装App信息
- * {@link AppUtils#cleanAppData(String...)}        : 清除App所有数据
+ * {@link AppUtils#cleanAppData}        : 清除App所有数据
  */
 public class AppUtils {
 

@@ -21,25 +21,25 @@ import java.io.UnsupportedEncodingException;
 
 /**
  * <pre>
- *     desc  : 转换相关工具类
- * bytes2HexString, hexString2Bytes        : byteArr与hexString互转
- * chars2Bytes, bytes2Chars                : charArr与byteArr互转
- * memorySize2Byte, byte2MemorySize        : 以unit为单位的内存大小与字节数互转
- * byte2FitMemorySize                      : 字节数转合适内存大小
- * timeSpan2Millis, millis2TimeSpan        : 以unit为单位的时间长度与毫秒时间戳互转
- * millis2FitTimeSpan                      : 毫秒时间戳转合适时间长度
- * bytes2Bits, bits2Bytes                  : bytes与bits互转
- * input2OutputStream, output2InputStream  : inputStream与outputStream互转
- * inputStream2Bytes, bytes2InputStream    : inputStream与byteArr互转
- * outputStream2Bytes, bytes2OutputStream  : outputStream与byteArr互转
- * inputStream2String, string2InputStream  : inputStream与string按编码互转
- * outputStream2String, string2OutputStream: outputStream与string按编码互转
- * bitmap2Bytes, bytes2Bitmap              : bitmap与byteArr互转
- * drawable2Bitmap, bitmap2Drawable        : drawable与bitmap互转
- * drawable2Bytes, bytes2Drawable          : drawable与byteArr互转
- * view2Bitmap                             : view转Bitmap
- * dp2px, px2dp                            : dp与px互转
- * sp2px, px2sp                            : sp与px互转
+ * desc  : 转换相关工具类
+ * {@link ConvertUtils#bytes2HexString}{@link ConvertUtils#hexString2Bytes}      : byteArr与hexString互转
+ * {@link ConvertUtils#chars2Bytes}{@link ConvertUtils#bytes2Chars}     : charArr与byteArr互转
+ * {@link ConvertUtils#memorySize2Byte}{@link ConvertUtils#byte2MemorySize}   : 以unit为单位的内存大小与字节数互转
+ * {@link ConvertUtils#byte2FitMemorySize}                  : 字节数转合适内存大小
+ * {@link ConvertUtils#timeSpan2Millis}{@link ConvertUtils#millis2TimeSpan}     : 以unit为单位的时间长度与毫秒时间戳互转
+ * {@link ConvertUtils#millis2FitTimeSpan}                   : 毫秒时间戳转合适时间长度
+ * {@link ConvertUtils#bytes2Bits}{@link ConvertUtils#bits2Bytes}        : bytes与bits互转
+ * {@link ConvertUtils#input2OutputStream}{@link ConvertUtils#output2InputStream} : inputStream与outputStream互转
+ * {@link ConvertUtils#inputStream2Bytes}{@link ConvertUtils#bytes2InputStream}   : inputStream与byteArr互转
+ * {@link ConvertUtils#outputStream2Bytes}{@link ConvertUtils#bytes2OutputStream} : outputStream与byteArr互转
+ * {@link ConvertUtils#inputStream2String}{@link ConvertUtils#string2InputStream}  : inputStream与string按编码互转
+ * {@link ConvertUtils#outputStream2String}{@link ConvertUtils#string2OutputStream}     : outputStream与string按编码互转
+ * {@link ConvertUtils#bitmap2Bytes}{@link ConvertUtils#bytes2Bitmap}              : bitmap与byteArr互转
+ * {@link ConvertUtils#drawable2Bitmap}{@link ConvertUtils#bitmap2Drawable}    : drawable与bitmap互转
+ * {@link ConvertUtils#drawable2Bytes}{@link ConvertUtils#bytes2Drawable}       : drawable与byteArr互转
+ * {@link ConvertUtils#view2Bitmap}                    : view转Bitmap
+ * {@link ConvertUtils#dp2px}{@link ConvertUtils#px2dp}     : dp与px互转
+ * {@link ConvertUtils#sp2px}{@link ConvertUtils#px2sp}                             : sp与px互转
  * </pre>
  */
 public final class ConvertUtils {
