@@ -9,7 +9,6 @@
     app:contentInsetLeft="0dp"
     app:contentInsetStart="0dp">
 
-
     <ImageView
         android:id="@+id/layout_toolbar_iv_back"
         android:layout_width="wrap_content"

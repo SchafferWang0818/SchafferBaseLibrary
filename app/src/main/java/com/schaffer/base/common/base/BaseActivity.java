@@ -11,12 +11,14 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -646,30 +648,39 @@ public void startActivity(Intent intent) {
         ((TextView) findViewById(R.id.layout_toolbar_tv_title)).setText(charSequence);
     }
 
-    protected void setRightIcon(@DrawableRes int resId) {
-        setRightIcon(resId, View.VISIBLE);
+    protected void setLeftIcon(@DrawableRes int resId, View.OnClickListener listener) {
+        ((ImageView) findViewById(R.id.layout_toolbar_iv_back)).setImageResource(resId);
+        setLeftIconVisible(View.VISIBLE);
+        setLeftClick(listener);
     }
 
-    protected void setRightIcon(@DrawableRes int resId, int visibility) {
-        setRightIcon(resId, visibility, null);
+    protected void setLeftIconVisible(int visible) {
+        findViewById(R.id.layout_toolbar_iv_back).setVisibility(visible == View.VISIBLE ? View.VISIBLE : View.GONE);
+        findViewById(R.id.layout_toolbar_tv_left).setVisibility(visible == View.VISIBLE ? View.GONE : View.VISIBLE);
     }
 
-    protected void setRightIcon(@DrawableRes int resId, int visibility, View.OnClickListener onClickListener) {
-        if (resId != 0) {
-            if (onClickListener != null) {
-                findViewById(R.id.layout_toolbar_iv_right).setOnClickListener(onClickListener);
-            }
-            findViewById(R.id.layout_toolbar_iv_right).setVisibility(visibility);
-            ((ImageView) findViewById(R.id.layout_toolbar_iv_right)).setImageResource(resId);
-        }
+    protected void setLeftText(String content, View.OnClickListener onClickListener) {
+        setLeftIconVisible(View.GONE);
+        findViewById(R.id.layout_toolbar_tv_left).setOnClickListener(onClickListener);
+        ((TextView) findViewById(R.id.layout_toolbar_tv_left)).setText(content);
+    }
+
+    protected void setLeftText(int spValue, @ColorInt int color, String content, View.OnClickListener onClickListener) {
+        setLeftText(content, onClickListener);
+        setLeftTextColor(color);
+        setLeftTextSize(spValue);
+    }
+
+    protected void setLeftTextSize(int spValue) {
+        ((TextView) findViewById(R.id.layout_toolbar_tv_left)).setTextSize(TypedValue.COMPLEX_UNIT_SP, spValue);
+    }
+
+    protected void setLeftTextColor(@ColorInt int color) {
+        ((TextView) findViewById(R.id.layout_toolbar_tv_left)).setTextColor(color);
     }
 
     protected void setRightText(String content) {
-        setRightText(content, View.VISIBLE);
-    }
-
-    protected void setRightText(String content, int visibility) {
-        setRightText(content, visibility, null);
+        setRightText(content, View.VISIBLE, null);
     }
 
     protected void setRightText(String content, View.OnClickListener onClickListener) {
@@ -684,6 +695,58 @@ public void startActivity(Intent intent) {
         }
         if (onClickListener != null) {
             findViewById(R.id.layout_toolbar_tv_right).setOnClickListener(onClickListener);
+        }
+    }
+
+    protected void setRightTextColor(@ColorInt int color) {
+        ((TextView) findViewById(R.id.layout_toolbar_tv_right)).setTextColor(color);
+    }
+
+    protected void setRightTextColor(String color) {
+        if (!color.startsWith("#") && !(color.length() != 4 || color.length() != 5 || color.length() != 7 || color.length() != 9))
+            return;
+        setRightTextColor(Color.parseColor(color));
+    }
+
+    protected void setRightTextSize(int spValue) {
+        ((TextView) findViewById(R.id.layout_toolbar_tv_right)).setTextSize(TypedValue.COMPLEX_UNIT_SP, spValue);
+    }
+
+    protected void setRightIcon(@DrawableRes int resId) {
+        setRightIcon(resId, View.VISIBLE);
+    }
+
+    protected void setRightIcon(@DrawableRes int resId, int visibility) {
+        setRightIcon(resId, visibility, null);
+    }
+
+    protected void setRightIcon(@DrawableRes int resId, View.OnClickListener onClickListener) {
+        setRightIcon(resId, View.VISIBLE, onClickListener);
+    }
+
+    protected void setRightIcon(@DrawableRes int resId, int visibility, View.OnClickListener onClickListener) {
+        if (resId != 0) {
+            if (onClickListener != null) {
+                findViewById(R.id.layout_toolbar_iv_right).setOnClickListener(onClickListener);
+            }
+            findViewById(R.id.layout_toolbar_tv_right).setVisibility(visibility == View.VISIBLE ? View.GONE : View.VISIBLE);
+            findViewById(R.id.layout_toolbar_iv_right).setVisibility(visibility == View.VISIBLE ? View.VISIBLE : View.GONE);
+            ((ImageView) findViewById(R.id.layout_toolbar_iv_right)).setImageResource(resId);
+        }
+    }
+
+    protected void setToolbar(int visible, String title, boolean leftBack, boolean rightAllDismiss, boolean rightTextShow, String right, @DrawableRes int rightResId, View.OnClickListener rightClick) {
+        setToolbar(visible);
+        if (visible == View.GONE) return;
+        setActivityTitle(title == null ? "" : title);
+        if (leftBack) {
+            setLeftClick(null);
+        }
+        if (rightAllDismiss) return;
+        if (rightTextShow) {
+            setRightText(right, rightClick);
+        } else {
+            setRightIcon(rightResId, rightClick);
         }
     }
 
