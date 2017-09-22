@@ -1,4 +1,4 @@
-package com.schaffer.base.common.listener;
+package com.schaffer.base.common.recycler;
 
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.RecyclerView;
@@ -36,7 +36,9 @@ public abstract class OnRecyclerItemClickListener implements RecyclerView.OnItem
 
     public abstract void onItemClick(RecyclerView.ViewHolder holder);
     public abstract void onItemLongClick(RecyclerView.ViewHolder holder);
+    public void onItemClickEvent(RecyclerView.ViewHolder holder, MotionEvent e) {
 
+    }
 
     private class ItemTouchHelperGestureListener implements GestureDetector.OnGestureListener {
 
@@ -71,6 +73,7 @@ public abstract class OnRecyclerItemClickListener implements RecyclerView.OnItem
             if (child != null){
                 RecyclerView.ViewHolder holder = recyclerView.getChildViewHolder(child);
                 onItemLongClick(holder);
+                onItemClickEvent(holder,e);
             }
         }
 
