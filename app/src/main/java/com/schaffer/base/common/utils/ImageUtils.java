@@ -1712,4 +1712,52 @@ public final class ImageUtils {
         // 关闭流一定要记得。
         return outstream.toByteArray();
     }
+
+    /**
+     * 设置图片最大kb值
+     * @param bitmap 图
+     * @param maxkb kb
+     * @param needRecycle 回收?
+     * @return
+     */
+    public static byte[] bmpToByteArray(Bitmap bitmap, int maxkb, final boolean needRecycle) {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);
+        int options = 100;
+        while (output.toByteArray().length > maxkb && options != 10) {
+            output.reset(); //清空output
+            bitmap.compress(Bitmap.CompressFormat.JPEG, options, output);//这里压缩options%，把压缩后的数据存放到output中
+            options -= 10;
+        }
+        if (needRecycle) {
+            bitmap.recycle();
+        }
+        return output.toByteArray();
+    }
+
+    /**
+     * 使用Matrix将Bitmap压缩到指定大小
+     *
+     * @param bitmap
+     * @param w
+     * @param h
+     * @return
+     */
+    public static Bitmap resizeBitmap(Bitmap bitmap, int w, int h) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+
+        float scaleWidth = ((float) w) / width;
+        float scaleHeight = ((float) h) / height;
+
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0, width,
+                height, matrix, false);
+        if (bitmap != null && !bitmap.isRecycled()) {
+            bitmap.isRecycled();
+        }
+        return resizedBitmap;
+    }
 }

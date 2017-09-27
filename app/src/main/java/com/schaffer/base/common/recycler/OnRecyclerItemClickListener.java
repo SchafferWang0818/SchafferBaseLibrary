@@ -34,8 +34,15 @@ public abstract class OnRecyclerItemClickListener implements RecyclerView.OnItem
 
     }
 
+    /**
+     * {@link RecyclerView.ViewHolder#getAdapterPosition()}快速切换存在=-1的情况
+     *
+     * @param holder
+     */
     public abstract void onItemClick(RecyclerView.ViewHolder holder);
+
     public abstract void onItemLongClick(RecyclerView.ViewHolder holder);
+
     public void onItemClickEvent(RecyclerView.ViewHolder holder, MotionEvent e) {
 
     }
@@ -55,7 +62,7 @@ public abstract class OnRecyclerItemClickListener implements RecyclerView.OnItem
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
             View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
-            if (child != null){
+            if (child != null) {
                 RecyclerView.ViewHolder holder = recyclerView.getChildViewHolder(child);
                 onItemClick(holder);
             }
@@ -70,10 +77,10 @@ public abstract class OnRecyclerItemClickListener implements RecyclerView.OnItem
         @Override
         public void onLongPress(MotionEvent e) {
             View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
-            if (child != null){
+            if (child != null) {
                 RecyclerView.ViewHolder holder = recyclerView.getChildViewHolder(child);
                 onItemLongClick(holder);
-                onItemClickEvent(holder,e);
+                onItemClickEvent(holder, e);
             }
         }
 

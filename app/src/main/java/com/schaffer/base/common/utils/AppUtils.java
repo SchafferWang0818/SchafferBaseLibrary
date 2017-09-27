@@ -776,23 +776,12 @@ public class AppUtils {
     }
 
 
-    public static boolean isWeixinAvilible(Context context) {
-        final PackageManager packageManager = context.getPackageManager();// 获取packagemanager
-        List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);// 获取所有已安装程序的包信息
-        if (pinfo != null) {
-            for (int i = 0; i < pinfo.size(); i++) {
-                String pn = pinfo.get(i).packageName;
-                if (pn.equals("com.tencent.mm")) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    public static boolean isWeixinAvilible() {
+        return isInstallApp("com.tencent.mm");
     }
 
     //判断是否安装了支付宝
-    public static boolean checkAliPayInstalled(Context context) {
-
+    public static boolean isAliPayAvilible(Context context) {
         Uri uri = Uri.parse("alipays://platformapi/startApp");
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         ComponentName componentName = intent.resolveActivity(context.getPackageManager());
