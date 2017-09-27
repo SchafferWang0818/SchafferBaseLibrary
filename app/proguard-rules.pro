@@ -151,28 +151,77 @@
 
 
 
+# support-v4
+-dontwarn android.support.v4.**
+-keep class android.support.v4.app.** { *; }
+-keep interface android.support.v4.app.** { *; }
+-keep class android.support.v4.** { *; }
 
-#-------------------------retrofit, retrofit-converter ,retrofit-adapter,okhttp,okhttp-logging-------------------------------------------
 
+# support-v7
+-dontwarn android.support.v7.**
+-keep class android.support.v7.internal.** { *; }
+-keep interface android.support.v7.internal.** { *; }
+-keep class android.support.v7.** { *; }
+
+# support design
+#@link http://stackoverflow.com/a/31028536
+-dontwarn android.support.design.**
+-keep class android.support.design.** { *; }
+-keep interface android.support.design.** { *; }
+-keep public class android.support.design.R$* { *; }
+ 
+ 
+
+#-------------------------网络请求-------------------------------------------
+
+# retrofit2
 -dontnote retrofit2.Platform
 -dontwarn retrofit2.Platform$Java8
 -keepattributes Signature
 -keepattributes Exceptions
 -dontwarn javax.annotation.**
 -dontwarn javax.inject.**
+
 # OkHttp3
 -dontwarn okhttp3.logging.**
 -keep class okhttp3.internal.**{*;}
 -dontwarn okio.**
+
 # Retrofit
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }
 -keepattributes Signature-keepattributes Exceptions
-
 -dontnote retrofit2.Platform$IOS$MainThreadExecutor
 
+# okhttputils
+-dontwarn com.zhy.http.**
+-keep class com.zhy.http.**{*;}
 
-#-------------------------rxjava,rxandroid,Gson-------------------------------------------
+# okhttp
+-dontwarn okhttp3.**
+-keep class okhttp3.**{*;}
+
+# okio
+-dontwarn okio.**
+-keep class okio.**{*;}
+
+
+# xutils
+# -libraryjars libs/xUtils-2.6.14.jar  
+-keep class com.lidroid.xutils.** { *; }   
+-keep public class * extends com.lidroid.xutils.**    
+-keepattributes Signature  
+-keepattributes *Annotation*  
+-keep public interface com.lidroid.xutils.** {*;}  
+-dontwarn com.lidroid.xutils.**  
+-keepclasseswithmembers class com.jph.android.entity.** {  
+    <fields>;  
+    <methods>;  
+}  
+
+#-------------------------处理和Json解析-------------------------------------------
+
 # RxJava RxAndroid
 -dontwarn sun.misc.**
 -keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
@@ -185,11 +234,32 @@
 -keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
     rx.internal.util.atomic.LinkedQueueNode consumerNode;
 }
+-keep class io.reactivex.** {*;}
+-keep class rx.** {*;}
+
 # Gson
 -keep class com.google.gson.stream.** { *; }
 -keepattributes EnclosingMethod
 
-#-------------------------glide,picasso-------------------------------------------
+
+# FastJson
+-dontwarn com.alibaba.fastjson.**
+-keep class com.alibaba.fastjson.** { *; }
+-keepattributes Signature
+-keepattributes *Annotation*
+	# 兼容6.0
+-dontwarn android.net.compatibility.**
+-dontwarn android.net.http.**
+-dontwarn com.android.internal.http.multipart.**
+-dontwarn org.apache.commons.**
+-dontwarn org.apache.http.**
+-keep class android.net.compatibility.**{*;}
+-keep class android.net.http.**{*;}
+-keep class com.android.internal.http.multipart.**{*;}
+-keep class org.apache.commons.**{*;}
+-keep class org.apache.http.**{*;}
+
+#-------------------------图片-------------------------------------------
 # glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public class * extends com.bumptech.glide.AppGlideModule
@@ -197,34 +267,190 @@
   **[] $VALUES;
   public *;
 }
-
-    # for DexGuard only
+	# for DexGuard only
 -keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 
 #picasso
 -dontwarn com.squareup.okhttp.**
 
+# volley
+-keep class com.android.volley.** {*;}
+-keep class com.android.volley.toolbox.** {*;}
+-keep class com.android.volley.Response$* { *; }
+-keep class com.android.volley.Request$* { *; }
+-keep class com.android.volley.RequestQueue$* { *; }
+-keep class com.android.volley.toolbox.HurlStack$* { *; }
+-keep class com.android.volley.toolbox.ImageLoader$* { *; }
 
-#-------------------------okhttputils-------------------------------------------
-#okhttputils
--dontwarn com.zhy.http.**
--keep class com.zhy.http.**{*;}
-#okhttp
--dontwarn okhttp3.**
--keep class okhttp3.**{*;}
-#okio
--dontwarn okio.**
--keep class okio.**{*;}
+# universal-image-loader 
+-dontwarn com.nostra13.universalimageloader.**
+-keep class com.nostra13.universalimageloader.** { *; }
 
-
-#-------------------------eventbus-------------------------------------------
-
-
+# Eventbus
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+# Only required if you use AsyncExecutor
+-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+    <init>(java.lang.Throwable);
+}
 
 #-------------------------realm-------------------------------------------
 
 
-#-------------------------circleimageview,xlhratingbar_lib,materialrefeshlayout,pickerview,wheelpicker-------------------------------------------
+#-------------------------三方View :circleimageview,xlhratingbar_lib,materialrefeshlayout,pickerview,wheelpicker-------------------------------------------
 
+
+#-------------------------第三方---------------------------------------------
+
+# bugly
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
+
+# 极光推送
+-dontoptimize
+-dontpreverify
+-dontwarn cn.jpush.**
+-keep class cn.jpush.** { *; }
+-keep class * extends cn.jpush.android.helpers.JPushMessageReceiver { *; }
+-dontwarn cn.jiguang.**
+-keep class cn.jiguang.** { *; }
+-dontwarn com.google.**
+-keep class com.google.gson.** {*;}
+-keep class com.google.protobuf.** {*;}
+
+
+
+# 友盟分享
+-dontusemixedcaseclassnames
+-dontshrink
+-dontoptimize
+-dontwarn com.google.android.maps.**
+-dontwarn android.webkit.WebView
+-dontwarn com.umeng.**
+-dontwarn com.tencent.weibo.sdk.**
+-dontwarn com.facebook.**
+-keep public class javax.**
+-keep public class android.webkit.**
+-dontwarn android.support.v4.**
+-keep enum com.facebook.**
+-keepattributes Exceptions,InnerClasses,Signature
+-keepattributes *Annotation*
+-keepattributes SourceFile,LineNumberTable
+-keep public interface com.facebook.**
+-keep public interface com.tencent.**
+-keep public interface com.umeng.socialize.**
+-keep public interface com.umeng.socialize.sensor.**
+-keep public interface com.umeng.scrshot.**
+-keep class com.android.dingtalk.share.ddsharemodule.** { *; }
+-keep public class com.umeng.socialize.* {*;}
+-keep class com.facebook.**
+-keep class com.facebook.** { *; }
+-keep class com.umeng.scrshot.**
+-keep public class com.tencent.** {*;}
+-keep class com.umeng.socialize.sensor.**
+-keep class com.umeng.socialize.handler.**
+-keep class com.umeng.socialize.handler.*
+-keep class com.umeng.weixin.handler.**
+-keep class com.umeng.weixin.handler.*
+-keep class com.umeng.qq.handler.**
+-keep class com.umeng.qq.handler.*
+-keep class UMMoreHandler{*;}
+-keep class com.tencent.mm.sdk.modelmsg.WXMediaMessage {*;}
+-keep class com.tencent.mm.sdk.modelmsg.** implements com.tencent.mm.sdk.modelmsg.WXMediaMessage$IMediaObject {*;}
+-keep class im.yixin.sdk.api.YXMessage {*;}
+-keep class im.yixin.sdk.api.** implements im.yixin.sdk.api.YXMessage$YXMessageData{*;}
+-keep class com.tencent.mm.sdk.** {*;}
+-keep class com.tencent.mm.opensdk.** {*;}
+-dontwarn twitter4j.**
+-keep class twitter4j.** { *; }
+-keep class com.tencent.** {*;}
+-dontwarn com.tencent.**
+-keep public class com.umeng.com.umeng.soexample.R$*{
+    public static final int *;
+}
+-keep public class com.linkedin.android.mobilesdk.R$*{
+    public static final int *;
+}
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+-keep class com.tencent.open.TDialog$*
+-keep class com.tencent.open.TDialog$* {*;}
+-keep class com.tencent.open.PKDialog
+-keep class com.tencent.open.PKDialog {*;}
+-keep class com.tencent.open.PKDialog$*
+-keep class com.tencent.open.PKDialog$* {*;}
+-keep class com.sina.** {*;}
+-dontwarn com.sina.**
+-keep class  com.alipay.share.sdk.** {*;}
+-keepnames class * implements android.os.Parcelable {
+    public static final ** CREATOR;
+}
+-keep class com.linkedin.** { *; }
+-keepattributes Signature
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}
+
+
+
+# 微信支付混淆
+-keep class com.tencent.mm.opensdk.** {*;}
+-keep class com.tencent.wxop.** {*;}
+-keep class com.tencent.mm.sdk.** {*;}
+
+
+# 支付宝混淆
+	# -libraryjars libs/alipaySDK-20150610.jar
+-ignorewarnings
+-keep class com.alipay.android.app.IAlixPay{*;}
+-keep class com.alipay.android.app.IAlixPay$Stub{*;}
+-keep class com.alipay.android.app.IRemoteServiceCallback{*;}
+-keep class com.alipay.android.app.IRemoteServiceCallback$Stub{*;}
+-keep class com.alipay.sdk.app.PayTask{ public *;}
+-keep class com.alipay.sdk.app.AuthTask{ public *;}
+-keep public class * extends android.os.IInterface
+-keepclasseswithmembernames class ** {
+}
+-keepattributes Signature
+-keep class sun.misc.Unsafe { *; }
+-keep class com.taobao.** {*;}
+-keep class com.alibaba.** {*;}
+-keep class com.alipay.** {*;}
+-dontwarn com.taobao.**
+-dontwarn com.alibaba.**
+-dontwarn com.alipay.**
+-keep class com.ut.** {*;}
+-dontwarn com.ut.**
+-keep class com.ta.** {*;}
+-dontwarn com.ta.**
+-keep class anet.**{*;}
+-keep class org.android.spdy.**{*;}
+-keep class org.android.agoo.**{*;}
+-dontwarn anet.**
+-dontwarn org.android.spdy.**
+-dontwarn org.android.agoo.**
+
+# zxing
+-keep class com.google.zxing.** {*;}
+-dontwarn com.google.zxing.**
+
+
+# 小米推送?
+-keepclasseswithmembernames class com.xiaomi.**{*;}
+-keep public class * extends com.xiaomi.mipush.sdk.PushMessageReceiver
+-dontwarn com.xiaomi.push.service.b
+-keep class org.apache.http.**
+-keep interface org.apache.http.**
+-dontwarn org.apache.**
+
+# 百度定位
+-keep class com.baidu.** {*;}
+-keep class vi.com.** {*;}
+-dontwarn com.baidu.**
 
 
