@@ -54,7 +54,7 @@ public class DefinedRecyclerView extends RecyclerView {
      */
     public boolean isBottomVisibleStaggered() {
         StaggeredGridLayoutManager layoutManager = (StaggeredGridLayoutManager) getLayoutManager();
-        int lastVisibleItemPosition = getMaxElem(layoutManager.findLastVisibleItemPositions(new int[layoutManager.getSpanCount()]));
+        int lastVisibleItemPosition = getMaxElem(layoutManager.findLastCompletelyVisibleItemPositions(new int[layoutManager.getSpanCount()]));
         int totalItemCount = layoutManager.getItemCount();
         int state = getScrollState();
         if (lastVisibleItemPosition == (totalItemCount - 1) && state == SCROLL_STATE_IDLE && !canScrollVertically(1)) {

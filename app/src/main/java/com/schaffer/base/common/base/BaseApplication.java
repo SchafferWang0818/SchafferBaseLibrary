@@ -2,14 +2,8 @@ package com.schaffer.base.common.base;
 
 import android.app.Activity;
 import android.app.Application;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.TextView;
 
-import com.schaffer.base.R;
 import com.schaffer.base.common.block.BlockError;
 import com.schaffer.base.common.block.BlockLooper;
 import com.schaffer.base.common.manager.ActivityController;
@@ -98,7 +92,6 @@ public /*abstract*/ class BaseApplication extends Application {
     }
 
 
-
     protected void setJPushAlias(final String jPushAlias) {
         final String TAG = "jpush";
 /*		JPushInterface.setAlias(this, jPushAlias, new TagAliasCallback() {
@@ -158,36 +151,62 @@ public /*abstract*/ class BaseApplication extends Application {
                 .deleteRealmIfMigrationNeeded().build());
     }
 
+    /**
+     * OkhttpUtils
+     */
+    private void OkHttpUtilsInit() {
+////        https://github.com/hongyangAndroid/okhttputils
+//        HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, null, null);
+//        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+////                .addInterceptor(new LoggerInterceptor("xg"))
+//                .connectTimeout(10000L, TimeUnit.MILLISECONDS)
+//                .readTimeout(10000L, TimeUnit.MILLISECONDS)
+//                .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
+//                .build();
+//        OkHttpUtils.initClient(okHttpClient);
+    }
 
     /**
-     * 使用失败
-     *
-     * @param activity
+     * ImagePicker
      */
-    @Deprecated
-    private static void setToolbar(final Activity activity) {
-        //设置标题,标题中的名称通过android: label获得
-//        if (activity.findViewById(R.id.layout_toolbar_tb) == null) return;
-        if (activity instanceof AppCompatActivity) {
-            Toolbar toolbar = (Toolbar) activity.findViewById(R.id.layout_toolbar_tb);
-            ((AppCompatActivity) activity).setSupportActionBar(toolbar);
-            ((AppCompatActivity) activity).getSupportActionBar().setDisplayShowTitleEnabled(false);
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                android.widget.Toolbar toolbar = (android.widget.Toolbar) activity.findViewById(R.id.layout_toolbar_tb);
-                activity.setActionBar(toolbar);
-                activity.getActionBar().setDisplayShowTitleEnabled(false);
-            }
-        }
-        ((TextView) activity.findViewById(R.id.layout_toolbar_tv_title)).setText(activity.getTitle());
-        activity.findViewById(R.id.layout_toolbar_iv_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activity.finish();
-            }
-        });
+    private void ImagePickerInit() {
+//        ImagePicker imagePicker = ImagePicker.getInstance();
+//        imagePicker.setImageLoader(new GlideImageLoader());   //设置图片加载器
+//        imagePicker.setShowCamera(false);  //显示拍照按钮
+//        imagePicker.setCrop(true);        //允许裁剪（单选才有效）
+//        imagePicker.setSaveRectangle(true); //是否按矩形区域保存
+//        imagePicker.setSelectLimit(1);    //选中数量限制
+//        imagePicker.setStyle(CropImageView.Style.RECTANGLE);  //裁剪框的形状
+//        imagePicker.setFocusWidth(800);   //裁剪框的宽度。单位像素（圆形自动取宽高最小值）
+//        imagePicker.setFocusHeight(800);  //裁剪框的高度。单位像素（圆形自动取宽高最小值）
+//        imagePicker.setOutPutX(1000);//保存文件的宽度。单位像素
+//        imagePicker.setOutPutY(1000);//保存文件的高度。单位像素
+    }
 
-
+    /**
+     * 其他三方工具
+     */
+    private void libraryInit() {
+////        //微信 注册
+//        mWxApi = WXAPIFactory.createWXAPI(this, Constants.APP_ID, false);
+//        mWxApi.registerApp(Constants.APP_ID);
+////        //极光推送
+//        JPushInterface.setLatestNotificationNumber(this, 2);
+//        JPushInterface.setDebugMode(BuildConfig.DEBUG);
+//        JPushInterface.init(this);
+//        registrationID = JPushInterface.getRegistrationID(this);
+//        //友盟统计
+//        MobclickAgent.setDebugMode(true);
+//        MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
+//        //友盟分享
+//        PlatformConfig.setQQZone("1106276710", "KEYMuxYzRSpy4xUIijI");
+//        PlatformConfig.setSinaWeibo("2119529910", "e7c58b0788955685668dd7a4a6f2e3a5", "http://sns.whalecloud.com");
+//        UMShareAPI.get(this);
+//        //bugly,5966cf1dab
+////        CrashReport.initCrashReport(this, "5966cf1dab", BuildConfig.DEBUG);
+//        Bugly.init(this, "5966cf1dab", true);
+//
+//        install = LeakCanary.install(this);
     }
 
 

@@ -1,4 +1,4 @@
-package com.schaffer.base.common.decoration;
+package com.schaffer.base.common.recycler;
 
 import android.content.Context;
 import android.content.res.TypedArray;

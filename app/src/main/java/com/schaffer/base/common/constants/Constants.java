@@ -9,8 +9,9 @@ import java.lang.annotation.RetentionPolicy;
  * Created by AndroidSchaffer on 2017/8/30.
  */
 
-public class Contants {
+public class Constants {
 
+    //    public static final String  ="";
 //    public static final String  ="";
 //    public static final String  ="";
 //    public static final String  ="";
@@ -20,7 +21,6 @@ public class Contants {
 //    public static final String  ="";
 //    public static final String  ="";
 //    public static final String  ="";
-//    public static final String  ="";
 //    public static final int =0;
 //    public static final int =0;
 //    public static final int =0;
@@ -45,6 +45,8 @@ public class Contants {
 //    public static final int =0;
 //    public static final int =0;
 //    public static final int =0;
+    public static final String INTENT_WEB_URL = "INTENT_WEB_URL";
+    public static final String INTENT_WEB_TITLE = "INTENT_WEB_TITLE";
 
     public static final class TimeConstants {
 

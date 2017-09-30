@@ -1,6 +1,7 @@
 package com.schaffer.base.common.utils;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -28,6 +29,18 @@ public final class IntentUtils {
 
     private IntentUtils() {
         throw new UnsupportedOperationException("u can't fuck me...");
+    }
+
+    /**
+     * 提醒其他应用更新图片列表
+     * @param context
+     * @param file
+     */
+    public static void remindSystemScan(Context context, File file) {
+        Intent i = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri uri = Uri.fromFile(file);
+        i.setData(uri);
+        context.sendBroadcast(i);
     }
 
     /**

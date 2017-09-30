@@ -119,7 +119,7 @@ public abstract class OnRecyclerScrollListener extends RecyclerView.OnScrollList
 
     public boolean isStaggeredBottom(RecyclerView recyclerView) {
         StaggeredGridLayoutManager layoutManager = (StaggeredGridLayoutManager) recyclerView.getLayoutManager();
-        int lastVisibleItemPosition = getMaxElem(layoutManager.findLastVisibleItemPositions(new int[layoutManager.getSpanCount()]));
+        int lastVisibleItemPosition = getMaxElem(layoutManager.findLastCompletelyVisibleItemPositions(new int[layoutManager.getSpanCount()]));
         int totalItemCount = layoutManager.getItemCount();
         return lastVisibleItemPosition == (totalItemCount - 1) && !recyclerView.canScrollVertically(1);
     }

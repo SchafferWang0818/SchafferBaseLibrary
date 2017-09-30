@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.StyleRes;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -45,11 +46,12 @@ public class BaseDialog extends Dialog {
 
     /**
      * 布局配置处理
-     * @param view  inflateView
-     * @param width 宽度
-     * @param height    高度
-     * @param cancel    是否可以取消
-     * @param isBottom  是否屏幕底部
+     *
+     * @param view     inflateView
+     * @param width    宽度
+     * @param height   高度
+     * @param cancel   是否可以取消
+     * @param isBottom 是否屏幕底部
      */
     public void setLayoutConfig(View view, int width, int height, boolean cancel, boolean isBottom) {
         setContentView(view);
@@ -65,5 +67,8 @@ public class BaseDialog extends Dialog {
         setCanceledOnTouchOutside(cancel);
     }
 
+    public void setAnimation(@StyleRes int styleId) {
+        getWindow().setWindowAnimations(styleId);
+    }
 
 }

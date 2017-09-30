@@ -34,7 +34,48 @@ public class BasePresenter<V extends BaseView> {
         LTUtils.w(tag, content);
     }
 
-    //	public abstract class CustomObserver<T> implements Observer<T> {
+    public void showToast(String content) {
+        if (mView != null) {
+            mView.showToast(content);
+        }
+    }
+
+    protected void loading() {
+        if (mView != null) {
+            mView.showLoading("加载中...");
+        }
+    }
+
+    protected void dismissLoad() {
+        if (mView != null) {
+            mView.dismissLoading();
+        }
+    }
+
+//    protected boolean onResponse(BaseBean bean) {
+//        if (mView != null) mView.dismissLoading();
+//        if (bean.getErrcode() != 0) {
+//            if (mView != null) {
+//                if (bean.getErrstr().contains("必要参数")) {
+//                    mView.showLog(bean.getErrstr());
+//                } else {
+//                    mView.showToast(bean.getErrstr());
+//                }
+//            }
+//        }
+//
+//        return bean.getErrcode() == 0;
+//    }
+
+    protected void onFailed(Throwable e) {
+        if (mView != null) {
+            mView.dismissLoading();
+            mView.showLog(e.getMessage() + "-->\n\t\t" + e.getLocalizedMessage());
+        }
+        e.printStackTrace();
+    }
+
+//	public abstract class CustomObserver<T> implements Observer<T> {
 //
 //		@Override
 //		public void onCompleted() {
@@ -48,6 +89,7 @@ public class BasePresenter<V extends BaseView> {
 //		}
 //
 //	}
+
     public void example() {
 //        compositeSubscription.add(ApiModel.getInstance().cancelTrip(stroke_id, cause)
 //                .compose(new SchedulerTransformer<BaseResponse>())

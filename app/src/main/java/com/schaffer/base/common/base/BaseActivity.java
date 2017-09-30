@@ -45,6 +45,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.schaffer.base.R;
 import com.schaffer.base.common.constants.DayNight;
 import com.schaffer.base.common.utils.LTUtils;
@@ -197,7 +198,22 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
 
     }
 
-//	public void onActivityBack(View v) {
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        Glide.get(this).clearMemory();
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        if (level==TRIM_MEMORY_UI_HIDDEN){
+            Glide.get(this).clearMemory();
+        }
+        Glide.get(this).trimMemory(level);
+    }
+
+    //	public void onActivityBack(View v) {
 //		finish();
 //	}
 //
@@ -320,7 +336,7 @@ public void startActivity(Intent intent) {
 //        if (mProgressDialogs != null) {
 //            mProgressDialogs.closeDialog();
 //        }
-        dismissProgress(progress);
+        dismissProgress();
     }
 
     @Override
@@ -357,9 +373,10 @@ public void startActivity(Intent intent) {
         return loadingDialog;
     }
 
-    public void dismissProgress(ProgressDialog dialog) {
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
+    public void dismissProgress() {
+        if (progress != null && progress.isShowing()) {
+            progress.cancel();
+            progress = null;
         }
     }
 
@@ -949,7 +966,7 @@ public void startActivity(Intent intent) {
     public static boolean isVisBottomStaggered(RecyclerView recyclerView) {
         StaggeredGridLayoutManager layoutManager = (StaggeredGridLayoutManager) recyclerView.getLayoutManager();
         //屏幕中最后一个可见子项的position
-        int lastVisibleItemPosition = getMaxElem(layoutManager.findLastVisibleItemPositions(new int[layoutManager.getSpanCount()]));
+        int lastVisibleItemPosition = getMaxElem(layoutManager.findLastCompletelyVisibleItemPositions(new int[layoutManager.getSpanCount()]));
         //当前RecyclerView的所有子项个数
         int totalItemCount = layoutManager.getItemCount();
         //RecyclerView的滑动状态

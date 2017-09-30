@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * className: ActivityController
  * description: 活动管理类
- * author: hong
  * datetime: 2016/4/5 0005 上午 8:54
  */
 public class ActivityController {
@@ -17,7 +16,7 @@ public class ActivityController {
     private ActivityController() {
     }
 
-    private static List<Activity> activities = new ArrayList<>();
+    private static List<WeakReference<Activity>> activities = new ArrayList<>();
 
     private static WeakReference<Activity> currActivity = null;
 
@@ -27,7 +26,7 @@ public class ActivityController {
      * @param activity
      */
     public static void addActivity(Activity activity) {
-        activities.add(activity);
+        activities.add(new WeakReference<>(activity));
     }
 
     /**
@@ -45,10 +44,10 @@ public class ActivityController {
      * @param tag 活动标志
      */
     public static void removeActivity(String tag) {
-        for (Activity activity : activities) {
-            if (!activity.isFinishing()) {
-                if (activity.getClass().getName().equals(tag)) {
-                    activity.finish();
+        for (WeakReference<Activity> activity : activities) {
+            if (activity.get() != null && !activity.get().isFinishing()) {
+                if (activity.get().getClass().getName().equals(tag)) {
+                    activity.get().finish();
                 }
             }
         }
@@ -59,9 +58,9 @@ public class ActivityController {
      * 销毁所有活动
      */
     public static void finishAll() {
-        for (Activity activity : activities) {
-            if (!activity.isFinishing()) {
-                activity.finish();
+        for (WeakReference<Activity> activity : activities) {
+            if (activity.get() != null && !activity.get().isFinishing()) {
+                activity.get().finish();
             }
         }
     }
@@ -73,16 +72,17 @@ public class ActivityController {
      * @param tags
      */
     public static void finishIgnoreTag(String... tags) {
-        for (Activity activity : activities) {
-            if (!activity.isFinishing()) {
+        for (WeakReference<Activity> activity : activities) {
+            Activity a = activity.get();
+            if (a != null && !a.isFinishing()) {
                 boolean flag = true;
                 for (int i = 0; i < tags.length; i++) {
-                    if (activity.getClass().getName().equals(tags[i])) {
+                    if (a.getClass().getName().equals(tags[i])) {
                         flag = false;
                     }
                 }
                 if (flag) {
-                    activity.finish();
+                    a.finish();
                 }
             }
         }
@@ -95,8 +95,8 @@ public class ActivityController {
      * @return
      */
     public static boolean hasAdded(String tag) {
-        for (Activity activity : activities) {
-            if (activity.getClass().getName().equals(tag)) {
+        for (WeakReference<Activity> activity : activities) {
+            if (activity.get() != null && activity.get().getClass().getName().equals(tag)) {
                 return true;
             }
         }

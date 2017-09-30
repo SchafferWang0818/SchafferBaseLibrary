@@ -1,4 +1,4 @@
-package com.schaffer.base.common.decoration;
+package com.schaffer.base.common.recycler;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
