@@ -88,6 +88,15 @@ public final class CleanUtils {
                 + "TB";
     }
 
+    public static void cleanAllCache() {
+        cleanCache();
+        cleanInternalFiles();
+    }
+
+    public static void cleanCache() {
+        cleanExternalCache();
+        cleanInternalCache();
+    }
 
     /**
      * 清除内部缓存

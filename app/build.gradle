@@ -1,18 +1,14 @@
 apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
+apply from: 'tinker-support.gradle'
+def releaseTime() {
+    return new Date().format("MM-dd", TimeZone.getTimeZone("UTC"))
+}
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
-//    签名文件账号密码
-//    signingConfigs {
-//        config {
-//            keyAlias 'name'
-//            keyPassword 'ezcx@2'
-//            storeFile file('../jksName.jks')
-//            storePassword 'ezcx@2'
-//        }
-//    }
+
     defaultConfig {
         applicationId "com.schaffer.base"
         minSdkVersion rootProject.ext.android.minSdkVersion
@@ -21,57 +17,107 @@ android {
         versionName rootProject.ext.android.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
-
-//        签名文件
-//        signingConfig signingConfigs.config
-
-//        直接简单粗暴的兼容armeabi
-//        ndk {
-//            abiFilters "armeabi"
-//        }
-
+    }
+    signingConfigs {
+        config {
+            try {
+                keyAlias 'xigua'
+                keyPassword 'yglxigua'
+                storeFile file('C:/appkey/xigua.jks')
+                storePassword 'yglxigua'
+            } catch (ex) {
+                throw new InvalidUserDataException(ex.toString())
+            }
+        }
+        debug_config {
+            try {
+                keyAlias 'xigua'
+                keyPassword 'yglxigua'
+                storeFile file('C:/appkey/xigua.jks')
+                storePassword 'yglxigua'
+            } catch (ex) {
+                throw new InvalidUserDataException(ex.toString())
+            }
+        }
     }
     buildTypes {
-        debug {
-//        签名文件
-//        signingConfig signingConfigs.config
-        }
         release {
-            minifyEnabled false //是否开启混淆
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            zipAlignEnabled true //对齐操作 使应用更快读取和运行,减少内存占用
-//        签名文件
-//        signingConfig signingConfigs.config
+            signingConfig signingConfigs.config
 
-//            shrinkResources true                  //gradle去除无用资源
-        }
-        applicationVariants.all { variant ->
-            variant.outputs.each { output ->
-                def outputFile = output.outputFile
-                if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                    def versionName = defaultConfig.versionName.replace(".", "_")
-                    def fileName = outputFile.name.replace(".apk", "-v${versionName}.apk")
-                    fileName = fileName.replace("app", "${defaultConfig.applicationId}")
-                    if (variant.buildType.name.equals('release')) {
-                        output.outputFile = file("${outputFile.parent}/release/${defaultConfig.versionName}/${fileName}")
-                    } else {
-                        output.outputFile = file("${outputFile.parent}/${fileName}")
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            zipAlignEnabled true
+            minifyEnabled true
+//            清除无用资源
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        // 输出apk名称为schaffer_v1.0_2015-01-15_渠道名.apk
+                        def fileName = "schaffer_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
+                        output.outputFile = new File(outputFile.parent, fileName)
                     }
                 }
             }
         }
-
+        debug {
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            versionNameSuffix "-debug"
+            minifyEnabled false
+            zipAlignEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.debug_config
+        }
     }
+//    buildTypes {
+//        debug {
+//        }
+//        release {
+//            minifyEnabled false //是否开启混淆
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            zipAlignEnabled true //对齐操作 使应用更快读取和运行,减少内存占用
+////            shrinkResources true                  //gradle去除无用资源
+//        }
+//
+//        applicationVariants.all { variant ->
+//            variant.outputs.each { output ->
+//                def outputFile = output.outputFile
+//                if (outputFile != null && outputFile.name.endsWith('.apk')) {
+//                    def versionName = defaultConfig.versionName.replace(".", "_")
+//                    def fileName = outputFile.name.replace(".apk", "-v${versionName}.apk")
+//                    fileName = fileName.replace("app", "${defaultConfig.applicationId}")
+//                    if (variant.buildType.name.equals('release')) {
+//                        output.outputFile = file("${outputFile.parent}/release/${defaultConfig.versionName}/${fileName}")
+//                    } else {
+//                        output.outputFile = file("${outputFile.parent}/${fileName}")
+//                    }
+//                }
+//            }
+//        }
+//
+//    }
 
 //    lintOptions{
 //        checkReleaseBuilds false     //在打包Release版本的时候进行(多语言等)检测
 //        abortOnError false              //打包报错是否停止打包
 //    }
-    productFlavors{
-        app_main{
-            applicationId "com.schaffer.base"
-//            manifestPlaceholders = [app_name:"",CHANNEL_NAME:"",UMENG_APPKEY:""]
-        }
+    productFlavors {
+        mainflavor {}
+        tencent {}
+//        ali {}
+//        qh360 {}
+//        xiaomi {}
+//        meizu {}
+//        huawei {}
+//        oppo {}
+//        vivo {}
+//        wandoujia {}
+//        baidu {}
+    }
+    productFlavors.all { flavor ->
+        flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
     }
 }
 
@@ -99,4 +145,6 @@ dependencies {
     compile rootProject.ext.dependencies["eventbus"]
     compile rootProject.ext.dependencies["xlhratingbar_lib"]
     compile rootProject.ext.dependencies["pickerview"]
+    compile rootProject.ext.dependencies["buglyupgrade"]
+    compile rootProject.ext.dependencies["buglynative"]
 }

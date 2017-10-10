@@ -2,13 +2,18 @@ package com.schaffer.base.common.base;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.multidex.MultiDex;
 
+import com.schaffer.base.BuildConfig;
 import com.schaffer.base.common.block.BlockError;
 import com.schaffer.base.common.block.BlockLooper;
 import com.schaffer.base.common.manager.ActivityController;
 import com.schaffer.base.common.manager.ActivityManager;
 import com.schaffer.base.common.utils.Utils;
+import com.tencent.bugly.Bugly;
+import com.tencent.bugly.beta.Beta;
 
 import java.lang.ref.WeakReference;
 
@@ -78,7 +83,7 @@ public /*abstract*/ class BaseApplication extends Application {
     }
 
     private void libraryInit(BaseApplication app) {
-
+        Bugly.init(this, "69353c4a55", BuildConfig.DEBUG);
     }
 
 //    protected abstract void libraryInit(BaseApplication app);
@@ -209,5 +214,12 @@ public /*abstract*/ class BaseApplication extends Application {
 //        install = LeakCanary.install(this);
     }
 
-
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        // you must install multiDex whatever tinker is installed!
+        MultiDex.install(base);
+        // 安装tinker
+        Beta.installTinker();
+    }
 }

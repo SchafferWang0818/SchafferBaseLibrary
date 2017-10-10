@@ -55,11 +55,12 @@
 8. 上传`outputs/patch/`下的补丁包
 9. 匹配成功后下发
 
-
-
-			
-
-
-
-
 ---
+### tinker多渠道打包 ###
+
+tinker多渠道打包后
+
+		`TINKER_ID` = 渠道名称 + 打包类型 + 定义的tinkerId,
+		`BUGLY_CHANNEL = 渠道名称`
+
+

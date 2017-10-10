@@ -191,7 +191,7 @@
 # Retrofit
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }
--keepattributes Signature-keepattributes Exceptions
+# -keepattributes Signature-keep attributes Exceptions
 -dontnote retrofit2.Platform$IOS$MainThreadExecutor
 
 # okhttputils
@@ -268,7 +268,7 @@
   public *;
 }
 	# for DexGuard only
--keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+# -keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 
 #picasso
 -dontwarn com.squareup.okhttp.**
