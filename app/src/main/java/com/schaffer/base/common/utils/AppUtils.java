@@ -45,7 +45,10 @@ import java.util.List;
  * {@link AppUtils#cleanAppData}        : 清除App所有数据
  */
 public class AppUtils {
-
+    public static final String PACKAGE_WECHAT="com.tencent.mm";
+    public static final String PACKAGE_QQ_LITE="com.tencent.qqlite";
+    public static final String PACKAGE_QQ="com.tencent.mobileqq";
+    public static final String PACKAGE_WEIBO="com.sina.weibo";
     /**
      * 获取系统版本号
      *
