@@ -1,14 +1,10 @@
 apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
 apply from: 'tinker-support.gradle'
-def releaseTime() {
-    return new Date().format("MM-dd", TimeZone.getTimeZone("UTC"))
-}
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
-
     defaultConfig {
         applicationId "com.schaffer.base"
         minSdkVersion rootProject.ext.android.minSdkVersion
@@ -17,6 +13,11 @@ android {
         versionName rootProject.ext.android.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "mainflavor"]
+        ndk {
+            // 设置支持的SO库架构
+            abiFilters 'armeabi', 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a', 'x86', 'mips', 'mips64'
+        }
     }
     signingConfigs {
         config {
@@ -71,38 +72,15 @@ android {
             signingConfig signingConfigs.debug_config
         }
     }
-//    buildTypes {
-//        debug {
-//        }
-//        release {
-//            minifyEnabled false //是否开启混淆
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            zipAlignEnabled true //对齐操作 使应用更快读取和运行,减少内存占用
-////            shrinkResources true                  //gradle去除无用资源
-//        }
-//
-//        applicationVariants.all { variant ->
-//            variant.outputs.each { output ->
-//                def outputFile = output.outputFile
-//                if (outputFile != null && outputFile.name.endsWith('.apk')) {
-//                    def versionName = defaultConfig.versionName.replace(".", "_")
-//                    def fileName = outputFile.name.replace(".apk", "-v${versionName}.apk")
-//                    fileName = fileName.replace("app", "${defaultConfig.applicationId}")
-//                    if (variant.buildType.name.equals('release')) {
-//                        output.outputFile = file("${outputFile.parent}/release/${defaultConfig.versionName}/${fileName}")
-//                    } else {
-//                        output.outputFile = file("${outputFile.parent}/${fileName}")
-//                    }
-//                }
-//            }
-//        }
-//
-//    }
-
-//    lintOptions{
-//        checkReleaseBuilds false     //在打包Release版本的时候进行(多语言等)检测
-//        abortOnError false              //打包报错是否停止打包
-//    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+    lintOptions {
+        checkReleaseBuilds false     //在打包Release版本的时候进行(多语言等)检测
+        abortOnError false              //打包报错是否停止打包
+    }
     productFlavors {
         mainflavor {}
         tencent {}
@@ -115,9 +93,9 @@ android {
 //        vivo {}
 //        wandoujia {}
 //        baidu {}
-    }
-    productFlavors.all { flavor ->
-        flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+        productFlavors.all { flavor ->
+            flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+        }
     }
 }
 
@@ -147,4 +125,6 @@ dependencies {
     compile rootProject.ext.dependencies["pickerview"]
     compile rootProject.ext.dependencies["buglyupgrade"]
     compile rootProject.ext.dependencies["buglynative"]
+    debugCompile rootProject.ext.dependencies["leak"]
+    releaseCompile  rootProject.ext.dependencies["leak_no"]
 }

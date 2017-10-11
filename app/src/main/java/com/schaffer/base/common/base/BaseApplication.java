@@ -12,6 +12,8 @@ import com.schaffer.base.common.block.BlockLooper;
 import com.schaffer.base.common.manager.ActivityController;
 import com.schaffer.base.common.manager.ActivityManager;
 import com.schaffer.base.common.utils.Utils;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 
@@ -26,18 +28,15 @@ import io.realm.RealmConfiguration;
 
 public /*abstract*/ class BaseApplication extends Application {
 
-
     private static BaseApplication app;
-
     private ActivityManager mActivityManager;
-
     protected static class DefinedActivityLifeCycleCallback implements ActivityLifecycleCallbacks {
 
 
         @Override
         public void onActivityCreated(final Activity activity, Bundle savedInstanceState) {
             ActivityController.addActivity(activity);
-//            setToolbar(activity);
+            BaseApplication.getRefWatcher(activity).watch(activity);
         }
 
         @Override
@@ -48,7 +47,6 @@ public /*abstract*/ class BaseApplication extends Application {
         @Override
         public void onActivityResumed(Activity activity) {
             ActivityController.setCurrActivity(new WeakReference<Activity>(activity));
-
         }
 
         @Override
@@ -71,22 +69,34 @@ public /*abstract*/ class BaseApplication extends Application {
         }
     }
 
+    private RefWatcher install;
+
+    public static RefWatcher getRefWatcher(Context context) {
+        BaseApplication application = (BaseApplication) context.getApplicationContext();
+        return application.install;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        mActivityManager = ActivityManager.getScreenManager();
+        registerActivityLifecycleCallbacks(new DefinedActivityLifeCycleCallback());
         app = this;
         Utils.init(this);
         configBlock();
-        mActivityManager = ActivityManager.getScreenManager();
-        registerActivityLifecycleCallbacks(new DefinedActivityLifeCycleCallback());
         libraryInit(app);//第三方
     }
 
     private void libraryInit(BaseApplication app) {
-        Bugly.init(this, "69353c4a55", BuildConfig.DEBUG);
+        //bugly
+        Bugly.init(this, "69353c4a55", BuildConfig.DEBUG);//69353c4a55
+        //leaks
+        install = LeakCanary.install(this);
+        initRealm();
+        initOkHttpUtils();
+        initImagePicker();
+        initOthersLibrary();
     }
-
-//    protected abstract void libraryInit(BaseApplication app);
 
     public static synchronized BaseApplication getInstance() {
         return app;
@@ -97,36 +107,36 @@ public /*abstract*/ class BaseApplication extends Application {
     }
 
 
-    protected void setJPushAlias(final String jPushAlias) {
-        final String TAG = "jpush";
-/*		JPushInterface.setAlias(this, jPushAlias, new TagAliasCallback() {
-
-			@Override
-			public void gotResult(int code, String arg1,
-								  Set<String> arg2) {
-				String logs;
-				switch (code) {
-					case 0:
-						logs = "Set tag and jPushAlias success";
-
-						// 建议这里往 SharePreference 里写一个成功设置的状态。成功设置一次后，以后不必再次设置了。
-						break;
-					case 6002:
-						logs = "Failed to set jPushAlias and tags due to timeout. Try again after 60s.";
-						Log.i(TAG, logs);
-						// 延迟 60 秒来调用 Handler 设置别名
-						Message message = mHandler.obtainMessage();
-						message.what = 6002;
-						message.obj = jPushAlias;
-						mHandler.sendMessageDelayed(message, 60000);
-						break;
-					default:
-						logs = "Failed with errorCode = " + code;
-						Log.e(TAG, logs);
-				}
-			}
-		});*/
-    }
+//    protected void setJPushAlias(final String jPushAlias) {
+//        final String TAG = "jpush";
+//		JPushInterface.setAlias(this, jPushAlias, new TagAliasCallback() {
+//
+//			@Override
+//			public void gotResult(int code, String arg1,
+//								  Set<String> arg2) {
+//				String logs;
+//				switch (code) {
+//					case 0:
+//						logs = "Set tag and jPushAlias success";
+//
+//						// 建议这里往 SharePreference 里写一个成功设置的状态。成功设置一次后，以后不必再次设置了。
+//						break;
+//					case 6002:
+//						logs = "Failed to set jPushAlias and tags due to timeout. Try again after 60s.";
+//						Log.i(TAG, logs);
+//						// 延迟 60 秒来调用 Handler 设置别名
+//						Message message = mHandler.obtainMessage();
+//						message.what = 6002;
+//						message.obj = jPushAlias;
+//						mHandler.sendMessageDelayed(message, 60000);
+//						break;
+//					default:
+//						logs = "Failed with errorCode = " + code;
+//						Log.e(TAG, logs);
+//				}
+//			}
+//		});
+//    }
 
 
     /**
@@ -159,8 +169,8 @@ public /*abstract*/ class BaseApplication extends Application {
     /**
      * OkhttpUtils
      */
-    private void OkHttpUtilsInit() {
-////        https://github.com/hongyangAndroid/okhttputils
+    private void initOkHttpUtils() {
+//        https://github.com/hongyangAndroid/okhttputils
 //        HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, null, null);
 //        OkHttpClient okHttpClient = new OkHttpClient.Builder()
 ////                .addInterceptor(new LoggerInterceptor("xg"))
@@ -174,7 +184,7 @@ public /*abstract*/ class BaseApplication extends Application {
     /**
      * ImagePicker
      */
-    private void ImagePickerInit() {
+    private void initImagePicker() {
 //        ImagePicker imagePicker = ImagePicker.getInstance();
 //        imagePicker.setImageLoader(new GlideImageLoader());   //设置图片加载器
 //        imagePicker.setShowCamera(false);  //显示拍照按钮
@@ -191,7 +201,7 @@ public /*abstract*/ class BaseApplication extends Application {
     /**
      * 其他三方工具
      */
-    private void libraryInit() {
+    private void initOthersLibrary() {
 ////        //微信 注册
 //        mWxApi = WXAPIFactory.createWXAPI(this, Constants.APP_ID, false);
 //        mWxApi.registerApp(Constants.APP_ID);
@@ -217,9 +227,7 @@ public /*abstract*/ class BaseApplication extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        // you must install multiDex whatever tinker is installed!
         MultiDex.install(base);
-        // 安装tinker
         Beta.installTinker();
     }
 }
