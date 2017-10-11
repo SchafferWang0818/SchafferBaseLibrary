@@ -36,6 +36,6 @@ public class TestbuglyActivity extends BaseActivity<TestbuglyActivity, TestBugly
     public void testBugly(View v) {
         int i = 1;
         int j = 0;
-        showToast(/*i / j + */"this is fixed bug , j !=0");
+        showToast(/*i / j + */"this is fixed bug , j !=0");//
     }
 }
