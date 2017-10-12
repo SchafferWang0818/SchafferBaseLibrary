@@ -48,7 +48,7 @@ import java.util.List;
 public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePresenter<V>> extends AppCompatActivity implements BaseView {
 
 
-    //    static {
+//    static {
 //        //允许使用svg于background,必须依附于状态选择器等StateListDrawable,InsetDrawable,LayerDrawable,LevelListDrawable,RotateDrawable
 //        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 //    }
@@ -235,6 +235,15 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
         }
     }
 
+    /**
+     * 设置EventBus可用,填充界面时使用
+     *
+     * @param enable
+     */
+    protected void setEventbusEnable(boolean enable) {
+        eventbusEnable = enable;
+    }
+
     @Override
     public void onLowMemory() {
         super.onLowMemory();
@@ -250,43 +259,7 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
         Glide.get(this).trimMemory(level);
     }
 
-    public void setToolbar() {
-        if (findViewById(R.id.layout_toolbar_tb) == null) return;
-        if (this instanceof AppCompatActivity) {
-            Toolbar toolbar = (Toolbar) findViewById(R.id.layout_toolbar_tb);
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                android.widget.Toolbar toolbar = (android.widget.Toolbar) findViewById(R.id.layout_toolbar_tb);
-                setActionBar(toolbar);
-                getActionBar().setDisplayShowTitleEnabled(false);
-            }
-        }
-        if (getTitle() != null) {
-            setActivityTitle(getTitle());
-        }
-        setLeftClick(null);
-    }
 
-    protected void setLeftClick(View.OnClickListener listener) {
-        findViewById(R.id.layout_toolbar_iv_back).setOnClickListener(listener != null ? listener : new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-    }
-
-    public void setToolbar(int visibility) {
-        setToolbar();
-        findViewById(R.id.layout_toolbar_tb).setVisibility(visibility);
-    }
-
-    protected void setActivityTitle(CharSequence charSequence) {
-        ((TextView) findViewById(R.id.layout_toolbar_tv_title)).setText(charSequence);
-    }
 
     /*---------------------------------------------------------------动态权限相关------------------------------------------------------------------------------------*/
 
@@ -478,15 +451,6 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
         }
     }
 
-    /**
-     * 设置EventBus可用,填充界面时使用
-     *
-     * @param enable
-     */
-    protected void setEventbusEnable(boolean enable) {
-        eventbusEnable = enable;
-    }
-
 
     /**
      * 获取一个 View 的缓存视图
@@ -548,11 +512,49 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
 
 
     /*-------------------------------------------------------------标题处理----------------------------------------------------------------------------------------*/
+    public void setToolbar() {
+        if (findViewById(R.id.layout_toolbar_tb) == null) return;
+        if (this instanceof AppCompatActivity) {
+            Toolbar toolbar = (Toolbar) findViewById(R.id.layout_toolbar_tb);
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                android.widget.Toolbar toolbar = (android.widget.Toolbar) findViewById(R.id.layout_toolbar_tb);
+                setActionBar(toolbar);
+                getActionBar().setDisplayShowTitleEnabled(false);
+            }
+        }
+        if (getTitle() != null) {
+            setActivityTitle(getTitle());
+        }
+        setLeftClick(null);
+    }
+
+    protected void setActivityTitle(CharSequence charSequence) {
+        ((TextView) findViewById(R.id.layout_toolbar_tv_title)).setText(charSequence);
+    }
+
+    public void setToolbar(int visibility) {
+        setToolbar();
+        findViewById(R.id.layout_toolbar_tb).setVisibility(visibility);
+    }
+
 
     protected void setLeftIcon(@DrawableRes int resId, View.OnClickListener listener) {
         ((ImageView) findViewById(R.id.layout_toolbar_iv_back)).setImageResource(resId);
         setLeftIconVisible(View.VISIBLE);
         setLeftClick(listener);
+    }
+
+    protected void setLeftClick(View.OnClickListener listener) {
+        findViewById(R.id.layout_toolbar_iv_back).setOnClickListener(listener != null ? listener : new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     protected void setLeftIconVisible(int visible) {
@@ -580,11 +582,6 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
         ((TextView) findViewById(R.id.layout_toolbar_tv_left)).setTextColor(color);
     }
 
-
-
-    protected void setRightText(String content) {
-        setRightText(content, View.VISIBLE, null);
-    }
 
     protected void setRightText(String content, View.OnClickListener onClickListener) {
         setRightText(content, View.VISIBLE, onClickListener);
@@ -615,13 +612,6 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
         ((TextView) findViewById(R.id.layout_toolbar_tv_right)).setTextSize(TypedValue.COMPLEX_UNIT_SP, spValue);
     }
 
-    protected void setRightIcon(@DrawableRes int resId) {
-        setRightIcon(resId, View.VISIBLE);
-    }
-
-    protected void setRightIcon(@DrawableRes int resId, int visibility) {
-        setRightIcon(resId, visibility, null);
-    }
 
     protected void setRightIcon(@DrawableRes int resId, View.OnClickListener onClickListener) {
         setRightIcon(resId, View.VISIBLE, onClickListener);
