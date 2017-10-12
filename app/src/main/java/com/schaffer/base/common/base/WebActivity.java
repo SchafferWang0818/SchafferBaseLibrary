@@ -26,8 +26,7 @@ public class WebActivity extends BaseActivity<WebActivity, WebPresenter> {
 
     @Override
     protected void inflateView() {
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         inflateContent(R.layout.activity_web);
         setToolbar(View.VISIBLE);
         initView();
@@ -58,7 +57,7 @@ public class WebActivity extends BaseActivity<WebActivity, WebPresenter> {
 
     }
 
-    private void initView() {
+    public void initView() {
         webView = (WebView) findViewById(R.id.web_wv_web);
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);//js交互
