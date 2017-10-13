@@ -1,6 +1,8 @@
 # 混淆 #
 
-	参考自: https://juejin.im/post/5947e7e8128fe1006a52d922
+	参考自: 
+		https://juejin.im/post/5947e7e8128fe1006a52d922
+		https://juejin.im/entry/59df172f6fb9a04522067f98?utm_source=gold_browser_extension	
 	目录:
 		1.  混淆配置
 		2.  混淆规则
