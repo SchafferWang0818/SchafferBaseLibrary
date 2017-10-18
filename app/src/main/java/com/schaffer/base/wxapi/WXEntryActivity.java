@@ -29,7 +29,7 @@ public class WXEntryActivity extends BaseActivity<WXEntryActivity, WXEntryPresen
         if (mPresenter == null) {
             return new WXEntryPresenter();
         } else {
-            return mPresenter;
+            return (WXEntryPresenter) mPresenter;
         }
     }
 
