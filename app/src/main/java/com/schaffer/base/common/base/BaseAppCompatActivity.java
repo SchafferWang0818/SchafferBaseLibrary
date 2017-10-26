@@ -48,7 +48,7 @@ import java.util.List;
 public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePresenter<V>> extends AppCompatActivity implements BaseView {
 
 
-//    static {
+    //    static {
 //        //允许使用svg于background,必须依附于状态选择器等StateListDrawable,InsetDrawable,LayerDrawable,LevelListDrawable,RotateDrawable
 //        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 //    }
@@ -67,6 +67,7 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
     public static final String INTENT_DATA_IMG_CURRENT_INDEX = "img_current";
     protected ProgressDialog progress;
     protected FrameLayout mFrameContent;
+    protected Window window;
 
     @Override
     public void showLog(String msg) {
@@ -173,6 +174,7 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
 //            getWindow().setEnterTransition(new Fade());
 //            getWindow().setExitTransition(new Fade());
 //        }//新转场动画
+        window = getWindow();
         tag = getClass().getSimpleName();
         mFrameContent = (FrameLayout) findViewById(R.id.layout_group_content);
         inflateView();
@@ -561,6 +563,10 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
         findViewById(R.id.layout_toolbar_iv_back).setVisibility(visible == View.VISIBLE ? View.VISIBLE : View.GONE);
         findViewById(R.id.layout_toolbar_tv_left).setVisibility(visible == View.VISIBLE ? View.GONE : View.VISIBLE);
     }
+    protected void setLeftIconVisible(int ivVisible,int tvVisible) {
+        findViewById(R.id.layout_toolbar_iv_back).setVisibility(ivVisible);
+        findViewById(R.id.layout_toolbar_tv_left).setVisibility(tvVisible);
+    }
 
     protected void setLeftText(String content, View.OnClickListener onClickListener) {
         setLeftIconVisible(View.GONE);
@@ -643,4 +649,10 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
         }
     }
 
+    public void setToolbarBackground(int color) {
+        (findViewById(R.id.layout_toolbar_tb)).setBackgroundColor(color);
+    }
+    public int getToolbarBackgroundColor() {
+        return (findViewById(R.id.layout_toolbar_tb)).getDrawingCacheBackgroundColor();
+    }
 }

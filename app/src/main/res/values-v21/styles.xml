@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<style name="AppTheme" parent="BaseAppTheme">-->
-        <!--&lt;!&ndash;<item name="android:windowTranslucentStatus">true</item>&ndash;&gt;-->
-    <!--</style>-->
 
-    <style name="TransStatusTheme" parent="AppTheme">
+    <style name="AppTheme" parent="BaseAppTheme">
         <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <!--android:windowTranslucentStatus="true" 时隐藏状态栏,Toolbar 向上Padding-->
+    <style name="TransStatusTheme" parent="AppTheme">
+        <item name="android:windowTranslucentStatus">false</item>
+        <!--虚拟键背景色-->
+        <item name="android:navigationBarColor">@color/colorMainTheme</item>
+        <item name="android:statusBarColor">@color/colorMainTheme</item>
     </style>
 
     <!--Material Design 控件使用的Style-->

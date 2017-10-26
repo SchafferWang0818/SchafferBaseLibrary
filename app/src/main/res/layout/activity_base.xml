@@ -3,16 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:fitsSystemWindows="true"
-    tools:context=".common.base.BaseActivity">
+    android:orientation="vertical">
 
     <include layout="@layout/layout_toolbar" />
 
     <FrameLayout
         android:id="@+id/layout_group_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </FrameLayout>
+        android:layout_height="match_parent" />
 </LinearLayout>

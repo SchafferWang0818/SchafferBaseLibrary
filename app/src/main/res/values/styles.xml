@@ -1,17 +1,27 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+        <!--主题色-->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <!--状态栏色-->
+        <item name="colorPrimaryDark">@color/colorMainTheme</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <!--ActionBar 标题颜色-->
+        <item name="android:textColorPrimary">@color/colorMainTextColor</item>
+        <!--虚拟键背景色-->
+        <!--<item name="android:navigationBarColor">@color/white</item>-->
+        <!--背景色-->
+        <item name="android:windowBackground">@color/colorMainBackgroundColor</item>
+        <!--字体颜色-->
+        <item name="android:textColor">@color/colorMainTextColor</item>
+        <!--跳转动画-->
         <item name="android:windowAnimationStyle">@style/activityAnim</item>
-        <item name="clock_background">@color/whiteSmoke</item>
-        <item name="clock_textColor">@color/black</item>
-        <item name="android:windowBackground">@color/whiteSmoke</item>
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowSoftInputMode">adjustPan</item>
-        <item name="android:fitsSystemWindows">true</item>
+        <!--不要写入android:fitsSystemWindows-->
+        <!--日/夜间模式专用-->
+        <item name="clock_background">@color/whiteSmoke</item>
+        <item name="clock_textColor">@color/black</item>
     </style>
 
 
@@ -19,9 +29,7 @@
 
 
     <!--状态栏颜色延伸主题,与Toolbar 的android:fitsSystemWindows 配合使用-->
-    <style name="TransStatusTheme" parent="AppTheme">
-        <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
-    </style>
+    <style name="TransStatusTheme" parent="AppTheme"></style>
 
     <!--Material Design 控件使用的基础Style-->
     <style name="Design" />
@@ -81,5 +89,28 @@
         <item name="android:background">@color/grey</item>
     </style>
 
+
+    <!--Style for definedView-->
+
+    <declare-styleable name="StyleForDefinedClockView" >
+        <attr name="sign" format="string" />
+        <attr name="signTextSize" format="dimension|reference" />
+        <attr name="dateTextSize" format="dimension|reference" />
+        <attr name="timeTextSize" format="dimension|reference" />
+        <attr name="hoursHandsLength" format="dimension|reference" />
+        <attr name="minutesHandsLength" format="dimension|reference" />
+        <attr name="secondsHandsLength" format="dimension|reference" />
+        <attr name="quartersHandsLength" format="dimension|reference" />
+        <attr name="dialPlateRadius" format="dimension|reference" />
+        <attr name="dialPlateStrokeSize" format="dimension|reference" />
+        <attr name="signTextColor" format="color|reference" />
+        <attr name="dateTextColor" format="color|reference" />
+        <attr name="timeTextColor" format="color|reference" />
+        <attr name="dialPlateColor" format="color|reference" />
+        <attr name="hoursHandsColor" format="color|reference" />
+        <attr name="minutesHandsColor" format="color|reference" />
+        <attr name="secondsHandsColor" format="color|reference" />
+        <attr name="quarterColor" format="color|reference" />
+    </declare-styleable>
 
 </resources>

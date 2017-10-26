@@ -12,8 +12,6 @@ import com.schaffer.base.common.block.BlockLooper;
 import com.schaffer.base.common.manager.ActivityController;
 import com.schaffer.base.common.manager.ActivityManager;
 import com.schaffer.base.common.utils.Utils;
-import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 
@@ -36,7 +34,7 @@ public /*abstract*/ class BaseApplication extends Application {
         @Override
         public void onActivityCreated(final Activity activity, Bundle savedInstanceState) {
             ActivityController.addActivity(activity);
-            BaseApplication.getRefWatcher(activity).watch(activity);
+//            BaseApplication.getRefWatcher(activity).watch(activity);
         }
 
         @Override
@@ -69,12 +67,12 @@ public /*abstract*/ class BaseApplication extends Application {
         }
     }
 
-    private RefWatcher install;
-
-    public static RefWatcher getRefWatcher(Context context) {
-        BaseApplication application = (BaseApplication) context.getApplicationContext();
-        return application.install;
-    }
+//    private RefWatcher install;
+//
+//    public static RefWatcher getRefWatcher(Context context) {
+//        BaseApplication application = (BaseApplication) context.getApplicationContext();
+//        return application.install;
+//    }
 
     @Override
     public void onCreate() {
@@ -91,7 +89,7 @@ public /*abstract*/ class BaseApplication extends Application {
         //bugly
         Bugly.init(this, "69353c4a55", BuildConfig.DEBUG);//69353c4a55
         //leaks
-        install = LeakCanary.install(this);
+//        install = LeakCanary.install(this);
         initRealm();
         initOkHttpUtils();
         initImagePicker();

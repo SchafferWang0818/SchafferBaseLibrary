@@ -4,11 +4,11 @@
     android:id="@+id/layout_toolbar_tb"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorMainTheme"
     android:fitsSystemWindows="true"
     app:contentInsetLeft="0dp"
     app:contentInsetStart="0dp">
-
+<!--沉浸式 android:layout_height="wrap_content"-->
     <ImageView
         android:id="@+id/layout_toolbar_iv_back"
         android:layout_width="wrap_content"

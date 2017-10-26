@@ -61,14 +61,15 @@
             android:name=".test.TestStatusActivity"
             android:label="TestStatusActivity1"
             android:theme="@style/TransStatusTheme">
-        </activity>
-
-        <activity android:name=".test.TestbuglyActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity android:name=".test.TestbuglyActivity">
+
         </activity>
 
         <!--    android     7.0     FileUriExposedException     -->
