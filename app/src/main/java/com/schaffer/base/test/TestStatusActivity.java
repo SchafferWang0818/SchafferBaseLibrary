@@ -13,11 +13,17 @@ import com.schaffer.base.common.base.BaseActivity;
 public class TestStatusActivity extends BaseActivity<TestStatusActivity, TestStatusPresenter> {
     @Override
     protected void inflateView() {
-//        inflateContent(R.layout.activity_test_fragment);
-        inflateContent(R.layout.test_clock);
-        setActivityTitle("我的时钟");
-        setLeftIconVisible(View.GONE,View.GONE);
+        setLeftIconVisible(View.GONE, View.GONE);
+
+//        testFor(R.layout.test_clock, "我的时钟");
+        testFor(R.layout.test_gcard_view, "图层效果");
     }
+
+    private void testFor(int test_gcard_view, String title) {
+        inflateContent(test_gcard_view);
+        setActivityTitle(title);
+    }
+
 
     @Override
     protected TestStatusPresenter initPresenter() {
