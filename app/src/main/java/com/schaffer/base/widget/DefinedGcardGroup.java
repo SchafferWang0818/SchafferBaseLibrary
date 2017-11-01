@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -18,6 +20,10 @@ public class DefinedGcardGroup extends FrameLayout {
 
 
     private View child;
+    public int state = 0;
+    public static final int STATE_UNDO = 0;
+    public static final int STATE_DOING = 1;
+    public static final int STATE_DONE = 2;
 
     public DefinedGcardGroup(@NonNull Context context) {
         this(context, null);
@@ -45,5 +51,43 @@ public class DefinedGcardGroup extends FrameLayout {
 
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        Log.w(getClass().getSimpleName(), "dispatchTouchEvent");
+        return super.dispatchTouchEvent(ev);
+    }
 
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        Log.w(getClass().getSimpleName(), "onInterceptTouchEvent");
+        return super.onInterceptTouchEvent(ev);
+    }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        Log.w(getClass().getSimpleName(), "onTouchEvent");
+
+
+        if (state == STATE_DOING) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+
+                    break;
+
+                case MotionEvent.ACTION_MOVE:
+
+
+                    break;
+                case MotionEvent.ACTION_UP:
+                    //todo 根据抹除的比例,判断是否清除上层遮罩
+
+                    break;
+            }
+
+
+        }
+        return super.onTouchEvent(event);
+    }
 }

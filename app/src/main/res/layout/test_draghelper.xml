@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.schaffer.base.widget.TestViewDragGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/drag_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="menu" />
+
+    <Button
+        android:id="@+id/drag_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="main" />
+</com.schaffer.base.widget.TestViewDragGroup>

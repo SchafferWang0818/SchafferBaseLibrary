@@ -49,20 +49,9 @@ android {
             buildConfigField "boolean", "LOG_DEBUG", "false"
             zipAlignEnabled true
             minifyEnabled true
-//            清除无用资源
+            //清除无用资源
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
-//            applicationVariants.all { variant ->
-//                variant.outputs.each { output ->
-//                    def outputFile = output.outputFile
-//                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
-//                        // 输出apk名称为schaffer_v1.0_2015-01-15_渠道名.apk
-//                        def fileName = "schaffer_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
-//                        output.outputFile = new File(outputFile.parent, fileName)
-//                    }
-//                }
-//            }
         }
         debug {
             buildConfigField "boolean", "LOG_DEBUG", "true"

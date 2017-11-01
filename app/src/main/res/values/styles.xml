@@ -90,9 +90,15 @@
     </style>
 
 
+    <style name="selectBackground">
+        <item name="android:clickable">true</item>
+        <item name="android:background">?selectableItemBackground</item>
+        <!--<item name="android:foreground">@drawable/click_ripper</item>-->
+    </style>
+
     <!--Style for definedView-->
 
-    <declare-styleable name="StyleForDefinedClockView" >
+    <declare-styleable name="StyleForDefinedClockView">
         <attr name="sign" format="string" />
         <attr name="signTextSize" format="dimension|reference" />
         <attr name="dateTextSize" format="dimension|reference" />

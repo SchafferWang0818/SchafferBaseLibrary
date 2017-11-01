@@ -42,16 +42,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by AndroidSchaffer on 2017/10/12.
+ * @author Schaffer
+ * @date 2017/10/12
  */
 
 public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePresenter<V>> extends AppCompatActivity implements BaseView {
 
 
-    //    static {
+//    static {
 //        //允许使用svg于background,必须依附于状态选择器等StateListDrawable,InsetDrawable,LayerDrawable,LevelListDrawable,RotateDrawable
 //        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 //    }
+
     protected boolean isFirstInit = true;
     protected BaseApplication application;
     protected CountDownTimer countDownTimer;
@@ -59,7 +61,8 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
     protected Handler handler;
     protected boolean mActivityBeShown = false;
     protected P mPresenter;
-    protected boolean eventbusEnable = false;//需要用户自己 onCreate()之前设定
+    /** 需要用户自己 onCreate()之前设定 */
+    protected boolean eventbusEnable = false;
     public static final int REQUEST_CODE_PERMISSIONS = 20;
     public static final int REQUEST_CODE_PERMISSION = 19;
     public static final String INTENT_DATA_IMG_PATHS = "img_paths";
@@ -164,7 +167,9 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
     }
 
 
-    /*-------------------------------------------------------基础生命周期函数如下-----------------------------------------------------------------------*/
+    /**
+     * -------------------------------------------------------基础生命周期函数如下-----------------------------------------------------------------------
+     */
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -474,7 +479,7 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
         }
         return bitmap;
     }
-    /*----------------------------------------------------------EditText Cursor 调整如下-----------------------------------------------------------------*/
+    /**----------------------------------------------------------EditText Cursor 调整如下-----------------------------------------------------------------*/
 
     /**
      * EditText 光标在最后
@@ -485,7 +490,7 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
         editText.setSelection(editText.getText().length());
     }
 
-    /*----------------------------------------------------------抽象函数如下--------------------------------------------------------------------------------*/
+    /**----------------------------------------------------------抽象函数如下--------------------------------------------------------------------------------*/
 
     /**
      * 提醒继承者填充FrameLayout,可以使用{@link BaseActivity#inflateContent(int)}系列函数
@@ -513,7 +518,9 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
     }
 
 
-    /*-------------------------------------------------------------标题处理----------------------------------------------------------------------------------------*/
+    /**
+     * -------------------------------------------------------------标题处理----------------------------------------------------------------------------------------
+     */
     public void setToolbar() {
         if (findViewById(R.id.layout_toolbar_tb) == null) return;
         if (this instanceof AppCompatActivity) {
@@ -563,7 +570,8 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
         findViewById(R.id.layout_toolbar_iv_back).setVisibility(visible == View.VISIBLE ? View.VISIBLE : View.GONE);
         findViewById(R.id.layout_toolbar_tv_left).setVisibility(visible == View.VISIBLE ? View.GONE : View.VISIBLE);
     }
-    protected void setLeftIconVisible(int ivVisible,int tvVisible) {
+
+    protected void setLeftIconVisible(int ivVisible, int tvVisible) {
         findViewById(R.id.layout_toolbar_iv_back).setVisibility(ivVisible);
         findViewById(R.id.layout_toolbar_tv_left).setVisibility(tvVisible);
     }
@@ -652,6 +660,7 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
     public void setToolbarBackground(int color) {
         (findViewById(R.id.layout_toolbar_tb)).setBackgroundColor(color);
     }
+
     public int getToolbarBackgroundColor() {
         return (findViewById(R.id.layout_toolbar_tb)).getDrawingCacheBackgroundColor();
     }

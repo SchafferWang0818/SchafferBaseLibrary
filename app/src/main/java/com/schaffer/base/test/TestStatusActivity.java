@@ -16,7 +16,9 @@ public class TestStatusActivity extends BaseActivity<TestStatusActivity, TestSta
         setLeftIconVisible(View.GONE, View.GONE);
 
 //        testFor(R.layout.test_clock, "我的时钟");
-        testFor(R.layout.test_gcard_view, "图层效果");
+//        testFor(R.layout.test_gcard_view, "图层效果");
+        testFor(R.layout.test_gcard_group, "图层效果");
+//        testFor(R.layout.test_draghelper,"拖拽效果");//failed
     }
 
     private void testFor(int test_gcard_view, String title) {
