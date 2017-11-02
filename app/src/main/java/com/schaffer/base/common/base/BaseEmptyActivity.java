@@ -6,34 +6,23 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.support.annotation.ColorInt;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.schaffer.base.R;
 import com.schaffer.base.common.utils.LTUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -46,7 +35,7 @@ import java.util.List;
  * @date 2017/10/12
  */
 
-public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePresenter<V>> extends AppCompatActivity implements BaseView {
+public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresenter<V>> extends AppCompatActivity implements BaseView {
 
 
 //    static {
@@ -71,7 +60,6 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
     public static final String INTENT_DATA_IMG_RES = "img_resIds";
     public static final String INTENT_DATA_IMG_CURRENT_INDEX = "img_current";
     protected ProgressDialog progress;
-    protected FrameLayout mFrameContent;
     protected Window window;
 
     @Override
@@ -128,9 +116,10 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
     }
 
     public void showSnackbar(String content, int duration) {
-        if (duration != Snackbar.LENGTH_SHORT && duration != Snackbar.LENGTH_LONG)
+        if (duration != Snackbar.LENGTH_SHORT && duration != Snackbar.LENGTH_LONG) {
             return;
-        Snackbar.make(mFrameContent.getRootView(), content, duration).show();
+        }
+        Snackbar.make(window.getDecorView().getRootView(), content, duration).show();
     }
 
     public ProgressDialog showProgress(String content, boolean touchOutside) {
@@ -150,25 +139,6 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
         }
     }
 
-    protected void inflateContent(@LayoutRes int resId) {
-        inflateContent(resId, null);
-    }
-
-    protected void inflateContent(View inflateView) {
-        inflateContent(inflateView, null);
-    }
-
-    protected void inflateContent(@LayoutRes int resId, FrameLayout.LayoutParams params) {
-        inflateContent(View.inflate(this, resId, null), params);
-    }
-
-    protected void inflateContent(View inflateView, FrameLayout.LayoutParams params) {
-        if (mFrameContent != null && inflateView != null) {
-            mFrameContent.addView(inflateView, params == null ? new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT) : params);
-        }
-    }
-
-
     /**
      * -------------------------------------------------------基础生命周期函数如下-----------------------------------------------------------------------
      */
@@ -176,15 +146,13 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base);
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//21
 //            getWindow().setEnterTransition(new Fade());
 //            getWindow().setExitTransition(new Fade());
 //        }//新转场动画
+        inflateView();
         window = getWindow();
         tag = getClass().getSimpleName();
-        mFrameContent = (FrameLayout) findViewById(R.id.layout_group_content);
-        inflateView();
         initEventBus();
         mPresenter = initPresenter();
         application = (BaseApplication) this.getApplication();
@@ -290,7 +258,7 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
                     .setMessage(TextUtils.isEmpty(description) ? "为了能正常实现功能，我们将向您申请权限。" : description).setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    ActivityCompat.requestPermissions(BaseAppCompatActivity.this, permissions, REQUEST_CODE_PERMISSIONS);
+                    ActivityCompat.requestPermissions(BaseEmptyActivity.this, permissions, REQUEST_CODE_PERMISSIONS);
 
                 }
             }).create().show();
@@ -303,7 +271,7 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
                         .setMessage(TextUtils.isEmpty(description) ? "为了能正常实现功能，我们将向您申请权限。" : description).setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ActivityCompat.requestPermissions(BaseAppCompatActivity.this, permissions, REQUEST_CODE_PERMISSION);
+                        ActivityCompat.requestPermissions(BaseEmptyActivity.this, permissions, REQUEST_CODE_PERMISSION);
                     }
                 }).create().show();
 
@@ -519,151 +487,4 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
     public void initView() {
     }
 
-
-    /**
-     * -------------------------------------------------------------标题处理----------------------------------------------------------------------------------------
-     */
-    public void setToolbar() {
-        if (findViewById(R.id.layout_toolbar_tb) == null) return;
-        if (this instanceof AppCompatActivity) {
-            Toolbar toolbar = (Toolbar) findViewById(R.id.layout_toolbar_tb);
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                android.widget.Toolbar toolbar = (android.widget.Toolbar) findViewById(R.id.layout_toolbar_tb);
-                setActionBar(toolbar);
-                getActionBar().setDisplayShowTitleEnabled(false);
-            }
-        }
-        if (getTitle() != null) {
-            setActivityTitle(getTitle());
-        }
-        setLeftClick(null);
-    }
-
-    protected void setActivityTitle(CharSequence charSequence) {
-        ((TextView) findViewById(R.id.layout_toolbar_tv_title)).setText(charSequence);
-    }
-
-    public void setToolbar(int visibility) {
-        setToolbar();
-        findViewById(R.id.layout_toolbar_tb).setVisibility(visibility);
-    }
-
-
-    protected void setLeftIcon(@DrawableRes int resId, View.OnClickListener listener) {
-        ((ImageView) findViewById(R.id.layout_toolbar_iv_back)).setImageResource(resId);
-        setLeftIconVisible(View.VISIBLE);
-        setLeftClick(listener);
-    }
-
-    protected void setLeftClick(View.OnClickListener listener) {
-        findViewById(R.id.layout_toolbar_iv_back).setOnClickListener(listener != null ? listener : new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-    }
-
-    protected void setLeftIconVisible(int visible) {
-        findViewById(R.id.layout_toolbar_iv_back).setVisibility(visible == View.VISIBLE ? View.VISIBLE : View.GONE);
-        findViewById(R.id.layout_toolbar_tv_left).setVisibility(visible == View.VISIBLE ? View.GONE : View.VISIBLE);
-    }
-
-    protected void setLeftIconVisible(int ivVisible, int tvVisible) {
-        findViewById(R.id.layout_toolbar_iv_back).setVisibility(ivVisible);
-        findViewById(R.id.layout_toolbar_tv_left).setVisibility(tvVisible);
-    }
-
-    protected void setLeftText(String content, View.OnClickListener onClickListener) {
-        setLeftIconVisible(View.GONE);
-        findViewById(R.id.layout_toolbar_tv_left).setOnClickListener(onClickListener);
-        ((TextView) findViewById(R.id.layout_toolbar_tv_left)).setText(content);
-    }
-
-    protected void setLeftText(int spValue, @ColorInt int color, String content, View.OnClickListener onClickListener) {
-        setLeftText(content, onClickListener);
-        setLeftTextColor(color);
-        setLeftTextSize(spValue);
-    }
-
-    protected void setLeftTextSize(int spValue) {
-        ((TextView) findViewById(R.id.layout_toolbar_tv_left)).setTextSize(TypedValue.COMPLEX_UNIT_SP, spValue);
-    }
-
-    protected void setLeftTextColor(@ColorInt int color) {
-        ((TextView) findViewById(R.id.layout_toolbar_tv_left)).setTextColor(color);
-    }
-
-
-    protected void setRightText(String content, View.OnClickListener onClickListener) {
-        setRightText(content, View.VISIBLE, onClickListener);
-    }
-
-    protected void setRightText(String content, int visibility, View.OnClickListener onClickListener) {
-        if (!TextUtils.isEmpty(content)) {
-            ((TextView) findViewById(R.id.layout_toolbar_tv_right)).setText(content);
-            findViewById(R.id.layout_toolbar_tv_right).setVisibility(visibility == View.VISIBLE ? View.VISIBLE : View.GONE);
-            findViewById(R.id.layout_toolbar_iv_right).setVisibility(visibility == View.VISIBLE ? View.GONE : View.VISIBLE);
-        }
-        if (onClickListener != null) {
-            findViewById(R.id.layout_toolbar_tv_right).setOnClickListener(onClickListener);
-        }
-    }
-
-    protected void setRightTextColor(@ColorInt int color) {
-        ((TextView) findViewById(R.id.layout_toolbar_tv_right)).setTextColor(color);
-    }
-
-    protected void setRightTextColor(String color) {
-        if (!color.startsWith("#") && !(color.length() != 4 || color.length() != 5 || color.length() != 7 || color.length() != 9))
-            return;
-        setRightTextColor(Color.parseColor(color));
-    }
-
-    protected void setRightTextSize(int spValue) {
-        ((TextView) findViewById(R.id.layout_toolbar_tv_right)).setTextSize(TypedValue.COMPLEX_UNIT_SP, spValue);
-    }
-
-
-    protected void setRightIcon(@DrawableRes int resId, View.OnClickListener onClickListener) {
-        setRightIcon(resId, View.VISIBLE, onClickListener);
-    }
-
-    protected void setRightIcon(@DrawableRes int resId, int visibility, View.OnClickListener onClickListener) {
-        if (resId != 0) {
-            if (onClickListener != null) {
-                findViewById(R.id.layout_toolbar_iv_right).setOnClickListener(onClickListener);
-            }
-            findViewById(R.id.layout_toolbar_tv_right).setVisibility(visibility == View.VISIBLE ? View.GONE : View.VISIBLE);
-            findViewById(R.id.layout_toolbar_iv_right).setVisibility(visibility == View.VISIBLE ? View.VISIBLE : View.GONE);
-            ((ImageView) findViewById(R.id.layout_toolbar_iv_right)).setImageResource(resId);
-        }
-    }
-
-    protected void setToolbar(int visible, String title, boolean leftBack, boolean rightAllDismiss, boolean rightTextShow, String right, @DrawableRes int rightResId, View.OnClickListener rightClick) {
-        setToolbar(visible);
-        if (visible == View.GONE) return;
-        setActivityTitle(title == null ? "" : title);
-        if (leftBack) {
-            setLeftClick(null);
-        }
-        if (rightAllDismiss) return;
-        if (rightTextShow) {
-            setRightText(right, rightClick);
-        } else {
-            setRightIcon(rightResId, rightClick);
-        }
-    }
-
-    public void setToolbarBackground(int color) {
-        (findViewById(R.id.layout_toolbar_tb)).setBackgroundColor(color);
-    }
-
-    public int getToolbarBackgroundColor() {
-        return (findViewById(R.id.layout_toolbar_tb)).getDrawingCacheBackgroundColor();
-    }
 }

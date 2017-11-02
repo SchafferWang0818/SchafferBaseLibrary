@@ -13,7 +13,7 @@
         <item name="android:statusBarColor">@color/colorMainTheme</item>
     </style>
 
-    <!--Material Design 控件使用的Style-->
+    <!--Material Design 控件使用的Style--><!--设置了以下Theme之后 Toolbar标题在收缩后显示正常而不是显示一半-->
     <style name="Design.AppBarLayoutFit" parent="Design">
         <item name="android:fitsSystemWindows">true</item>
     </style>

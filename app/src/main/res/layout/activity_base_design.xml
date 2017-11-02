@@ -6,59 +6,64 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <!--<android.support.design.widget.AppBarLayout-->
-        <!--android:id="@+id/appBarLayout"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:fitsSystemWindows="true">-->
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/Design.AppBarLayoutFit">
 
-        <!--<android.support.design.widget.CollapsingToolbarLayout-->
-            <!--android:id="@+id/collapsing_toolbar"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--app:contentScrim="?attr/colorPrimary"-->
-            <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-            <!--app:statusBarScrim = "?attr/colorPrimary"-->
-            <!--app:expandedTitleMarginEnd="70dp"-->
-            <!--app:expandedTitleMarginStart="50dp"-->
-            <!--app:layout_scrollFlags="scroll|exitUntilCollapsed">-->
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/Design.CollpasingToolbarLayoutFit"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginEnd="70dp"
+            app:expandedTitleMarginStart="50dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:statusBarScrim="?attr/colorPrimary"
+            app:titleEnabled="true">
 
-            <!--<ImageView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="300dp"-->
-                <!--android:fitsSystemWindows="true"-->
-                <!--android:scaleType="centerCrop"-->
-                <!--android:src="@mipmap/ic_launcher"-->
-                <!--app:layout_collapseMode="parallax" />-->
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_launcher"
+                android:theme="@style/Design.ImageViewFit"
+                app:layout_collapseMode="parallax" />
 
-            <!--<android.support.v7.widget.Toolbar-->
-                <!--android:id="@+id/toolbar"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="120px"-->
-                <!--app:layout_collapseMode="pin"-->
-                <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />-->
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/Design.ToolbarFit"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:title="标题" />
 
-        <!--</android.support.design.widget.CollapsingToolbarLayout>-->
+        </android.support.design.widget.CollapsingToolbarLayout>
 
-    <!--</android.support.design.widget.AppBarLayout>-->
+    </android.support.design.widget.AppBarLayout>
 
-    <!--<android.support.v4.widget.NestedScrollView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <!--<android.support.v7.widget.RecyclerView-->
-            <!--android:id="@+id/recyclerView"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent" />-->
-    <!--</android.support.v4.widget.NestedScrollView>-->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.NestedScrollView>
 
 
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_margin="20dp"-->
-        <!--android:clickable="true"-->
-        <!--app:layout_anchor="@id/appBarLayout"-->
-        <!--app:layout_anchorGravity="bottom|right|end" />-->
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:clickable="true"
+        app:layout_anchor="@id/appBarLayout"
+        app:layout_anchorGravity="bottom|right|end" />
 </android.support.design.widget.CoordinatorLayout>

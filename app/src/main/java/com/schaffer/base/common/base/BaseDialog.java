@@ -71,4 +71,8 @@ public class BaseDialog extends Dialog {
         getWindow().setWindowAnimations(styleId);
     }
 
+
+    protected void initView(View view) {
+
+    }
 }
