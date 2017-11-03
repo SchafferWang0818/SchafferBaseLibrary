@@ -297,6 +297,11 @@
     <init>(java.lang.Throwable);
 }
 
+# banner
+-keep class com.youth.banner.** {
+    *;
+ }
+
 #-------------------------realm-------------------------------------------
 
 

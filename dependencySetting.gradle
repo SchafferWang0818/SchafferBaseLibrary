@@ -26,13 +26,14 @@ ext {
             "picasso"             : "com.squareup.picasso:picasso:2.5.2",
             "okhttputils"         : "com.zhy:okhttputils:2.6.2",
 
-            //View 和Picker
+            //View ,Picker,banner
             "circleimageview"     : "de.hdodenhof:circleimageview:2.1.0",
             "xlhratingbar_lib"    : "com.xingliuhua:xlhratingbar_lib:1.0.1",
             "materialrefeshlayout": "com.cjj.materialrefeshlayout:library:1.3.0",
             "numberpicker"        : "com.shawnlin:number-picker:2.3.0",
             "pickerview"          : "com.bigkoo:pickerview:2.1.1",
             "wheelpicker"         : "cn.qqtheme.framework:WheelPicker:1.4.4",
+            "banner"              : "com.youth.banner:banner:1.4.10",
 
             //tool
             "gson"                : "com.google.code.gson:gson:2.6.2",

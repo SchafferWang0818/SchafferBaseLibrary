@@ -110,6 +110,7 @@ dependencies {
     compile rootProject.ext.dependencies["gson"]
     compile rootProject.ext.dependencies["glide"]
     compile rootProject.ext.dependencies["circleimageview"]
+    compile rootProject.ext.dependencies["banner"]
     compile rootProject.ext.dependencies["eventbus"]
     compile rootProject.ext.dependencies["xlhratingbar_lib"]
     compile rootProject.ext.dependencies["pickerview"]
