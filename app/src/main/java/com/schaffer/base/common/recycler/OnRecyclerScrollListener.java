@@ -25,6 +25,7 @@ public abstract class OnRecyclerScrollListener extends RecyclerView.OnScrollList
     private int recyclerState = STATE_NORMAL;
     private int recyclerOrientation = ORIENTATION_VERTICAL;
     private int recyclerManagerType = TYPE_LINEARMANAGER;
+    private boolean scrollOrientation;
 
     public void setRecyclerState(int recyclerState) {
         this.recyclerState = recyclerState;
@@ -82,6 +83,7 @@ public abstract class OnRecyclerScrollListener extends RecyclerView.OnScrollList
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
+        scrollOrientation = dy > 0;
     }
 
 
@@ -90,7 +92,7 @@ public abstract class OnRecyclerScrollListener extends RecyclerView.OnScrollList
         int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
         int visibleItemCount = layoutManager.getChildCount();
         int totalItemCount = layoutManager.getItemCount();
-        return visibleItemCount > 0 && lastVisibleItemPosition == totalItemCount - 1 && !recyclerView.canScrollVertically(1);
+        return scrollOrientation&&visibleItemCount > 0 && lastVisibleItemPosition == totalItemCount - 1 && !recyclerView.canScrollVertically(1);
     }
 
     public boolean isLinearRight(RecyclerView recyclerView) {
@@ -98,7 +100,7 @@ public abstract class OnRecyclerScrollListener extends RecyclerView.OnScrollList
         int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
         int visibleItemCount = layoutManager.getChildCount();
         int totalItemCount = layoutManager.getItemCount();
-        return visibleItemCount > 0 && lastVisibleItemPosition == totalItemCount - 1 && !recyclerView.canScrollHorizontally(1);
+        return scrollOrientation&&visibleItemCount > 0 && lastVisibleItemPosition == totalItemCount - 1 && !recyclerView.canScrollHorizontally(1);
     }
 
     public boolean isGridBottom(RecyclerView recyclerView) {
@@ -106,7 +108,7 @@ public abstract class OnRecyclerScrollListener extends RecyclerView.OnScrollList
         int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
         int visibleItemCount = layoutManager.getChildCount();
         int totalItemCount = layoutManager.getItemCount();
-        return visibleItemCount > 0 && lastVisibleItemPosition == totalItemCount - 1 && !recyclerView.canScrollVertically(1);
+        return scrollOrientation&&visibleItemCount > 0 && lastVisibleItemPosition == totalItemCount - 1 && !recyclerView.canScrollVertically(1);
     }
 
     public boolean isGridRight(RecyclerView recyclerView) {
@@ -114,14 +116,14 @@ public abstract class OnRecyclerScrollListener extends RecyclerView.OnScrollList
         int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
         int visibleItemCount = layoutManager.getChildCount();
         int totalItemCount = layoutManager.getItemCount();
-        return visibleItemCount > 0 && lastVisibleItemPosition == totalItemCount - 1 && !recyclerView.canScrollHorizontally(1);
+        return scrollOrientation&&visibleItemCount > 0 && lastVisibleItemPosition == totalItemCount - 1 && !recyclerView.canScrollHorizontally(1);
     }
 
     public boolean isStaggeredBottom(RecyclerView recyclerView) {
         StaggeredGridLayoutManager layoutManager = (StaggeredGridLayoutManager) recyclerView.getLayoutManager();
         int lastVisibleItemPosition = getMaxElem(layoutManager.findLastCompletelyVisibleItemPositions(new int[layoutManager.getSpanCount()]));
         int totalItemCount = layoutManager.getItemCount();
-        return lastVisibleItemPosition == (totalItemCount - 1) && !recyclerView.canScrollVertically(1);
+        return scrollOrientation&&lastVisibleItemPosition == (totalItemCount - 1) && !recyclerView.canScrollVertically(1);
     }
 
     private int getMaxElem(int[] arr) {
