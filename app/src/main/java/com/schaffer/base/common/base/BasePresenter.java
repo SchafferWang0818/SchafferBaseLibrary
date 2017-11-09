@@ -21,11 +21,16 @@ public class BasePresenter<V extends BaseView> {
     }
 
     public void attach(V view) {
+        if (compositeSubscription == null) {
+            compositeSubscription = new CompositeSubscription();
+        }
         this.mView = view;
     }
 
     public void detach() {
-        compositeSubscription.unsubscribe();
+        if (compositeSubscription != null) {
+            compositeSubscription.unsubscribe();
+        }
         compositeSubscription = null;
         mView = null;
     }

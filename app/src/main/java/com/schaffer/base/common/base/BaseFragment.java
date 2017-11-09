@@ -26,124 +26,151 @@ import com.schaffer.base.widget.ProgressDialogs;
 
 public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V>> extends Fragment implements BaseView {
 
-	private String tag;
-	protected Activity activity;
-	private View mRootView;
-	private ProgressDialogs mProgressDialogs;
-	private boolean mIsFirst = true;
+    private String tag;
+    protected Activity activity;
+    private View mRootView;
+    private ProgressDialogs mProgressDialogs;
+    private boolean mIsFirst = true;
+    protected P mPresenter;
 
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		tag = getClass().getSimpleName();
-		this.activity = activity;
-	}
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        tag = getClass().getSimpleName();
+        this.activity = activity;
+        mPresenter = initPresenter();
+    }
 
-	@Nullable
-	@Override
-	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-		if (mRootView != null) {
-			ViewGroup parent = (ViewGroup) mRootView.getParent();
-			if (parent != null) {
-				parent.removeView(mRootView);
-			}
-			return mRootView;
-		} else {
-			mProgressDialogs = new ProgressDialogs(activity);
-			mRootView = initView(inflater, container);
-		}
-		return mRootView;
-	}
+    protected abstract P initPresenter();
 
-	@Override
-	public void setUserVisibleHint(boolean isVisibleToUser) {
-		super.setUserVisibleHint(isVisibleToUser);
-		if (isVisibleToUser && mIsFirst) {
-			initData();
-			mIsFirst = false;
-			return;
-		}
-		if (isVisibleToUser) {
-			refreshData();
-		}
-	}
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        if (mRootView != null) {
+            ViewGroup parent = (ViewGroup) mRootView.getParent();
+            if (parent != null) {
+                parent.removeView(mRootView);
+            }
+            return mRootView;
+        } else {
+            mProgressDialogs = new ProgressDialogs(activity);
+            mRootView = initView(inflater, container);
+        }
+        return mRootView;
+    }
 
-	protected abstract View initView(LayoutInflater inflater, ViewGroup container);
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+//        if (isVisibleToUser && mIsFirst) {
+//            initData();
+//            mIsFirst = false;
+//            return;
+//        }
+//        if (isVisibleToUser) {
+//            refreshData();
+//        }
+    }
 
-	protected abstract void initData();
+    protected abstract View initView(LayoutInflater inflater, ViewGroup container);
 
-	protected abstract void refreshData();
+    protected abstract void initData();
 
-	@Override
-	public void showLog(String msg) {
-		LTUtils.w(tag, msg);
-	}
+    protected abstract void refreshData();
 
-	@Override
-	public void showLog(int resId) {
-		showLog(getString(resId));
-	}
+    @Override
+    public void onResume() {
+        if (mPresenter != null) {
+            mPresenter.attach((V) this);
+        }
+        if (mIsFirst) {
+            mIsFirst = false;
+            initData();
+        } else {
+            refreshData();
+        }
+        super.onResume();
+    }
 
-	@Override
-	public void showToast(String msg) {
-		showLog(msg);
-		LTUtils.showToastShort(activity, msg);
-	}
+    @Override
+    public void onDestroyView() {
+        if (mPresenter != null) {
+            mPresenter.detach();
+        }
+        super.onDestroyView();
+    }
 
-	@Override
-	public void showToast(int resId) {
-		showToast(getString(resId));
-	}
+    @Override
+    public void showLog(String msg) {
+        LTUtils.w(tag, msg);
+    }
 
-	@Override
-	public void showLoading(String text) {
-		if (mProgressDialogs != null) {
-			mProgressDialogs.showDialog(text);
-		}
-	}
+    @Override
+    public void showLog(int resId) {
+        showLog(getString(resId));
+    }
 
-	@Override
-	public void showLoading() {
-		showLoading("");
-	}
+    @Override
+    public void showToast(String msg) {
+        showLog(msg);
+        LTUtils.showToastShort(activity, msg);
+    }
 
-	@Override
-	public void dismissLoading() {
-		if (mProgressDialogs != null) {
-			mProgressDialogs.closeDialog();
-		}
-	}
+    @Override
+    public void showToast(int resId) {
+        showToast(getString(resId));
+    }
 
-	@Override
-	public void onSucceed() {
-		dismissLoading();
-	}
+    @Override
+    public void showLoading(String text) {
+        if (mProgressDialogs != null) {
+            mProgressDialogs.showDialog(text);
+        }
+    }
 
-	@Override
-	public void onFailed() {
-		dismissLoading();
+    @Override
+    public void showLoading() {
+        showLoading("");
+    }
 
-	}
+    @Override
+    public void dismissLoading() {
+        if (mProgressDialogs != null) {
+            mProgressDialogs.closeDialog();
+        }
+    }
 
-	@Override
-	public void onFailed(Throwable throwable) {
-		dismissLoading();
-		showLog(throwable.getMessage() + throwable.getCause());
-	}
-	public void callPhone(final String telephone) {
-		if (TextUtils.isEmpty(telephone)) return;
-		StringBuffer sb = new StringBuffer().append(getString(R.string.call));
-		new AlertDialog.Builder(activity).setMessage(sb.toString())
-				.setPositiveButton(getString(R.string.ensure), new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-						Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + telephone));
-						if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-							return;
-						}
-						startActivity(intent);
-					}
-				}).setNegativeButton(getString(R.string.cancel), null).create().show();
-	}
+    @Override
+    public void onSucceed() {
+        dismissLoading();
+    }
+
+    @Override
+    public void onFailed() {
+        dismissLoading();
+
+    }
+
+    @Override
+    public void onFailed(Throwable throwable) {
+        dismissLoading();
+        showLog(throwable.getMessage() + throwable.getCause());
+    }
+
+    public void callPhone(final String telephone) {
+        if (TextUtils.isEmpty(telephone)) return;
+        StringBuffer sb = new StringBuffer().append(getString(R.string.call));
+        new AlertDialog.Builder(activity).setMessage(sb.toString())
+                .setPositiveButton(getString(R.string.ensure), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + telephone));
+                        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                            return;
+                        }
+                        startActivity(intent);
+                    }
+                }).setNegativeButton(getString(R.string.cancel), null).create().show();
+    }
 }
