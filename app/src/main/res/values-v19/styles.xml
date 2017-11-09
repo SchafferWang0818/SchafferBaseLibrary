@@ -2,11 +2,11 @@
 <resources>
 
     <style name="AppTheme" parent="BaseAppTheme">
-        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentStatus"><!--true-->false</item>
     </style>
 
     <style name="TransStatusTheme" parent="AppTheme">
-        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentStatus"><!--true-->false</item>
     </style>
 
 
