@@ -119,6 +119,7 @@ public class DefinedClockView extends View {
         minutesHandsColor = ta.getColor(R.styleable.StyleForDefinedClockView_minutesHandsColor, Color.BLACK);
         secondsHandsColor = ta.getColor(R.styleable.StyleForDefinedClockView_secondsHandsColor, Color.BLACK);
         quarterColor = ta.getColor(R.styleable.StyleForDefinedClockView_quarterColor, Color.BLACK);
+        ta.recycle();
     }
 
     /**

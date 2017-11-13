@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
 import com.schaffer.base.R;
-import com.schaffer.base.common.base.BasePageAdapter;
+import com.schaffer.base.common.base.BasePagerSingleViewAdapter;
 import com.schaffer.base.common.transformer.ViewPagerTransformer;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class TestActivity extends AppCompatActivity {
                 view.setImageResource(R.mipmap.ic_launcher);
                 views.add(view);
             }
-            pager.setAdapter(new BasePageAdapter(this,null,views));
+            pager.setAdapter(new BasePagerSingleViewAdapter(this,null,views));
             pager.setPageTransformer(false,new ViewPagerTransformer());
         }
     }

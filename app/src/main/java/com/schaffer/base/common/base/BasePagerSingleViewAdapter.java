@@ -12,13 +12,13 @@ import java.util.List;
  * Created by a7352 on 2017/7/3.
  */
 
-public class BasePageAdapter extends PagerAdapter {
+public class BasePagerSingleViewAdapter extends PagerAdapter {
 
     protected final Context context;
     protected final List<String> titles;
     protected final List<? extends View> views;
 
-    public BasePageAdapter(Context context, List<String> titles, List<? extends View> views) {
+    public BasePagerSingleViewAdapter(Context context, List<String> titles, List<? extends View> views) {
         this.context = context;
         this.titles = titles;
         this.views = views;

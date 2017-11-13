@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.schaffer.base.common.adapter.ImgsPathShowAdapter;
-import com.schaffer.base.common.adapter.ImgsResShowAdapter;
+import com.schaffer.base.common.adapter.ImgsPathShowSingleViewAdapter;
+import com.schaffer.base.common.adapter.ImgsResShowSingleViewAdapter;
 import com.schaffer.base.common.base.BaseActivity;
 import com.schaffer.base.common.transformer.GlideCircleTransformer;
 import com.schaffer.base.common.utils.ImageUtils;
@@ -35,8 +35,8 @@ public class ImgsShowActivity extends BaseActivity<ImgsShowActivity, ImgsShowPre
     private int startIndex;
     private boolean localResouce = false;
     private int length;
-    private ImgsPathShowAdapter pathAdapter;
-    private ImgsResShowAdapter resAdapter;
+    private ImgsPathShowSingleViewAdapter pathAdapter;
+    private ImgsResShowSingleViewAdapter resAdapter;
 
     @Override
     protected void inflateView() {
@@ -105,7 +105,7 @@ public class ImgsShowActivity extends BaseActivity<ImgsShowActivity, ImgsShowPre
                     }
                 });
                 pages.add(view);
-                pathAdapter = new ImgsPathShowAdapter(this, null, pages);
+                pathAdapter = new ImgsPathShowSingleViewAdapter(this, null, pages);
                 pager.setAdapter(pathAdapter);
             }
         } else {
@@ -123,7 +123,7 @@ public class ImgsShowActivity extends BaseActivity<ImgsShowActivity, ImgsShowPre
                         }
                     });
                     pages.add(view);
-                    resAdapter = new ImgsResShowAdapter(this, null, pages, img_res);
+                    resAdapter = new ImgsResShowSingleViewAdapter(this, null, pages, img_res);
                     pager.setAdapter(resAdapter);
                 }
             }
