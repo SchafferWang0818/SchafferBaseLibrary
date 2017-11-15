@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,8 +22,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.schaffer.base.R;
 import com.schaffer.base.common.utils.LTUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -119,7 +122,14 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
         if (duration != Snackbar.LENGTH_SHORT && duration != Snackbar.LENGTH_LONG) {
             return;
         }
-        Snackbar.make(window.getDecorView().getRootView(), content, duration).show();
+        Snackbar make = Snackbar.make(window.getDecorView().getRootView(), content, duration);
+        make.getView().setBackgroundColor(Color.parseColor("#ff6d64"));
+        ((TextView) make.getView().findViewById(R.id.snackbar_text)).setTextColor(Color.WHITE);
+        make.show();
+    }
+
+    public void showSnackbar(String content) {
+        showSnackbar(content, Snackbar.LENGTH_SHORT);
     }
 
     public ProgressDialog showProgress(String content, boolean touchOutside) {

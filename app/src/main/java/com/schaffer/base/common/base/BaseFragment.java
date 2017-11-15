@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.TextView;
 
 import com.schaffer.base.R;
 import com.schaffer.base.common.utils.LTUtils;
@@ -324,7 +326,14 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V
         if (duration != Snackbar.LENGTH_SHORT && duration != Snackbar.LENGTH_LONG) {
             return;
         }
-        Snackbar.make(activity.getWindow().getDecorView().getRootView(), content, duration).show();
+        Snackbar make = Snackbar.make(mRootView.getRootView(), content, duration);
+        make.getView().setBackgroundColor(Color.parseColor("#ff6d64"));
+        ((TextView) make.getView().findViewById(R.id.snackbar_text)).setTextColor(Color.WHITE);
+        make.show();
+    }
+
+    public void showSnackbar(String content) {
+        showSnackbar(content, Snackbar.LENGTH_SHORT);
     }
 
     public ProgressDialog showProgress(String content, boolean touchOutside) {

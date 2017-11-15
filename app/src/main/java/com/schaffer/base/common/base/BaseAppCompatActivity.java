@@ -130,9 +130,15 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
     public void showSnackbar(String content, int duration) {
         if (duration != Snackbar.LENGTH_SHORT && duration != Snackbar.LENGTH_LONG)
             return;
-        Snackbar.make(mFrameContent.getRootView(), content, duration).show();
+        Snackbar make = Snackbar.make(mFrameContent.getRootView(), content, duration);
+        make.getView().setBackgroundColor(Color.parseColor("#ff6d64"));
+        ((TextView) make.getView().findViewById(R.id.snackbar_text)).setTextColor(Color.WHITE);
+        make.show();
     }
 
+    public void showSnackbar(String content) {
+        showSnackbar(content, Snackbar.LENGTH_SHORT);
+    }
     public ProgressDialog showProgress(String content, boolean touchOutside) {
         ProgressDialog loadingDialog = new ProgressDialog(this);    // 创建自定义样式dialog
         loadingDialog.setCancelable(false);
