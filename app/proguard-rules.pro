@@ -326,6 +326,18 @@
 -keep class com.google.gson.** {*;}
 -keep class com.google.protobuf.** {*;}
 
+#友盟统计
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}
+# todo 修改包名
+-keep public class [包名].R$*{
+   public static final int *;
+}
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
 
 
 # 友盟分享
