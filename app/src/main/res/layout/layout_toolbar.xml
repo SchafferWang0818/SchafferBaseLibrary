@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     app:contentInsetLeft="0dp"
     app:contentInsetStart="0dp">
-<!--沉浸式 android:layout_height="wrap_content"-->
+    <!--沉浸式 android:layout_height="wrap_content"-->
     <ImageView
         android:id="@+id/layout_toolbar_iv_back"
         android:layout_width="wrap_content"
@@ -34,6 +34,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:ellipsize="marquee"
+        android:focusable="false"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:maxWidth="@dimen/dimen_150dp"
+        android:singleLine="true"
         android:text="Toolbar"
         android:textColor="@color/white"
         android:textSize="@dimen/textSize_18sp"

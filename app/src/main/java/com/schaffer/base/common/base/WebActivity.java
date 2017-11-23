@@ -9,6 +9,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 
 import com.schaffer.base.R;
 import com.schaffer.base.common.constants.Constants;
@@ -74,7 +75,6 @@ public class WebActivity extends BaseActivity<WebActivity, WebPresenter> {
             @Override
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
-                if (title.length() == 0 || title.length() > 8) return;
                 setActivityTitle(title);
             }
         });
@@ -86,6 +86,11 @@ public class WebActivity extends BaseActivity<WebActivity, WebPresenter> {
         }
         if (!TextUtils.isEmpty(url)) {
             webView.loadUrl(url);
+        }
+        TextView mTvTitle = (TextView) findViewById(R.id.layout_toolbar_tv_title);
+        if (mTvTitle != null) {
+            mTvTitle.setFocusable(true);
+            mTvTitle.setFocusableInTouchMode(true);
         }
     }
 
