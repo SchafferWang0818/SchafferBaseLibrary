@@ -84,7 +84,11 @@ public class WebActivity extends BaseActivity<WebActivity, WebPresenter> {
         if (title != null) {
             setActivityTitle(title);
         }
+
         if (!TextUtils.isEmpty(url)) {
+            if (!(url.trim().startsWith("http://") || url.startsWith("https://")/*||url.startsWith("Http://")||url.startsWith("Https://")*/)) {
+                url = "http://" + url;
+            }
             webView.loadUrl(url);
         }
         TextView mTvTitle = (TextView) findViewById(R.id.layout_toolbar_tv_title);

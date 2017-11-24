@@ -1,4 +1,14 @@
 # Window,WindowManager,WMS
+<font color="blue">
+**`Window`的增加 , 删除 , 更新过程整体总结:**
+
+		`WindowManager # addView()/removeView()/updateViewLayout()`
+		→`WindowManagerImpl`
+		→`WindowManagerGlobal`
+		→`ViewRootImpl`添加/删除/更新 `view`,参数
+		→<font color="red">**`ViewRootImpl#scheduleTraversals()`更新UI(`measure`,`layout`,`draw`)**</font>
+		→<font color="red">**`WindowSession`(`Binder`对象)**</font>
+		→`Session`→<font color="red">**`WindowManagerService`** </font></font>
 
 
 	目录:
@@ -13,6 +23,8 @@
 			- activity
 			- dialog
 			- Toast
+
+	
 
 ---
 ### WindowManagerService
@@ -44,17 +56,19 @@ window可以分为应用层级Window，子层级Window，系统层级Window。
 ### WindowManagerImpl`(implements WindowManager(extends ViewManager))`
 
 - 内部机制之交互:
-1. WindowManagerImpl通过创建WindowManagerGlobal对象,并将view,viewRootImpl,LayoutParams添加到集合中,将正在被删除的view添加到mDyingViews集合中;
-
+1. <font color="red">**①WMI工厂模式提供实例 , 桥接模式WMI委托给WMG;②创建ViewRootImpl并添加View**</font>
+	
+	WindowManagerImpl通过创建WindowManagerGlobal对象,并将view,viewRootImpl,LayoutParams添加到集合中,将正在被删除的view添加到mDyingViews集合中;
 			private final ArrayList<View> mViews = new ArrayList<View>();
 		    private final ArrayList<ViewRootImpl> mRoots = new ArrayList<ViewRootImpl>();
 		    private final ArrayList<WindowManager.LayoutParams> mParams =
 		            new ArrayList<WindowManager.LayoutParams>();
 		    private final ArraySet<View> mDyingViews = new ArraySet<View>();
 
-
-2. `ViewRootImpl#requestLayout()`调用`scheduleTraversals()`刷新UI;
-3. 在 WindowManagerService 内部会为每一个应用保留一个单独的 Session，最终都会通过一个 IPC 过程将操作移交给 WindowManagerService 这个位于 Framework 层的窗口管理服务来处理。
+2. <font color="red">**`ViewRootImpl#requestLayout()`调用`scheduleTraversals()`刷新UI ; **</font>
+ 
+3. <font color="red">**IPC操作:WindowSession(Binder对象)通过WMS实现添加**</font>
+	在 WindowManagerService 内部会为每一个应用保留一个单独的 Session，最终都会通过一个 IPC 过程将操作移交给 WindowManagerService 这个位于 Framework 层的窗口管理服务来处理。
 
 	![IPC流程](http://img.blog.csdn.net/20170402131427522?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveWhhb2xweg==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
@@ -62,29 +76,28 @@ window可以分为应用层级Window，子层级Window，系统层级Window。
 
 	- Window的添加流程:
 
-
-			- 检查参数是否合法,还需要调整子Window布局参数;
-			- 创建ViewRootImpl并将View添加到集合列表中;
-				- 集合有以下几种:所有window对应的View集合,所有window对应的RootImpl集合,所有window对应的布局参数集合,所有正在删除view的window对象.一次性添加前三个集合中内容.
-			- 使用ViewRootImpl的setView()来更新界面并完成Window添加.底部通过requestLayout()完成异步刷新请求. → 通过WindowSession完成Window的添加,它的类型是IWindowSession,是一个Binder对象,实现类是Session,是一次IPC调用.内部通过WindowManagerService实现Window添加.  → WindowManagerService为每一个应用保留一个单独的Session
-
+		- 检查参数是否合法,还需要调整子Window布局参数;
+		- 创建ViewRootImpl并将View添加到集合列表中;
+			- 集合有以下几种:所有window对应的View集合,所有window对应的RootImpl集合,所有window对应的布局参数集合,所有正在删除view的window对象.一次性添加前三个集合中内容.
+		- 使用ViewRootImpl的setView()来更新界面并完成Window添加.底部通过requestLayout()完成异步刷新请求. → 通过WindowSession完成Window的添加,它的类型是IWindowSession,是一个Binder对象,实现类是Session,是一次IPC调用.内部通过WindowManagerService实现Window添加.  → WindowManagerService为每一个应用保留一个单独的Session
 
 	- Window的移除流程:
 
-			- findViewLocked查找待删除的View的索引,遍历数组,
-			- 调用removeViewLocked进行删除.
-				- removeView:异步删除,由ViewRootImpl的die()发送请求删除消息,view添加到待删除的View列表中.Handler处理消息并调用doDie(),doDie()内部调用了dispatchDetachFromWindow();dispatchDetachFromWindow()内部完成一下事件:
+		- findViewLocked查找待删除的View的索引,遍历数组,
+		- 调用removeViewLocked进行删除.
+			- removeView:异步删除,由ViewRootImpl的die()发送请求删除消息,view添加到待删除的View列表中.Handler处理消息并调用doDie(),doDie()内部调用了dispatchDetachFromWindow();dispatchDetachFromWindow()内部完成一下事件:
 	
-					- 清除数据消息和回调;
-					- Session通过remove()删除Window  → IPC过程,调用WIndowManagerService的removeWindow().
-					- 调用View的dispatchDetachFromWindow()来资源回收,终止动画停止线程.
-					- WindowManagerGlobal的doRemoveView()刷新数据,清除三个集合中的关联信息.
+				- 清除数据消息和回调;
+				- Session通过remove()删除Window  → IPC过程,调用WIndowManagerService的removeWindow().
+				- 调用View的dispatchDetachFromWindow()来资源回收,终止动画停止线程.
+				- WindowManagerGlobal的doRemoveView()刷新数据,清除三个集合中的关联信息.
 				- removeViewImmediate:同步删除,容易发生意外错误.不发送消息直接删除.
+
 	- Window的更新流程:
 
-			- 更新View的LayoutParams
-			- 更新ViewRootImpl的LayoutParams(使用setLayoutParams()),通过scheduleTraversals()对View重新测量布局重绘
-			- ViewRootImpl通过WindowSession更新Window视图 → IPC过程,WindowManagerService的relayoutWindow()具体实现.
+		- 更新View的LayoutParams
+		- 更新ViewRootImpl的LayoutParams(使用setLayoutParams()),通过scheduleTraversals()对View重新测量布局重绘
+		- ViewRootImpl通过WindowSession更新Window视图 → IPC过程,WindowManagerService的relayoutWindow()具体实现.
 
 
 
@@ -118,28 +131,30 @@ window可以分为应用层级Window，子层级Window，系统层级Window。
 #### Activity ####
 Activity的启动方式:
 
-	- 最终ActivityThread中的performLaunchActivity()完成启动.函数内部通过类加载器创建Activity对象;
-	- 调用attach()关联运行过程中所依赖的上下文环境变量,创建Activity所属的Window对象,并设置Window的回调接口.
+- **创建Activity: **`ActivityThread#performLaunchActivity()`完成启动,通过类加载器创建Activity对象;
+- **`Activity#attach()`→ 关联运行过程中所依赖的上下文环境变量, PolicyManager创建Window(PhoneWindow),使Activity关联Window,实现回调接口: **
 
-		- 创建Window对象是通过PolicyManager#makeNewWindow()工厂方法实现的.
-		- Window回调接口的函数包括onAttachToWindow(),onDetachFromWindow(),dispatchTouchEvent()等
-	- Activity#setContentView()调用了PhoneWindow#setContentView();
+	- 创建Window对象是通过PolicyManager#makeNewWindow()工厂方法实现的.
+	- Window回调接口的函数包括`onAttachToWindow(),onDetachFromWindow(),dispatchTouchEvent()`等
 
-		- 创建DecorView
-		- PhoneWindow#generateLayout()加载layoutInflater映射出来的布局文件View到DecorView的ContentParent.
-		- 调用Activity#onContentChanged()通知Activity视图改变.
-	- ActivityThread#handleResumeActivity()调用Activity#onResume(),进而调用makeVisible(),完成DecorView的添加和显示.
+- **`Activity#setContentView()` → `PhoneWindow#setContentView()`**
+
+	- 创建DecorView
+	- `PhoneWindow#generateLayout()`加载`layoutInflater`映射出来的布局View到DecorView的`ContentParent(com.android.internal.R.id.content)`.
+	- 回调`Activity#onContentChanged()`通知Activity视图改变.
+
+- `ActivityThread#handleResumeActivity()`调用`Activity#onResume()`,进而调用`makeVisible()`,**将`DecorView`添加至`WindowManager`,设置显示`DecorView`**
 
 
 
 
 #### Dialog ####
 
-	1. PolicyManager#nakeNewWindow()完成PhoneWindow的创建
-	2. 初始化DecorView将Dialog的视图添加到DecorView中,
-	3. DecorView添加到Window中并显示
+	1. PolicyManager#makeNewWindow() 完成 PhoneWindow 的创建
+	2. 初始化 DecorView 将 Dialog 的视图添加到 DecorView 中
+	3. DecorView 添加到 Window 中并显示
 
-注:Dialog必须使用Activity的context,主要是因为没有应用token导致.若要显示系统的Window就可以不需要token,需要设置WindowManager.LayoutParams.type的值为`TYPE_SYSTEM_ERROR`,声明权限`SYSTEM_ALERT_WINDOW`即可.
+注: `Dialog` 必须使用 `Activity` 的 `context` (<font color="red">**`Activity` 的 `context`存在 token,而其他Context没有**</font>).若要显示系统的Window就可以不需要token,需要设置`WindowManager.LayoutParams.type`的值为`TYPE_SYSTEM_ERROR`,声明权限`SYSTEM_ALERT_WINDOW`即可.
 
 #### Toast ####
 
@@ -148,16 +163,21 @@ Activity的启动方式:
 
 	* NotificationManagerService
 	* NotificationManagerService回调TN接口
+
 * Toast有两种视图指定方式
 
 	* 系统默认
 	* setView()指定
 
 * IPC过程
+
 	* NotificationManagerService处理显示隐藏时需跨进程回调TN接口中的函数,TN运行在Binder线程池中,需要使用Handler切换到当前线程
-	* 显示过程中NMS的enqueueToast()被调用,传入包名,TN接口对象,Toast时长,封装ToastRecord请求添加到请求队列ArrayList中,对于非系统应用来说,ToastQueue同时只能存在50个,以防止Denial of Service(多次连续弹出Toast,其他应用无机会弹出,系统将拒绝其他应用的Toast服务叫做拒绝服务.).
-	* NMS通过showNextToastLacked()显示Toast,由ToastRecord的回调完成,就是TN接口的Binder,需要跨进程完成,TN的函数会运行在发起Toast请求的应用Binder线程池中.
-	* NMS#scheduleTimeoutLocked()发送延时消息,具体的延时取决于Toast的duration.TN接口的Binder完成.
+
+	* 显示过程中`NMS#enqueueToast()`被调用,传入包名,TN接口对象,Toast时长,封装ToastRecord请求添加到请求队列ArrayList中,对于非系统应用来说,ToastQueue同时只能存在50个,以防止Denial of Service(多次连续弹出Toast,其他应用无机会弹出,系统将拒绝其他应用的Toast服务叫做拒绝服务.).
+
+	* `NMS#showNextToastLocked()`显示Toast,由ToastRecord的回调完成,就是TN接口的Binder,需要跨进程完成,TN的函数会运行在发起Toast请求的应用Binder线程池中.
+
+	* `NMS#scheduleTimeoutLocked()`发送延时消息,具体的延时取决于Toast的duration.TN接口的Binder完成.
 
 注:Toast的显示隐藏都是NotificationManagerService以跨进程的方式调用的,运行在Binder线程池中,使用Handler将执行环境切换到Toast请求所在的线程中,
 
@@ -165,7 +185,7 @@ Activity的启动方式:
 
 
 ---
-### `LayoutParams#flags/type`备注 ###
+### `LayoutParams # flags/type`备注 ###
 
 #### flags ####
 
@@ -178,17 +198,17 @@ flags|flags含义
 `FLAG_SCALED`|surface**屏幕缩放**
 `FLAG_SECURE`|**不允许截屏**
 `FLAG_SHOW_WALLPAPER`|**显示系统墙纸为背景**
-`FLAG_SHOW_WHEN_LOCKED`|**锁屏显示该window**
+<font color="red">**`FLAG_SHOW_WHEN_LOCKED`**</font>|**锁屏显示该window**
 `FLAG_DISMISS_KEYGUARD`| 隐藏键盘,除非是安全锁定的键盘.
 `FLAG_FORCE_NOT_FULLSCREEN`|**非全屏显示( 默认 )**
 `FLAG_FULLSCREEN`|**全屏显示**
 `FLAG_LAYOUT_IN_SCREEN`|**占满屏幕，不留边界（border）**
 `FLAG_LAYOUT_INSET_DECOR`|配合`FLAG_LAYOUT_IN_SCREEN`使用
 `FLAG_LAYOUT_NO_LIMITS`|window可能超出屏幕之外，这时部分内容在屏幕之外。
-`FLAG_NOT_FOCUSABLE`|window不能获得焦点,按键事件及按钮事件
+<font color="red">**`FLAG_NOT_FOCUSABLE`**</font>|window不能获得焦点,按键事件及按钮事件
 `FLAG_ALT_FOCUSABLE_IM`|与`FLAG_NOT_FOCUSABLE`配合,与输入法互动有关
 `FLAG_NOT_TOUCHABLE`|window不接受触摸屏事件
-`FLAG_NOT_TOUCH_MODAL`|**`FLAG_NOT_FOCUSABLE`不设置情况下,window获得焦点，穿透event给其他window.**
+<font color="red">**`FLAG_NOT_TOUCH_MODAL`**</font>|**`FLAG_NOT_FOCUSABLE`不设置情况下,window获得焦点，穿透event给其他window.**
 `FLAG_WATCH_OUTSIDE_TOUCH`|**`FLAG_NOT_TOUNCH_MODAL`发送事件之后仍以`MotionEvent.ACTION_OUTSIDE`形式收到该触摸屏事件**
 `FLAG_SPLIT_TOUCH`|当该window在可以接受触摸屏情况下，发送到后面的window的触摸屏可以支持split touch.
 `FLAG_TOUCHABLE_WHEN_WAKING`| **手机睡眠时屏幕被按下，该window第一个收到事件**
@@ -217,11 +237,11 @@ type|type 含义
 `TYPE_SYSTEM_ALERT`	|系统层级，系统提示window,比如电池低的警告。它总是出现在应用程序窗口之上。
 `TYPE_KEYGUARD`	|系统层级，锁屏窗口
 `TYPE_TOAST`	|系统层级，toast类型的window
-`TYPE_SYSTEM_OVERLAY`	|系统层级，系统顶层窗口。显示在其他一切内容之上。此窗口不能获得输入焦点，否则影响锁屏。
+<font color="red">`TYPE_SYSTEM_OVERLAY`</font>	|<font color="red">系统层级，系统顶层窗口。显示在其他一切内容之上。此窗口不能获得输入焦点，否则影响锁屏。</font>
 `TYPE_PRIORITY_PHONE`	|系统层级，电话优先，当锁屏时显示。此窗口不能获得输入焦点，否则影响锁屏。
 `TYPE_SYSTEM_DIALOG`	|系统层级，系统对话框。（例如音量调节框）
 `TYPE_KEYGUARD_DIALOG`	|系统层级，锁屏时显示的对话框
-`TYPE_SYSTEM_ERROR`	|系统层级，系统内部错误提示，显示于所有内容之上
+<font color="red">**`TYPE_SYSTEM_ERROR`**</font>	|系统层级，系统内部错误提示，显示于所有内容之上，<font color="red">**需要权限`SYSTEM_ALERT_WINDOW`**</font>
 `TYPE_INPUT_METHOD`	|系统层级，内部输入法窗口，显示于普通UI之上。应用程序可重新布局以免被此窗口覆盖
 `TYPE_INPUT_METHOD_DIALOG`	|系统层级，内部输入法对话框，显示于当前输入法窗口之上
 `TYPE_WALLPAPER`	|系统层级，用于墙纸的window

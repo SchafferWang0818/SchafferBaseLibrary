@@ -1,11 +1,6 @@
 # BroadcastReceiver
-
-
-
-
-
-
-
+---
+<font color="red"> **`BroadcastReceiver` 没有停止的概念** </font>
 
 
 ### BroadcastReceiver安全问题 ###
