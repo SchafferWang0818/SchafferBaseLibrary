@@ -34,6 +34,11 @@ public class TestCoordinateFragment extends BaseFragment<TestCoordinateFragment,
     String title;
 
     @Override
+    protected TestCoordinatePresenter1 initPresenter() {
+        return new TestCoordinatePresenter1();
+    }
+
+    @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
         return testCoordinateFragment(inflater, container);
 //        return inflater.inflate(R.layout.test_coordinate_fragment_normal, container,false);

@@ -28,6 +28,7 @@ public /*abstract*/ class BaseApplication extends Application {
 
     private static BaseApplication app;
     private ActivityManager mActivityManager;
+
     protected static class DefinedActivityLifeCycleCallback implements ActivityLifecycleCallbacks {
 
 

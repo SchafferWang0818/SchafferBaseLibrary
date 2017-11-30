@@ -22,6 +22,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -53,6 +54,7 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
     protected Handler handler;
     protected boolean mActivityBeShown = false;
     protected P mPresenter;
+    private int mainThemeColor = Color.BLACK;
     /**
      * 需要用户自己 onCreate()之前设定
      */
@@ -64,6 +66,11 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
     public static final String INTENT_DATA_IMG_CURRENT_INDEX = "img_current";
     protected ProgressDialog progress;
     protected Window window;
+    protected FrameLayout mFrameContent;
+
+    public void setMainThemeColor(int mainThemeColor) {
+        this.mainThemeColor = mainThemeColor;
+    }
 
     @Override
     public void showLog(String msg) {
@@ -122,14 +129,32 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
         if (duration != Snackbar.LENGTH_SHORT && duration != Snackbar.LENGTH_LONG) {
             return;
         }
-        Snackbar make = Snackbar.make(window.getDecorView().getRootView(), content, duration);
-        make.getView().setBackgroundColor(Color.parseColor("#ff6d64"));
-        ((TextView) make.getView().findViewById(R.id.snackbar_text)).setTextColor(Color.WHITE);
-        make.show();
+        Snackbar snackbar = Snackbar.make(window.getDecorView().getRootView(), content, duration);
+        snackbar.getView().setBackgroundColor(mainThemeColor);
+        ((TextView) snackbar.getView().findViewById(R.id.snackbar_text)).setTextColor(Color.WHITE);
+        snackbar.show();
     }
 
     public void showSnackbar(String content) {
         showSnackbar(content, Snackbar.LENGTH_SHORT);
+    }
+
+    public void showSnackbar(View view, String content, String action, int clickColor, View.OnClickListener listener) {
+        final Snackbar snackbar = Snackbar.make(view == null ? window.getDecorView().getRootView() : view, content, Snackbar.LENGTH_INDEFINITE);
+        snackbar.getView().setBackgroundColor(mainThemeColor);
+        ((TextView) snackbar.getView().findViewById(R.id.snackbar_text)).setTextColor(Color.WHITE);
+        snackbar.setActionTextColor(clickColor);
+        snackbar.setAction(action, listener != null ? listener : new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+            }
+        });
+        snackbar.show();
+    }
+
+    public void showSnackbar(String content, String action, int clickColor, View.OnClickListener listener) {
+        showSnackbar(null, content, action, clickColor, listener);
     }
 
     public ProgressDialog showProgress(String content, boolean touchOutside) {
@@ -160,13 +185,22 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
 //            getWindow().setEnterTransition(new Fade());
 //            getWindow().setExitTransition(new Fade());
 //        }//新转场动画
+//        onCreateInit((Object) this.getClass().getSuperclass() instanceof BaseAppCompatActivity);
+        onCreateInit(this.getClass().isAssignableFrom(BaseEmptyActivity.class));
+    }
+
+    private void onCreateInit(boolean useBase) {
+        if (useBase) {
+            setContentView(R.layout.activity_base);
+            mFrameContent = (FrameLayout) findViewById(R.id.layout_group_content);
+        }
         inflateView();
+        initEventBus();
         window = getWindow();
         tag = getClass().getSimpleName();
-        initEventBus();
-        mPresenter = initPresenter();
         application = (BaseApplication) this.getApplication();
         application.getActivityManager().pushActivity(this);
+        mPresenter = initPresenter();
     }
 
     @Override
@@ -250,7 +284,7 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
 
     /*---------------------------------------------------------------动态权限相关------------------------------------------------------------------------------------*/
 
-    String[] dangerousPermissions = {
+    protected String[] dangerousPermissions = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE//读写权限0
             , Manifest.permission.CAMERA//相机权限1
             , Manifest.permission.WRITE_CONTACTS//写入联系人2
@@ -262,7 +296,7 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
             , Manifest.permission.WRITE_CALENDAR//日历写入8
     };
 
-    void requestPermission(String description, final String... permissions) {
+    protected void requestPermission(String description, final String... permissions) {
         if (permissions.length > 1) {
             new AlertDialog.Builder(this).setCancelable(false)
                     .setMessage(TextUtils.isEmpty(description) ? "为了能正常实现功能，我们将向您申请权限。" : description).setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -358,9 +392,9 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
         }
     }
 
-    PermissionResultListener permissionResultListener;
+    protected PermissionResultListener permissionResultListener;
 
-    interface PermissionResultListener {
+    public interface PermissionResultListener {
         void onSinglePermissionDenied(String permission);
 
         void onSinglePermissionGranted(String permission);
@@ -374,7 +408,7 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
     /**
      * 打开应用设置界面
      */
-    private void getAppDetailSettingIntent() {
+    protected void getAppDetailSettingIntent() {
         Intent localIntent = new Intent();
         localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if (Build.VERSION.SDK_INT >= 9) {
@@ -493,6 +527,7 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
      * 刷新数据,定义为空则不刷新
      */
     protected abstract void refreshData();
+
 
     public void initView() {
     }

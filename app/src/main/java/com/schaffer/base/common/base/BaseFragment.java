@@ -41,6 +41,7 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V
     private boolean mIsFirst = true;
     protected P mPresenter;
     private ProgressDialog progress;
+    private int mainThemeColor = Color.BLACK;
 
     @Override
     public void onAttach(Activity activity) {
@@ -48,6 +49,10 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V
         tag = getClass().getSimpleName();
         this.activity = activity;
         mPresenter = initPresenter();
+    }
+
+    public void setMainThemeColor(int mainThemeColor) {
+        this.mainThemeColor = mainThemeColor;
     }
 
     protected abstract P initPresenter();
@@ -78,7 +83,9 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V
 //        if (isVisibleToUser) {
 //            refreshData();
 //        }
+        showLog("isVisibleToUser>>"+isVisibleToUser);
     }
+
 
     protected abstract View initView(LayoutInflater inflater, ViewGroup container);
 
@@ -334,6 +341,25 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V
 
     public void showSnackbar(String content) {
         showSnackbar(content, Snackbar.LENGTH_SHORT);
+    }
+
+
+    public void showSnackbar(View view, String content, String action, int clickColor, View.OnClickListener listener) {
+        final Snackbar snackbar = Snackbar.make(view == null ? activity.getWindow().getDecorView().getRootView() : view, content, Snackbar.LENGTH_INDEFINITE);
+        snackbar.getView().setBackgroundColor(mainThemeColor);
+        ((TextView) snackbar.getView().findViewById(R.id.snackbar_text)).setTextColor(Color.WHITE);
+        snackbar.setActionTextColor(clickColor);
+        snackbar.setAction(action, listener != null ? listener : new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+            }
+        });
+        snackbar.show();
+    }
+
+    public void showSnackbar(String content, String action, int clickColor, View.OnClickListener listener) {
+        showSnackbar(null, content, action, clickColor, listener);
     }
 
     public ProgressDialog showProgress(String content, boolean touchOutside) {
