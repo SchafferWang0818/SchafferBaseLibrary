@@ -91,6 +91,10 @@ public class BaseWebActivity extends AppCompatActivity {
         settings.setSupportZoom(true);//支持缩放
         settings.setNeedInitialFocus(false);
         settings.setSupportMultipleWindows(true);
+        //5.0 以后 https不可以直接加载http资源
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
         if (NetworkUtils.isConnected()) {
             settings.setCacheMode(WebSettings.LOAD_DEFAULT);//根据cache-control决定是否从网络上取数据。
         } else {

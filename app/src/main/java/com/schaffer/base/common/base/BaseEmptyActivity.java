@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
@@ -280,6 +281,11 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
         Glide.get(this).trimMemory(level);
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+    }
 
 
     /*---------------------------------------------------------------动态权限相关------------------------------------------------------------------------------------*/

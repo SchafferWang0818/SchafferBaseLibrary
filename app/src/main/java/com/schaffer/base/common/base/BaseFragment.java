@@ -75,15 +75,6 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-//        if (isVisibleToUser && mIsFirst) {
-//            initData();
-//            mIsFirst = false;
-//            return;
-//        }
-//        if (isVisibleToUser) {
-//            refreshData();
-//        }
-        showLog("isVisibleToUser>>"+isVisibleToUser);
     }
 
 

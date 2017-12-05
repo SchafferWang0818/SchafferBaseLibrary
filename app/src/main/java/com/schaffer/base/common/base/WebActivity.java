@@ -3,6 +3,7 @@ package com.schaffer.base.common.base;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -71,6 +72,10 @@ public class WebActivity extends BaseActivity<WebActivity, WebPresenter> {
         settings.setDomStorageEnabled(true);//开启(离线加载) DOM storage API 功能
         settings.setDatabaseEnabled(true);   //开启 database storage API 功能
         settings.setAppCacheEnabled(true);//开启 Application Caches 功能
+        //5.0 以后 https不可以直接加载http资源
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onReceivedTitle(WebView view, String title) {

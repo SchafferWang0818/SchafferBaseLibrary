@@ -32,11 +32,25 @@ FLAG_UPDATE_CURRENT|<font color="red">**相同 → 保留 → 替换原extra**</
 	除了TextView,ImageView之外,可反射设置其他属性
 		setInt/Long/Boolean(int,methodName,value)
 
-2. <font color="green">**内部机制**</font>	
+2. <font color="green">**内部机制**	
 
-	`RemoteViews`被应用于通知和桌面小部件,分别使用`NotificationManager`和`AppWidgetManager`进行管理. 
-	
-  
+	1. **`RemoteViews`被应用于通知和桌面小部件,分别使用`NotificationManager(NM)`和`AppWidgetManager(AWM)`进行管理,分别在`(SystemServer中的)NotificationManagerService(NMS)`和`AppWidgetService(AWS)`中加载;**
+
+	2. **封装好的设置View的方法内部调用`setAction()`将View操作作为Action操作对象,之后会被跨进程传输到远程进程;**
+
+	3. **所有Action存储到`RemoteViews`的`mActions[ArrayList类型]`中;**
+
+	4. **所有Action并没有立即更新界面,在`NM # notify()`和`AWM # updateAppwidget()`中 调用 `RemoteViews # apply/reApply() `来加载或更新布局;**	</font>
+
+
+3. IPC操作中两个应用进程的资源id不相同**可以使用id名称进行加载;**
+
+		int layoutId = getResources().getIdentifier("layout_name","layout",getPackageName());
+		//相当于获得了R.layout.layout_name的id
+		View view = getLayoutInflater().inflate(layoutId,mRemoteViewsContent,false);
+		remoteViews.reapply(this,view);
+		//mRemoteViewsContent.addView(view);
+			
 
 ---
 ### 3. Notification
