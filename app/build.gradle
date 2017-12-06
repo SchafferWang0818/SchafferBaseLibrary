@@ -72,6 +72,8 @@ android {
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
+            //保证gradle可以找到与aidl相对应的java文件
+            java.srcDirs = ['src/main/java']
         }
     }
     lintOptions {

@@ -97,7 +97,7 @@ public class BasePresenter<V extends BaseView> {
             mView.showLog(e.getMessage() + "-->\n\t\t" + e.getLocalizedMessage());
         }
         e.printStackTrace();
-        if (e instanceof SocketTimeoutException) {
+        if (e instanceof SocketTimeoutException && mView != null) {
             mView.showToast("网络状况好像不太好");
         }
     }

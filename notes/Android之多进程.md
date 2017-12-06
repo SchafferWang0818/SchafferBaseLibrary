@@ -53,29 +53,169 @@
 ![image](https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512390149844&di=fa72137446d16e811330d3dcb956b7ca&imgtype=0&src=http%3A%2F%2Fwww.th7.cn%2Fd%2Ffile%2Fp%2F2016%2F09%2F22%2F6c542eae3fcf2879e6900b41d1157958.jpg)
 
 
+
+
+---
+### AIDL ###
+
 AIDL支持的数据类型:
+
 	1. 基本数据类型
 	2. String,CharSequeue
 	3. ArrayList
 	4. HashMap
 	5. Parcelable
-	6. AIDL--->可打包(实现Parceable)的AIDL对象
+	6. 可打包(实现Parceable)的AIDL对象(AIDL对象必须手动导入文件位置)
 
-	RemoteCallbackList:进程间通信过程中系统专门用于提供删除Listener的接口。内部有Map专门用来保存所有AIDL的回调 
-	key是IBinder类型，value是Callback类型.解除注册时,遍历服务器所有的listener,对应的删除.
-	beginBroadcast()获取有多少listener 必须要和finishBroadcast一起使用.
+<font color = red  face="微软雅黑">
+注 :  
+- **当AIDL文件要使用实现Parcelable的类时,需要同时在AIDL文件夹下与Java文件夹下同位置创建Java类与AIDL文件** ;<font color = black>  例如:
+
+		//com.schaffer.base.test.Book.java
+
+		package com.schaffer.base.test;
+		public class Book implements Parcelable {
+			//...
+		}
+
+		//com.schaffer.base.test.Book.aidl
+		package com.schaffer.base.test;
+		parcelable Book;
+</font >
+- 由于进程间对象不可以共享,<font color = black>跨进程移除监听不可以直接移除,</font>需要使用`RemoteCallbackList`来移除`Listener`.
+
+		内部使用ArrayMap<IBinder,Callback>;
+		获取集合中的内容需要使用 beginBroadcast/finishBroadcast()进行遍历或者其他操作;	
+		解除注册时,遍历服务器所有的listener,将和解除注册的Listener的binder对应的删除.
+
+</font >
+
+
+
+#### ServiceConnection
+`onServiceConnected()` & `onServiceDisconnected()` 均运行在UI线程.不可做耗时操作. 
+
+#### Binder重连
+Binder是可能意外死亡的，往往是由于服务端进程意外停止了，这时我们需要重新连接服务，有两种方式： 
+
+- 给Binder设置死亡代理,监听`binderDied`方法回调(运行在客户端Binder线程池) 
+
+		// 服务端
+		Binder binder = new DefineInterface.Stub() {
+	        @Override
+	        public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
+	
+	        }
+	
+	        //...
+	
+	        @Override
+	        public void setBinderDeath(IBinder binder) throws RemoteException {
+	            binder.linkToDeath(new MyDeathRecipient(), 0);
+	        }
+	    };
+
+			
+	    public static class MyDeathRecipient implements IBinder.DeathRecipient {
+	
+	        @Override
+	        public void binderDied() {
+	            Log.d("TAG", "binder 离线");
+	        }
+	    }
+
+		
+
+		//客户端
+		@Override
+	    public void onCreate(@Nullable Bundle savedInstanceState) {
+	        super.onCreate(savedInstanceState);
+	        binder = new Binder();
+	        bindService(new Intent(this,TestAidlService.class),connection,BIND_AUTO_CREATE);
+	    }
+
+		public ServiceConnection connection = new ServiceConnection() {
+	        @Override
+	        public void onServiceConnected(ComponentName name, IBinder service) {
+	            DefineInterface define = DefineInterface.Stub.asInterface(service);
+	
+	            try {
+	                define.setBinderDeath(binder);
+	            } catch (RemoteException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	
+	        @Override
+	        public void onServiceDisconnected(ComponentName name) {
+	        }
+	    };
+
+- 在`onServiceDisConnected`中重连服务(运行在主线程)
+
+
+
+#### AIDL进程交互所需权限 ####
+
+客户端: **添加自定义权限**
+
+	    <permission
+	        android:name="com.schaffer.base.permission.BIND_TEST"
+	        android:protectionLevel="normal" />
+
+服务端: **可以使用两种验证方式判断是否允许其他进程客户端绑定Service.**
+
+	    @Nullable
+	    @Override
+	    public IBinder onBind(Intent intent) {
+			/* 判断权限是否被允许 */
+	        if (checkCallingOrSelfPermission("com.schaffer.base.permission.BIND_TEST") == PackageManager.PERMISSION_DENIED) {
+	            return null;
+	        }
+	        return binder;
+	    }
+	
+	    Binder binder = new DefineInterface.Stub() {
+	        @Override
+	        public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
+	
+	        }
+			
+			//...
+
+	        @Override
+	        public boolean onTransact(int code, Parcel data, Parcel reply, int flags) throws RemoteException {
+	            /* 判断权限是否被允许 */
+	            if (checkCallingOrSelfPermission("com.schaffer.base.permission.BIND_TEST") == PackageManager.PERMISSION_DENIED) {
+	                return false;
+	            }
+	            /* 判断包名是否被允许 */
+	            String pn = null;
+	            String[] packages = getPackageManager().getPackagesForUid(getCallingUid());
+	            if (packages != null && packages.length > 0) {
+	                pn = packages[0];
+	            }
+	            if (!pn.contains("com.schaffer")) {
+	                return false;
+	            }
+	            return super.onTransact(code, data, reply, flags);
+	        }
+	    };
 
 
 ---
-
-### Messenger ###
-底层实现为AIDL.
-Messenger中进行数据传递必须将数据放进Message.
+### Messenger & Message ###
+底层实现为`AIDL`.
+`Messenger`**串行处理**进程间通讯.
+`Messenger`中进行数据传递必须**将数据放进`Message`**.
+`Messenger`**接收数据离不开`Handler`接收并处理**.
 
 **Message中可以用来传递数据的内容有:` what , arg1 , arg2 , object , data(Bundle) , replyTo .`**
 
-	   Android 2.2 之前,object不支持跨进程传输; Android 2.2 之后,object只支持跨进程传输 
-	Parcelable 实现类;
-		
-	   Bundle 可以支持大量的数据类型;
+	   object	 : Android 2.2 之前不支持跨进程传输; Android 2.2 之后只支持跨进程传输 
+					Parcelable 实现类;
+	   Bundle	 : 可以支持大量的数据类型;
+	   replyTo	: 存储的是接收回复Message的Messenger信使;
 ---
+### 使用ContentProvider ###
+[<font color=red>**	查看ContentProvider**</font>](https://github.com/SchafferWang0818/SchafferBaseLibrary/blob/master/notes/Android%E4%B9%8B%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6%E2%80%94%E2%80%94ContentProvider.md)

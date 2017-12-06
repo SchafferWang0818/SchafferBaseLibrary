@@ -41,6 +41,10 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
+    <permission
+        android:name="com.schaffer.base.permission.BIND_TEST"
+        android:protectionLevel="normal" />
+
     <application
         android:name=".common.base.BaseApplication"
         android:allowBackup="true"
