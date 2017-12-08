@@ -40,15 +40,16 @@
 	客户端发生远程请求时,线程挂起一直到得到响应或者被杀死,Binder得到客户端请求通过inTransact()将data参数写入到目标函数,
 	目标函数执行完毕将数据返回给客户端.
 
+```
 
-**
 流程分析:
 	客户端请求Binder并挂起等待
 	 → Binder将数据写入data →  onTransact(transact(根据code取出方法所需要参数传入)
 	 → 线程池中完成操作 → 将返回内容写入reply)
 	 → 返回Binder强转类型(失败成功看onTransact返回值)
 	 → 返回数据给客户端
-**
+
+```
 
 ![image](https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512390149844&di=fa72137446d16e811330d3dcb956b7ca&imgtype=0&src=http%3A%2F%2Fwww.th7.cn%2Fd%2Ffile%2Fp%2F2016%2F09%2F22%2F6c542eae3fcf2879e6900b41d1157958.jpg)
 
@@ -217,5 +218,15 @@ Binder是可能意外死亡的，往往是由于服务端进程意外停止了�
 	   Bundle	 : 可以支持大量的数据类型;
 	   replyTo	: 存储的是接收回复Message的Messenger信使;
 ---
+### Socket ###
+
+
+
+
+
+
+
+
+---
 ### 使用ContentProvider ###
-[<font color=red>**	查看ContentProvider**</font>](https://github.com/SchafferWang0818/SchafferBaseLibrary/blob/master/notes/Android%E4%B9%8B%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6%E2%80%94%E2%80%94ContentProvider.md)
+[<font color=red>**查看ContentProvider**</font>](https://github.com/SchafferWang0818/SchafferBaseLibrary/blob/master/notes/Android%E4%B9%8B%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6%E2%80%94%E2%80%94ContentProvider.md)
