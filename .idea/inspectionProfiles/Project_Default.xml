@@ -55,6 +55,7 @@
     <inspection_tool class="AlibabaUndefineMagicConstant" enabled="true" level="MAJOR" enabled_by_default="false" />
     <inspection_tool class="AlibabaUnsupportedExceptionWithModifyAsList" enabled="true" level="CRITICAL" enabled_by_default="false" />
     <inspection_tool class="AlibabaUseQuietReferenceNotation" enabled="true" level="MAJOR" enabled_by_default="false" />
+    <inspection_tool class="AndroidLintServiceCast" enabled="false" level="ERROR" enabled_by_default="false" />
     <inspection_tool class="JavaDoc" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="TOP_LEVEL_CLASS_OPTIONS">
         <value>

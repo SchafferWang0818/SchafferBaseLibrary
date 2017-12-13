@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Process;
 import android.support.multidex.MultiDex;
 
 import com.schaffer.base.BuildConfig;
@@ -16,6 +17,7 @@ import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -78,12 +80,33 @@ public /*abstract*/ class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        int pid = Process.myPid();
+        /* 多进程判断 */
+        if (getProcessName(this, pid).equals("com.schaffer.base")) {
+
+        } else {
+
+        }
         mActivityManager = ActivityManager.getScreenManager();
         registerActivityLifecycleCallbacks(new DefinedActivityLifeCycleCallback());
         app = this;
         Utils.init(this);
         configBlock();
         libraryInit(app);//第三方
+    }
+
+    public String getProcessName(Context cxt, int pid) {
+        android.app.ActivityManager am = (android.app.ActivityManager) cxt.getSystemService(Context.ACTIVITY_SERVICE);
+        List<android.app.ActivityManager.RunningAppProcessInfo> runningApps = am.getRunningAppProcesses();
+        if (runningApps == null) {
+            return null;
+        }
+        for (android.app.ActivityManager.RunningAppProcessInfo procInfo : runningApps) {
+            if (procInfo.pid == pid) {
+                return procInfo.processName;
+            }
+        }
+        return null;
     }
 
     private void libraryInit(BaseApplication app) {

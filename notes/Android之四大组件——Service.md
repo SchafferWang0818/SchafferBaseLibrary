@@ -1,39 +1,51 @@
 # Service #
 
+	- Service 是一个可以在后台执行长时间运行操作而不提供用户界面的应用组件。
+	- 服务在其托管进程的主线程中运行，它既不创建自己的线程，也不在单独的进程中运行（除非另行指定）。
+	- startService()：不会将结果返回给调用方，一旦启动，服务即可在后台无限期运行；操作完成后，服务会自行停止运行。
+	- bindService() ：多个组件可以同时绑定到Service，但全部取消绑定后，Service即会被销毁。
+	- IntentService ：使用工作线程逐一处理所有启动请求。如果您不要求服务同时处理多个请求，这是最好的选择。实现 onHandleIntent() 方法会接收每个启动请求的 Intent，使您能够执行后台工作。
+
+
+![image](https://developer.android.google.cn/images/service_lifecycle.png)
+
+* 注：`startService()`并没有`onStop()`回调。
+
+### startService ###
+
+NAME|DEFINE
+-|-
+START_NOT_STICKY|onStartCommand() 返回后终止服务，<font color = orange>**没有挂起的 Intent 要传递，系统不会重建**</font>。避免在不必要时以及应用能够轻松重启所有未完成的作业时运行服务。
+START_STICKY|onStartCommand() 返回后终止服务，则<font color = orange>**会重建服务并调用 onStartCommand()，但不会重新传递最后一个 Intent**</font>。相反，除非有挂起 Intent 要启动服务（在这种情况下，将传递这些 Intent ），否则系统会通过空 Intent 调用 onStartCommand()。这适用于不执行命令、但无限期运行并等待作业的媒体播放器（或类似服务）。
+START_REDELIVER_INTENT|onStartCommand() 返回后终止服务，则会<font color = orange>**重建服务并通过传递给服务的最后一个 Intent 调用 onStartCommand()**</font>。任何挂起 Intent 均依次传递。这适用于主动执行应该立即恢复的作业（例如下载文件）的服务。
+
+
+`Service`使用`stopSelf(int)`停止自己。传递与停止请求的 ID 对应的启动请求的 ID（传递给 `onStartCommand()` 的 `startId`）。然后，如果在您能够调用 `stopSelf(int)` 之前服务收到了新的启动请求，ID 就不匹配，服务也就不会停止。
+
+#### 前台运行服务 ####
+- 调用 `startForeground()`让服务运行于前台。此方法采用两个参数：唯一标识通知的整型数和状态栏的 Notification。
+
+```
+	Notification notification = new Notification(R.drawable.icon, getText(R.string.ticker_text),
+	        System.currentTimeMillis());
+	Intent notificationIntent = new Intent(this, ExampleActivity.class);
+	PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+	notification.setLatestEventInfo(this, getText(R.string.notification_title),
+	        getText(R.string.notification_message), pendingIntent);
+	startForeground(1, notification);
+
+```
+- `stopForeground(boolean)`采用一个boolean值，指示是否也移除状态栏通知。**此方法不会停止服务。**
+
+- 运行于前台的Service停止时，状态栏通知也将移除。
+
+---
+### bindService ###
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+---
 ### <font color = "red">**内存常驻的手段**</font> ###
 
 - 设置START_STICKY，kill后会被重启（等待5秒左右），重传Intent，保持与重启前一样

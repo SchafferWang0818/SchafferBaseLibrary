@@ -1,12 +1,23 @@
 # <font color="red" size = 6 face="微软雅黑">多进程与IPC </font> #
 
+	相关链接：
+			1. http://blog.csdn.net/spencer_hale/article/details/54968092
+
 每一个应用会被分配一个唯一的UID， **<font color=red>具有相同UID的应用才能 共享数据 / 内存数据 / data目录 / 组件信息 等。</font>**
 
 
 	多进程的用处:
 
-		1. 特殊原因需要运行在特殊进程中;
+		1. 常驻后台做守护进程，收发消息;
 		2. 多进程可获得多份内存空间(最早版本单个应用可以使用16MB);
+
+	多进程弊端：
+
+		1. 耗电；
+		2. 调试断点问题；
+		3. 文件共享，内存对象共享问题；
+		4. Application多次重建问题；
+		4. 交互复杂性；
 
 	指定多进程的方式:
 	
@@ -18,10 +29,24 @@
 
 	跨进程通信的方式有:
 		
-		- Intent传递数据;
-		- 共享文件和SharePreferences;(":"私有进程)
-		- Binder机制(Messenger机制与AIDL机制);
+		- Intent/Bundle传递数据;
+		- 共享文件和SharePreferences(私有进程可以访问);
+		- Binder机制(Messenger/AIDL机制);
+		- ContentProvider;
 		- Socket通信;
+
+
+名称 | 优点 | 缺点/注意点 |设用场景
+:-:|-|:-:|:-:
+Bundle|简单易用|只能传输Bundle支持的数据类型|四大组件间的进程通信
+文件共享|简单易用|不适合高并发的情况，<br>并且无法做到进程间的即时通讯	|无并发访问情况下，<br>交换简单的<br>数据实时性不高的情况
+AIDL|支持一对多并发通信，<br>支持实时通讯|需要处理好线程同步|一对多通信且有RPC需求
+Messenger|支持一对多串行通信，<br>支持实时通讯|不能很好处理高并发情况，<br>不支持RPC,数据通过Message进行传输，<br>因此只能传输Bundle支持的数据类型|低并发的一对多即时通信,<br>无RPC需求，或者无需返回结果的RPC需求
+ContentProvider|在数据源访问方面功能强大，<br>支持一对多并发数据共享，<br>可通过Call方法扩展其他操作|主要提供数据源的CRUD操作|一对多的进程间数据共享
+Socket|功能强大，<br>可以通过网络传输字节流，<br>支持一对多并发实时通讯|实现细节有点繁琐，不支持直接的RPC|网络数据交换
+
+注：RPC(调用远程服务中的方法)
+
 
 ---
 ### Binder & IBinder

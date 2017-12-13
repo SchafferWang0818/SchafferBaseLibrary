@@ -1,7 +1,11 @@
-在Thread或Runnable接口中的run方法首句加入
+# 多线程 & ANR
 
-`Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);` 
-//设置线程优先级为后台，这样当多个线程并发后很多无关紧要的线程分配的CPU时间将会减少，有利于主线程的处理，相关的Thread优先级.
+### 多线程
+
+
+#### 线程优先级
+在`Thread`或`Runnable`接口中的`run()`首句加入`Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);` 
+//设置线程优先级为后台，这样当多个线程并发后很多无关紧要的线程分配的CPU时间将会减少，有利于主线程的处理
 
 Android平台专有的定义罗列有以下几种:
 
@@ -15,3 +19,23 @@ Android平台专有的定义罗列有以下几种:
 	int THREAD_PRIORITY_MORE_FAVORABLE //高于favorable
 	int THREAD_PRIORITY_URGENT_AUDIO //标准较重要音频播放优先级
 	int THREAD_PRIORITY_URGENT_DISPLAY //标准较重要显示优先级，对于输入事件同样适用。
+
+
+
+---
+
+### ANR 
+
+ANR现象:
+	1. Activity在5s内没有响应按下事件和触摸事件;
+	2. 广播在10s之内没有执行完毕;
+	3. 服务在20s之内没有处理完成(小概率)
+
+避免ANR:
+	1. 避免Activity耗时操作,使用多线程异步任务;
+	2. 避免广播的耗时操作,适当启动其他进程Service或Service内部线程来执行任务;
+	3. 避免广播启动Activity,使用Notification的形式来实现;
+
+
+
+---
