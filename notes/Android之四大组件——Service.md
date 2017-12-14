@@ -1,11 +1,36 @@
 # Service #
 
+>	相关链接:
+>	1. Service: 		https://developer.android.google.cn/guide/components/services.html
+>	2. BindService:		https://developer.android.google.cn/guide/components/bound-services.html
+>	3. AIDL:			https://developer.android.google.cn/guide/components/aidl.html
+>	4. Service 工作原理: Android 开发艺术探索 Page 336 
+
+```
 	- Service 是一个可以在后台执行长时间运行操作而不提供用户界面的应用组件。
 	- 服务在其托管进程的主线程中运行，它既不创建自己的线程，也不在单独的进程中运行（除非另行指定）。
 	- startService()：不会将结果返回给调用方，一旦启动，服务即可在后台无限期运行；操作完成后，服务会自行停止运行。
-	- bindService() ：多个组件可以同时绑定到Service，但全部取消绑定后，Service即会被销毁。
-	- IntentService ：使用工作线程逐一处理所有启动请求。如果您不要求服务同时处理多个请求，这是最好的选择。实现 onHandleIntent() 方法会接收每个启动请求的 Intent，使您能够执行后台工作。
+	- bindService ()：多个组件可以同时绑定到Service，但全部取消绑定后，Service即会被销毁。
+	- IntentService ：使用工作线程逐一处理所有启动请求。如果您不要求服务同时处理多个请求，这是最好的选择。
+		实现 onHandleIntent() 方法会接收每个启动请求的 Intent，使能够执行后台工作。
 
+```
+
+## Service 基本使用 ##
+
+```
+	目录: 
+		- startService
+
+			- 前台运行Service
+
+		- bindService
+
+		- Service模式的混合使用
+
+		- Service保活/内存常驻手段
+
+```
 
 ![image](https://developer.android.google.cn/images/service_lifecycle.png)
 
@@ -22,7 +47,7 @@ START_REDELIVER_INTENT|onStartCommand() 返回后终止服务，则会<font colo
 
 `Service`使用`stopSelf(int)`停止自己。传递与停止请求的 ID 对应的启动请求的 ID（传递给 `onStartCommand()` 的 `startId`）。然后，如果在您能够调用 `stopSelf(int)` 之前服务收到了新的启动请求，ID 就不匹配，服务也就不会停止。
 
-#### 前台运行服务 ####
+#### · 前台运行服务 ####
 - 调用 `startForeground()`让服务运行于前台。此方法采用两个参数：唯一标识通知的整型数和状态栏的 Notification。
 
 ```
@@ -35,15 +60,27 @@ START_REDELIVER_INTENT|onStartCommand() 返回后终止服务，则会<font colo
 	startForeground(1, notification);
 
 ```
+> 注意：<font color = red>**提供给 `startForeground()` 的整型 ID 不得为 0。**</font>
+
 - `stopForeground(boolean)`采用一个boolean值，指示是否也移除状态栏通知。**此方法不会停止服务。**
 
 - 运行于前台的Service停止时，状态栏通知也将移除。
 
 ---
 ### bindService ###
+**Service 绑定模式主要适用于进程间通讯,[点击这里传送至多进程通讯。](https://github.com/SchafferWang0818/SchafferBaseLibrary/blob/master/notes/Android%E4%B9%8B%E5%A4%9A%E8%BF%9B%E7%A8%8B.md)**
 
+- 在 Activity 可见时与服务交互，则应在 `onStart()` 期间绑定，在 `onStop()` 期间取消绑定。
+- ** 互相调用的两个 Activity 均绑定某个 Service ,被调用者在前者解绑并销毁之前绑定,<font color = red>系统可能销毁服务并重建服务。</font>**
+- **始终`catch` 因远程连接中断而造成的 `DeadObjectException`**。
+---
 
+### 混合使用的Service ###
 
+`bindService`:  当所有绑定 `Service` 的部件解除绑定后直至把所有 `ServiceConnection` 解绑才会销毁 `Service`;
+`startService`: 当 `Service` 所有任务完成 或 调用`stopService()` 或 `stopSelf()` 后才会回调 `onDestroy()`后销毁 `Service`.
+
+> <font color = red>**当混合使用时 解绑所有 `ServiceConnection` 后并不能销毁 , 需要调用 `stopService()` 或 `stopSelf()` 完成销毁**</font>
 
 ---
 ### <font color = "red">**内存常驻的手段**</font> ###
@@ -68,5 +105,20 @@ START_REDELIVER_INTENT|onStartCommand() 返回后终止服务，则会<font colo
 
 - 联系厂商，加入白名单
 
+----
+
+----
+
+## Service 工作原理 ##
+
+### startService ###
+
+
+
+---
+### bindService ###
+
+
+---
 
 ----
