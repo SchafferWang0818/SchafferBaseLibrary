@@ -23,6 +23,11 @@
 > 8. `IInterface`: `Binder` 基类;
 > 9. `ApplicationThreadNative`:APTN,继承自`Binder`,`IApplicationThread`;
 
+### 启动流程 ###
+
+![Activity 启动流程图](https://i.imgur.com/VKNhWzp.png)
+
+
 
 - Activity的启动流程一般是通过调用startActivity/startActivityForResult来开始的
 
@@ -53,7 +58,6 @@
 - ActivityManagerService开始执行栈顶的onStop方法并告知ActivityThread；
 
 - ActivityThread执行真正的onStop方法；
-
 
 
 ---

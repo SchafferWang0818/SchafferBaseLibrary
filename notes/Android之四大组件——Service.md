@@ -113,11 +113,12 @@ START_REDELIVER_INTENT|onStartCommand() 返回后终止服务，则会<font colo
 
 ### startService ###
 
-
+![Android startService启动原理](https://i.imgur.com/5AqP7s8.png)
 
 ---
 ### bindService ###
 
+![Android bindService启动原理](https://i.imgur.com/fC709Tr.png)
 
 ---
 
