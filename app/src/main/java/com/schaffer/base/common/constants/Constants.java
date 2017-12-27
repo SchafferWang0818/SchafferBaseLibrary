@@ -44,7 +44,7 @@ public class Constants {
 //    public static final int =0;
 //    public static final int =0;
 //    public static final int =0;
-//    public static final int =0;
+    public static final String WINDOW_TRANSITION = "WINDOW_TRANSITION";
     public static final String INTENT_WEB_URL = "INTENT_WEB_URL";
     public static final String INTENT_WEB_TITLE = "INTENT_WEB_TITLE";
 

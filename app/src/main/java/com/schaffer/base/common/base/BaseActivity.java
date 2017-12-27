@@ -30,7 +30,7 @@ import java.util.List;
  * </pre>
  */
 
-public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V>> extends BaseAppCompatActivity {
+public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V>> extends BaseAppCompatActivity<V, P> {
 
 
     //	public void onActivityBack(View v) {

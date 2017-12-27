@@ -1,6 +1,7 @@
 package com.schaffer.base.common.base;
 
 import android.Manifest;
+import android.app.ActivityOptions;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,6 +21,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.transition.Explode;
+import android.transition.Fade;
+import android.transition.Slide;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -28,6 +32,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.schaffer.base.R;
+import com.schaffer.base.common.constants.Constants;
 import com.schaffer.base.common.utils.LTUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -188,6 +193,7 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
 //        }//新转场动画
 //        onCreateInit((Object) this.getClass().getSuperclass() instanceof BaseAppCompatActivity);
         onCreateInit(this.getClass().isAssignableFrom(BaseEmptyActivity.class));
+        setCurrentTransition(getIntent().getIntExtra(Constants.WINDOW_TRANSITION, -1));
     }
 
     private void onCreateInit(boolean useBase) {
@@ -538,4 +544,53 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
     public void initView() {
     }
 
+    /*动画 <!--transition 动画专用-->*/
+    public static final int TRANSITION_EXPLODE = 1;
+    public static final int TRANSITION_SLIDE = 2;
+    public static final int TRANSITION_FADE = 3;
+
+    public void setCurrentTransition(int transition) {
+        if (transition < 0) {
+            return;
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            switch (transition) {
+                case TRANSITION_EXPLODE:
+                default:
+                    Explode explode = new Explode();
+                    explode.setDuration(800);
+                    window.setEnterTransition(explode);
+                    break;
+                case TRANSITION_SLIDE:
+                    Slide slide = new Slide();
+                    slide.setDuration(800);
+                    window.setEnterTransition(slide);
+                    break;
+                case TRANSITION_FADE:
+                    Fade fade = new Fade();
+                    fade.setDuration(800);
+                    window.setEnterTransition(fade);
+                    break;
+            }
+        }
+    }
+
+
+    @Override
+    public void startActivity(Intent intent) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            super.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        } else {
+            super.startActivity(intent);
+        }
+    }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            super.startActivityForResult(intent, requestCode, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        } else {
+            super.startActivityForResult(intent, requestCode);
+        }
+    }
 }

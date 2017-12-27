@@ -3,6 +3,13 @@
 
     <style name="AppTheme" parent="BaseAppTheme">
         <item name="android:windowTranslucentStatus">true</item>
+
+        <!--transition 动画专用-->
+        <!--&lt;!&ndash; 允许使用transitions &ndash;&gt;-->
+        <!--<item name="android:windowContentTransitions">true</item>-->
+        <!--&lt;!&ndash;是否覆盖执行，其实可以理解成是否同步执行还是顺序执行&ndash;&gt;-->
+        <!--<item name="android:windowAllowEnterTransitionOverlap">false</item>-->
+        <!--<item name="android:windowAllowReturnTransitionOverlap">false</item>-->
     </style>
 
     <!--android:windowTranslucentStatus="true" 时隐藏状态栏,Toolbar 向上Padding-->

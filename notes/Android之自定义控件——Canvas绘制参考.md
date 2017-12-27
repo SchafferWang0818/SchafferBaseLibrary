@@ -27,7 +27,9 @@
     
 - 矢量图的绘制有以下三种方式:
     1. mPic.draw(canvas);
+
         - 低版本**影响canvas的状态**,一般不使用;
+
     2. canvas.drawPicture(mPic);
         - **不影响canvas状态,可以设置显示矢量图的区域矩形大小,完全压缩显示.**
                 
@@ -86,25 +88,21 @@
         2. (Bitmap bitmap, float left, float top, Paint paint)
         3. (Bitmap bitmap, Rect src, Rect dst, Paint paint)
         4. (Bitmap bitmap, Rect src, RectF dst, Paint paint)
-
-    1. 默认绘制起点为原点.
-        `canvas.drawBitmap(bitmap,new Matrix(),new Paint());`
-    2. 确定一个绘制起点坐标.
-    3. 4.指定图片的绘制矩形区域和图片在屏幕上的绘制矩形区域,当前者宽/高度>后者宽/高度的情况下会压缩.
+	
+	    1. 默认绘制起点为原点.
+	        `canvas.drawBitmap(bitmap,new Matrix(),new Paint());`
+	    2. 确定一个绘制起点坐标.
+	    3. 4.指定图片的绘制矩形区域和图片在屏幕上的绘制矩形区域,当前者宽/高度>后者宽/高度的情况下会压缩.
 
         canvas.translate(mWidth/2,mHeight/2);
-        
         // 指定图片绘制区域(左上角的四分之一)
         Rect src = new Rect(0,0,bitmap.getWidth()/2,bitmap.getHeight()/2);
-        
         // 指定图片在屏幕上显示的区域
         Rect dst = new Rect(0,0,200,400);
-        
         // 绘制图片
         canvas.drawBitmap(bitmap,src,dst,null);
-        
 
-    4. 注:可以控制两个区域的大小来完成某个动画.
+    	4. 注:可以控制两个区域的大小来完成某个动画.
 
 ### 2. 绘制文字
     
@@ -293,14 +291,31 @@
 
 		save就是图层入栈,restore就是图层出栈;	
 	
-
 	2. 对应的API:
 		
     		save()				把当前的画布的状态进行保存，
     		或save(saveFlags)	然后放入特定的栈中
+
+        		ALL_SAVE_FLAG				默认，保存全部状态
+        		CLIP_SAVE_FLAG				保存剪辑区
+        		CLIP_TO_LAYER_SAVE_FLAG		剪裁区作为图层保存
+        		FULL_COLOR_LAYER_SAVE_FLAG	保存图层的全部色彩通道
+        		HAS_ALPHA_LAYER_SAVE_FLAG	保存图层的alpha(不透明度)通道
+        		MATRIX_SAVE_FLAG			保存Matrix信息( translate, rotate, scale, skew)
     
     		saveLayerXxx		新建一个图层，并放入特定的栈中
     
+				saveLayerXxx,导致图层叠加造成计算量增倍而过度渲染.
+
+                // 无图层alpha(不透明度)通道
+                public int saveLayer 
+                (RectF bounds, Paint paint)
+                (RectF bounds, Paint paint, int saveFlags)
+                (float left, float top, float right, float bottom, Paint paint)
+                (float left, float top, float right, float bottom, Paint paint, int saveFlags)
+                // 有图层alpha(不透明度)通道
+                public int saveLayerAlpha (....,int alpha)
+
     		restore				把栈中最顶层的画布状态取出来，
     							并按照这个状态恢复当前的画布
     
@@ -308,28 +323,6 @@
     							并按照指定位置的状态进行恢复
     
     		getSaveCount		获取栈中内容的数量(即保存次数)
-
-
-	   1. saveFlags:
-		
-        		ALL_SAVE_FLAG				默认，保存全部状态
-        		CLIP_SAVE_FLAG				保存剪辑区
-        		CLIP_TO_LAYER_SAVE_FLAG		剪裁区作为图层保存
-        		FULL_COLOR_LAYER_SAVE_FLAG	保存图层的全部色彩通道
-        		HAS_ALPHA_LAYER_SAVE_FLAG	保存图层的alpha(不透明度)通道
-        		MATRIX_SAVE_FLAG			保存Matrix信息( translate, rotate, scale, skew)
-    		
-        2. saveLayerXxx,导致图层叠加造成计算量增倍而过度渲染.
-        
-                // 无图层alpha(不透明度)通道
-                public int saveLayer 
-                (RectF bounds, Paint paint)
-                (RectF bounds, Paint paint, int saveFlags)
-                (float left, float top, float right, float bottom, Paint paint)
-                (float left, float top, float right, float bottom, Paint paint, int saveFlags)
-                
-                // 有图层alpha(不透明度)通道
-                public int saveLayerAlpha (....,int alpha)
 
 2. 位移(不断叠加),基于上一次位置的移动.
 
