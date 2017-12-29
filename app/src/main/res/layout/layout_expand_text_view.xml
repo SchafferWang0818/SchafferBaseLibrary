@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/expand_tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:singleLine="true"
+        android:textColor="?android:textColorSecondary"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/expand_tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lineSpacingExtra="6dp"
+        android:textColor="?android:textColorPrimary"
+        android:transitionName="shareDescription"
+        android:textIsSelectable="true"
+        android:layout_marginBottom="15dp"
+        android:textSize="14sp" />
+
+    <RelativeLayout
+        android:id="@+id/expand_rl_show_more"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:paddingLeft="10dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:paddingRight="20dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_centerInParent="true"
+            android:background="#00000000" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="5dp">
+
+            <ImageView
+                android:id="@+id/expand_iv_arrow_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/icon_detail_down" />
+
+            <TextView
+                android:id="@+id/expand_tv_more_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </RelativeLayout>
+</merge>

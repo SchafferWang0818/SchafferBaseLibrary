@@ -21,8 +21,8 @@
 
 			- MotionEvent#getX():	以当前View左上为坐标原点,触摸点X值
 			- MotionEvent#getY():	以当前View左上为坐标原点,触摸点Y值
-			- MotionEvent#getrawX():以屏幕左上为坐标原点,触摸点X值
-			- MotionEvent#getrawY():以屏幕左上为坐标原点,触摸点Y值
+			- MotionEvent#getRawX():以屏幕左上为坐标原点,触摸点X值
+			- MotionEvent#getRawY():以屏幕左上为坐标原点,触摸点Y值
 
 			注意: 与触摸事件相关.
 
@@ -74,21 +74,21 @@
 		来源链接：http://www.jianshu.com/p/f09541b2f43b
 
 - `getLocalVisibleRect(Rect)`: 获取View在其父控件中的可见区域相对于此View的左顶点的距离（偏移量）；
-
+```
 		Rect localRect = new Rect();
         v.getLocalVisibleRect(localRect);
         ((TextView) findViewById(R.id.local)).setText("local" + localRect.toString());
 		//显示左上和右下两个点的相对坐标
-
+```
 
 - `getGlobalVisibleRect(Rect,Point)`: 获取View在其父控件中的可见区域相对于屏幕左顶点的距离（偏移量）；
-
+```
 		Rect globalRect = new Rect();
         Point globalOffset = new Point();
         v.getGlobalVisibleRect(globalRect, globalOffset);
         ((TextView) findViewById(R.id.global)).setText("global" + globalRect.toString());
         ((TextView) findViewById(R.id.offset)).setText("globalOffset:" + globalOffset.x + "," + globalOffset.y);
-
+```
 
 
 #### 2. 绝对坐标 ####
@@ -100,9 +100,14 @@
 - `getLocationInWindow(int[2])`: 计算该视图在它所在的window的坐标x，y值，获取在整个window的绝对坐标
 
 
+```
 		例如:
 
 		    int[] location = new int[2];
 		    view.getLocationOnScreen(location);
 		    int x = location[0];
 		    int y = location[1];
+
+```
+
+---
