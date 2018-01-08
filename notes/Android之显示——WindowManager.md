@@ -108,6 +108,10 @@ window可以分为应用层级Window，子层级Window，系统层级Window。
 
 #### .flags
 - Window的属性,控制Window的显示特性.
+
+	> 对于 `DecorView` ,其 `MeasureSpec` 由窗口的尺寸和其自身的 `LayoutParams` 来共同决定;
+	> 对于普通 `View` ,其 `MeasureSpec` 由父容器的`MeasureSpec`和自身的 `LayoutParams` 来共同决定。
+
 - 主要的显示特性:
 
 

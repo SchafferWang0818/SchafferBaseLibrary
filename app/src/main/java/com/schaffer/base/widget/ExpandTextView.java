@@ -422,4 +422,25 @@ public class ExpandTextView extends LinearLayout implements View.OnClickListener
         mShowMore.setVisibility(show ? VISIBLE : GONE);
     }
 
+    public void measureLines() {
+        final TextView textView = new TextView(getContext());
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, contentTextSize);
+        textView.setLineSpacing(ConvertUtils.dp2px(6), 1.0f);
+        textView.setText(content);
+        int widthMeasureSpec = MeasureSpec.makeMeasureSpec(mContentView.getMeasuredWidth(), MeasureSpec.EXACTLY);
+        int heightMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+        textView.setLayoutParams(mContentView.getLayoutParams());
+        textView.measure(widthMeasureSpec, heightMeasureSpec);
+        int lineCount = textView.getLineCount();
+        Log.d(TAG, "lineCount -->" + lineCount + "," + textView.getMeasuredHeight());
+        mShowMore.setVisibility(minVisibleLines >= lineCount ? GONE : VISIBLE);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasWindowFocus) {
+        super.onWindowFocusChanged(hasWindowFocus);
+        if (hasWindowFocus) {
+            measureLines();
+        }
+    }
 }
