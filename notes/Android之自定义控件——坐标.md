@@ -39,10 +39,15 @@
 
 	
 		2. 参数与函数
-			- width:				getRight() - getLeft()
-			- height:				getBottom() - getTop()
-			- measureWidth
-			- measureHeight
+			- width:					   getRight() - getLeft()
+			- height:					  getBottom() - getTop()
+			- measureWidth:				mMeasuredWidth & MEASURED_SIZE_MASK
+			- measureHeight:			   mMeasuredHeight & MEASURED_SIZE_MASK
+
+			注: >>> width/height 与 measureWidth/measureHeight 区别在于赋值时机不同,
+				>>> measureWidth/measureHeight 形成于 measure 过程;
+				>>> width/height 形成于 layout 过程;
+
 			- getLocalVisibleRect(Rect)
 			- getGlobalVisibleRect(Rect,Point)
 			- getLocationOnScreen(int[2])
