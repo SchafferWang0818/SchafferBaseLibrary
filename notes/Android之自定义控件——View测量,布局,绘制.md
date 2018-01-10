@@ -44,6 +44,7 @@
 
 
 ```java
+
 	//ViewGroup.java
 	
     protected void measureChildWithMargins(View child,
@@ -139,6 +140,7 @@
 >     - 当已设置背景时,由背景Drawable原始大小最小值与`android:minWidth/minHeight`决定; 
 > 3. <font color= red>**依照上表, 当自定义`View` 直接继承自`View`重写`onMeasure()`并设置`wrap_content`时,相当于直接填充了父容器剩余所有空间`match_parent`。可以通过`onMeasure()`设置宽高默认值解决**</font>
 ```java
+
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
@@ -157,6 +159,7 @@
 
 
 ```java
+
 	/*
      * @param widthMeasureSpec horizontal space requirements as imposed by the parent.
      *                         The requirements are encoded with
@@ -212,6 +215,7 @@
 
 
 ```java
+
     /**
 	 * ViewGroup.java 
 	 * 循环创建子元素的测量算子和子元素的LayoutParams通过子元素的measure()进行测量;
@@ -242,6 +246,7 @@
 1. `Activity/View # onWindowFocusChanged(boolean)`
 
 	```java
+
     @Override
     public void onWindowFocusChanged(boolean hasWindowFocus) {
         super.onWindowFocusChanged(hasWindowFocus);
@@ -253,6 +258,7 @@
 	```
 2. `View # post(Runnable)`
 	```java
+
 	view.post(new Runnable() {
 	
 	    @Override
@@ -288,19 +294,23 @@
 
 	- 设置固定数值
 		```java
+
 		int width = View.MeasureSpec.makeMeasureSpec(100,
         		View.MeasureSpec.EXACTLY);
 		int height = View.MeasureSpec.makeMeasureSpec(100,
 		        View.MeasureSpec.EXACTLY);
 		view.measure(width, height);
+
 		```
 	- wrap_content
 		```java
+
 		int width = View.MeasureSpec.makeMeasureSpec((1<<30)-1,
         		View.MeasureSpec.AT_MOST);
 		int height = View.MeasureSpec.makeMeasureSpec((1<<30)-1,
 		        View.MeasureSpec.AT_MOST);
 		view.measure(width, height);
+
 		```
 
 ---
@@ -317,6 +327,7 @@
 3. <font color=blue>**判断`viewGroup.mOnLayoutChangeListeners`的存在,并调用`View $ OnLayoutChangeListener # onLayoutChange(this, l, t, r, b, oldL, oldT, oldR, oldB)`; **</font>
 
 ```java
+
 	/**
      * android-26/android.view.ViewGroup.java
      * ViewGroup # layout(int l, int t, int r, int b)
@@ -525,11 +536,12 @@
     }
 
 ```
-##### `RelativeLayout`##### 
+##### `RelativeLayout` ##### 
 
 看似很简单的操作.更多的操作已经在初始化或在`onMeasure()`中已经完成,例如<font color=blue>**在`onMeasure()`中子控件之间的"`toLeftOf`"等相关view,已经存储入对应数组,并在循环中调用 `applyHorizontalSizeRules(params, myWidth, rules)` 对子控件位置信息进行设置**</font>;
 
 ```java
+
 	@Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         //  The layout has actually already been performed and the positions
@@ -548,7 +560,7 @@
 
 ```
 
-##### `FrameLayout`##### 
+##### `FrameLayout` ##### 
 <font color=blue>**与`RelativeLayout`相比,多了权重的判断,少了关系判断**.</font>
 
 ```java
@@ -628,6 +640,7 @@
 绘制操作代码如下.
 
 ```java
+
 	/**
      * Manually render this view (and all of its children) to the given Canvas.
      * The view must have already done a full layout before this function is
@@ -851,6 +864,7 @@
 #### 1. 绘制背景 ####
 
 ```java
+
     /**
      * /sdk/sources/android-26/android/view/View.java
      * 
@@ -889,11 +903,13 @@
             canvas.translate(-scrollX, -scrollY);
         }
     }
+
 ```
 
 #### 2. 保存画布用于⑤绘制渐变 ####
 
 ```java
+
 		// /sdk/sources/android-26/android/view/View.java
 		.....
 		// Step 2, save the canvas' layers
@@ -972,6 +988,7 @@
 ```
 #### 3. 绘制内容 ####
 ```java
+
    /**
 	 * // /sdk/sources/android-26/android/view/View.java
      * Implement this to do your drawing.
@@ -980,6 +997,7 @@
      */
     protected void onDraw(Canvas canvas) {
     }
+
 ```
 #### 4. 绘制子控件 ####
 步骤:
@@ -1198,6 +1216,7 @@
         }
 
 		......
+
 ```
 #### 6. 绘制装饰附加内容 ####
 ```java
