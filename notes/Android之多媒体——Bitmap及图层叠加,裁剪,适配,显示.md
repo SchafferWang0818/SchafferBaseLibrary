@@ -28,7 +28,7 @@
 		= true,bitmap可编辑,可以作为Canvas的底层Bitmap使用。
 		= false,bitmap不可变。
 
-- `inJustDecodeBounds`、
+- `inJustDecodeBounds`
 
 		= true,不加载到内存,Native层解码了图片,未生成Java层的Bitmap;
 		= false,加载到内存;

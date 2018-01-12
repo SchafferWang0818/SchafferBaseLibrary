@@ -1,4 +1,4 @@
-# 自定义控件的测量,布局,绘制过程 #
+# 控件的测量,布局,绘制过程 #
 
 	目录:
 		- 测量
@@ -13,7 +13,7 @@
 				2. RelativeLayout
 				3. FrameLayout
 		- 绘制
-			1. View # draw(Canvas)
+			View # draw(Canvas)
 				1. Draw the background	绘制背景
 				2. If necessary, save the canvas' layers to prepare for fading
                 3. Draw view's content	绘制内容
@@ -63,6 +63,7 @@
     }
 
 	public static int getChildMeasureSpec(int spec, int padding, int childDimension) {
+
         int specMode = MeasureSpec.getMode(spec);
         int specSize = MeasureSpec.getSize(spec);
 
@@ -139,8 +140,8 @@
 >     - 当未设置背景时,由`android:minWidth/minHeight`决定;
 >     - 当已设置背景时,由背景Drawable原始大小最小值与`android:minWidth/minHeight`决定; 
 > 3. <font color= red>**依照上表, 当自定义`View` 直接继承自`View`重写`onMeasure()`并设置`wrap_content`时,相当于直接填充了父容器剩余所有空间`match_parent`。可以通过`onMeasure()`设置宽高默认值解决**</font>
-```java
 
+```java
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
@@ -155,11 +156,11 @@
 			setMeasureDimension(widthSize , mHeight);
 		}
     }	  
+
 ```	
 
 
 ```java
-
 	/*
      * @param widthMeasureSpec horizontal space requirements as imposed by the parent.
      *                         The requirements are encoded with

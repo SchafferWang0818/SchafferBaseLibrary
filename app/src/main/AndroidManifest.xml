@@ -74,13 +74,20 @@
         <activity android:name=".test.TestbuglyActivity" />
 
         <activity android:name=".test.TestCoordinateActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
 
+        <activity android:name=".test.TestMotionEventActivity">
+            <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <!--    android     7.0     FileUriExposedException     -->
         <provider
             android:name="android.support.v4.content.FileProvider"

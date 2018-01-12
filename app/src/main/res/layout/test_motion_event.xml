@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.schaffer.base.test.TestWidgetGroupA
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.schaffer.base.test.TestWidgetGroupB
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#787878"
+            android:layout_margin="@dimen/dimen_40dp">
+
+            <com.schaffer.base.test.TestWidgetGroupC
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#d3d3d3"
+                android:layout_margin="@dimen/dimen_40dp">
+                <com.schaffer.base.test.TestWidgetD
+                    android:layout_margin="@dimen/dimen_40dp"
+                    android:layout_width="match_parent"
+                    android:background="#c6c6c6"
+                    android:layout_height="match_parent" />
+
+            </com.schaffer.base.test.TestWidgetGroupC>
+
+        </com.schaffer.base.test.TestWidgetGroupB>
+
+    </com.schaffer.base.test.TestWidgetGroupA>
+</LinearLayout>

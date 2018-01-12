@@ -1,8 +1,18 @@
-# 事件分发机制 #
+# 事件分发机制表现与实现原理 #
 
 	http://blog.csdn.net/qq_23547831/article/details/51530671
+	表现图片来源: http://blog.csdn.net/chunqiuwei/article/details/41084921
 
+- 事件拦截表现
+![事件拦截1](http://img.blog.csdn.net/20141113191428406?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2h1bnFpdXdlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
+	- 不拦截不处理时
+	![事件拦截2](http://img.blog.csdn.net/20141113192118648?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2h1bnFpdXdlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+	- C拦截但不处理时
+	![事件拦截3](http://img.blog.csdn.net/20141113193108593?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2h1bnFpdXdlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+	- D处理时
+	![事件拦截4](http://img.blog.csdn.net/20141113193349703?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2h1bnFpdXdlaQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
+- 事件拦截原理
 ![Android 事件分发机制](https://i.imgur.com/S49ezlo.png)
 
 ### `ViewGroup # dispatchTouchEvent()` ###
@@ -122,7 +132,7 @@
 ----
 ### `View # onTouchEvent(event) ` ###
 
-
+- 点击和长按事件都会消耗当前事件返回true
 
 
 全部代码如下:
@@ -150,7 +160,7 @@
         final int viewFlags = mViewFlags;
         final int action = event.getAction();
 
-        final boolean clickable = ((viewFlags & CLICKABLE) == CLICKABLE
+    >>>    final boolean clickable = ((viewFlags & CLICKABLE) == CLICKABLE
                 || (viewFlags & LONG_CLICKABLE) == LONG_CLICKABLE)
                 || (viewFlags & CONTEXT_CLICKABLE) == CONTEXT_CLICKABLE;
 
@@ -161,7 +171,7 @@
             mPrivateFlags3 &= ~PFLAG3_FINGER_DOWN;
             // A disabled view that is clickable still consumes the touch
             // events, it just doesn't respond to them.
-            return clickable;
+    >>>     return clickable;
         }
         if (mTouchDelegate != null) {
             if (mTouchDelegate.onTouchEvent(event)) {
