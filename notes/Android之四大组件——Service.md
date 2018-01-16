@@ -30,6 +30,8 @@
 
 		- Service保活/内存常驻手段
 
+
+
 ```
 
 ![image](https://developer.android.google.cn/images/service_lifecycle.png)

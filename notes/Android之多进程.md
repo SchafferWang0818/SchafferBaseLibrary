@@ -83,6 +83,7 @@ Socket|功能强大，<br>可以通过网络传输字节流，<br>支持一对�
 
 ---
 ### AIDL ###
+根据AIDL自动生成的java 代码中, 使用代理模式,`Proxy`类使用`IBinder # transact()`标记函数参数,返回值等内容.
 
 AIDL支持的数据类型:
 
@@ -184,13 +185,15 @@ Binder是可能意外死亡的，往往是由于服务端进程意外停止了�
 #### AIDL进程交互所需权限 ####
 
 客户端: **添加自定义权限**
-
+```
 	    <permission
 	        android:name="com.schaffer.base.permission.BIND_TEST"
 	        android:protectionLevel="normal" />
 
+```
 服务端: **可以使用两种验证方式判断是否允许其他进程客户端绑定Service.**
 
+```
 	    @Nullable
 	    @Override
 	    public IBinder onBind(Intent intent) {
@@ -228,6 +231,227 @@ Binder是可能意外死亡的，往往是由于服务端进程意外停止了�
 	        }
 	    };
 
+```
+
+#### AIDL java代码的生成 ####
+
+- AIDL: 初始自定义内容
+
+```
+	// >>> main/aidl/com.schaffer.base/test/Book.aidl
+	package com.schaffer.base.test;
+	parcelable Book;	//Parcelable java实现类
+
+	// >>> main/aidl/com.schaffer.base/IMyAidlInterface.aidl
+	package com.schaffer.base;
+	
+	interface IMyAidlInterface {
+	     String back(int type);
+	}
+
+	// >>> main/aidl/com.schaffer.base/DefineInterface.aidl
+	package com.schaffer.base;
+	//导入需要的 aidl 或 Parcelable
+	import com.schaffer.base.IMyAidlInterface;
+	import com.schaffer.base.test.Book;
+	
+	interface DefineInterface {
+	
+	    void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat,
+	            double aDouble, String aString);
+	            
+	     void myInterface(in IMyAidlInterface inter);
+	     List<Book> getList();
+	     void setBinderDeath(IBinder binder);
+	}
+
+
+```
+- 根据aidl 自动生成的 java 代码,**服务端使用生成的抽象 `Stub` ,完成自定义函数的重写 , 实现 具体实现功能; 客户端 通过静态函数`Stub#asInterface `判断`IBinder`类型并返回具体处理代理`Proxy(外部aidl 生成接口的实现类)`类对象,调用其函数代理给服务端实现.**
+
+```
+//project\app\build\generated\source\aidl\mainflavor\debug\com\schaffer\base\DefineInterface.java
+package com.schaffer.base;
+
+public interface DefineInterface extends android.os.IInterface {
+
+    public static abstract class Stub extends android.os.Binder implements com.schaffer.base.DefineInterface {
+        private static final java.lang.String DESCRIPTOR = "com.schaffer.base.DefineInterface";
+
+
+        public Stub() {
+            this.attachInterface(this, DESCRIPTOR);
+        }
+
+        public static com.schaffer.base.DefineInterface asInterface(android.os.IBinder obj) {
+            if ((obj == null)) {
+                return null;
+            }
+            android.os.IInterface iin = obj.queryLocalInterface(DESCRIPTOR);
+            if (((iin != null) && (iin instanceof com.schaffer.base.DefineInterface))) {
+                return ((com.schaffer.base.DefineInterface) iin);
+            }
+            return new com.schaffer.base.DefineInterface.Stub.Proxy(obj);
+        }
+
+        @Override
+        public android.os.IBinder asBinder() {
+            return this;
+        }
+
+        @Override
+        public boolean onTransact(int code, android.os.Parcel data, android.os.Parcel reply, int flags) throws android.os.RemoteException {
+            switch (code) {
+                case INTERFACE_TRANSACTION: {
+                    reply.writeString(DESCRIPTOR);
+                    return true;
+                }
+                case TRANSACTION_basicTypes: {
+                    data.enforceInterface(DESCRIPTOR);
+                    int _arg0;
+                    _arg0 = data.readInt();
+                    long _arg1;
+                    _arg1 = data.readLong();
+                    boolean _arg2;
+                    _arg2 = (0 != data.readInt());
+                    float _arg3;
+                    _arg3 = data.readFloat();
+                    double _arg4;
+                    _arg4 = data.readDouble();
+                    java.lang.String _arg5;
+                    _arg5 = data.readString();
+                    this.basicTypes(_arg0, _arg1, _arg2, _arg3, _arg4, _arg5);
+                    reply.writeNoException();
+                    return true;
+                }
+                case TRANSACTION_myInterface: {
+                    data.enforceInterface(DESCRIPTOR);
+                    com.schaffer.base.IMyAidlInterface _arg0;
+                    _arg0 = com.schaffer.base.IMyAidlInterface.Stub.asInterface(data.readStrongBinder());
+                    this.myInterface(_arg0);
+                    reply.writeNoException();
+                    return true;
+                }
+                case TRANSACTION_getList: {
+                    data.enforceInterface(DESCRIPTOR);
+                    java.util.List<com.schaffer.base.test.Book> _result = this.getList();
+                    reply.writeNoException();
+                    reply.writeTypedList(_result);
+                    return true;
+                }
+                case TRANSACTION_setBinderDeath: {
+                    data.enforceInterface(DESCRIPTOR);
+                    android.os.IBinder _arg0;
+                    _arg0 = data.readStrongBinder();
+                    this.setBinderDeath(_arg0);
+                    reply.writeNoException();
+                    return true;
+                }
+            }
+            return super.onTransact(code, data, reply, flags);
+        }
+
+        private static class Proxy implements com.schaffer.base.DefineInterface {
+            private android.os.IBinder mRemote;
+
+            Proxy(android.os.IBinder remote) {
+                mRemote = remote;
+            }
+
+            @Override
+            public android.os.IBinder asBinder() {
+                return mRemote;
+            }
+
+            public java.lang.String getInterfaceDescriptor() {
+                return DESCRIPTOR;
+            }
+
+            @Override
+            public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, java.lang.String aString) throws android.os.RemoteException {
+                android.os.Parcel _data = android.os.Parcel.obtain();
+                android.os.Parcel _reply = android.os.Parcel.obtain();
+                try {
+                    _data.writeInterfaceToken(DESCRIPTOR);
+                    _data.writeInt(anInt);
+                    _data.writeLong(aLong);
+                    _data.writeInt(((aBoolean) ? (1) : (0)));
+                    _data.writeFloat(aFloat);
+                    _data.writeDouble(aDouble);
+                    _data.writeString(aString);
+                    mRemote.transact(Stub.TRANSACTION_basicTypes, _data, _reply, 0);
+                    _reply.readException();
+                } finally {
+                    _reply.recycle();
+                    _data.recycle();
+                }
+            }
+
+            @Override
+            public void myInterface(com.schaffer.base.IMyAidlInterface inter) throws android.os.RemoteException {
+                android.os.Parcel _data = android.os.Parcel.obtain();
+                android.os.Parcel _reply = android.os.Parcel.obtain();
+                try {
+                    _data.writeInterfaceToken(DESCRIPTOR);
+                    _data.writeStrongBinder((((inter != null)) ? (inter.asBinder()) : (null)));
+                    mRemote.transact(Stub.TRANSACTION_myInterface, _data, _reply, 0);
+                    _reply.readException();
+                } finally {
+                    _reply.recycle();
+                    _data.recycle();
+                }
+            }
+
+            @Override
+            public java.util.List<com.schaffer.base.test.Book> getList() throws android.os.RemoteException {
+                android.os.Parcel _data = android.os.Parcel.obtain();
+                android.os.Parcel _reply = android.os.Parcel.obtain();
+                java.util.List<com.schaffer.base.test.Book> _result;
+                try {
+                    _data.writeInterfaceToken(DESCRIPTOR);
+                    mRemote.transact(Stub.TRANSACTION_getList, _data, _reply, 0);
+                    _reply.readException();
+                    _result = _reply.createTypedArrayList(com.schaffer.base.test.Book.CREATOR);
+                } finally {
+                    _reply.recycle();
+                    _data.recycle();
+                }
+                return _result;
+            }
+
+            @Override
+            public void setBinderDeath(android.os.IBinder binder) throws android.os.RemoteException {
+                android.os.Parcel _data = android.os.Parcel.obtain();
+                android.os.Parcel _reply = android.os.Parcel.obtain();
+                try {
+                    _data.writeInterfaceToken(DESCRIPTOR);
+                    _data.writeStrongBinder(binder);
+                    mRemote.transact(Stub.TRANSACTION_setBinderDeath, _data, _reply, 0);
+                    _reply.readException();
+                } finally {
+                    _reply.recycle();
+                    _data.recycle();
+                }
+            }
+        }
+
+        static final int TRANSACTION_basicTypes = (android.os.IBinder.FIRST_CALL_TRANSACTION + 0);
+        static final int TRANSACTION_myInterface = (android.os.IBinder.FIRST_CALL_TRANSACTION + 1);
+        static final int TRANSACTION_getList = (android.os.IBinder.FIRST_CALL_TRANSACTION + 2);
+        static final int TRANSACTION_setBinderDeath = (android.os.IBinder.FIRST_CALL_TRANSACTION + 3);
+    }
+
+    public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, java.lang.String aString) throws android.os.RemoteException;
+
+    public void myInterface(com.schaffer.base.IMyAidlInterface inter) throws android.os.RemoteException;
+
+    public java.util.List<com.schaffer.base.test.Book> getList() throws android.os.RemoteException;
+
+    public void setBinderDeath(android.os.IBinder binder) throws android.os.RemoteException;
+}
+
+
+```
 
 ---
 ### Messenger & Message ###
