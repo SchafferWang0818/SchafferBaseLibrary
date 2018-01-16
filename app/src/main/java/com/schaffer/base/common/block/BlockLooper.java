@@ -30,15 +30,19 @@ public class BlockLooper implements Runnable {
     private final static String LOOPER_NAME = "block-looper-thread";
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd-HH-mm-ss");
 
-    private static BlockLooper sLooper;//当前类私有静态对象
-    private final static long MIN_FREQUENCY = 500;//最小的轮询频率（单位：毫秒）
-    private Context appContext;//上下文,用于文件保存等
+    private static BlockLooper sLooper;
+    //当前类私有静态对象
+    /**  最小的轮询频率（单位：毫秒）*/
+    private final static long MIN_FREQUENCY = 500;
+    private Context appContext;
+    /** 上下文,用于文件保存等*/
     private Handler uiHandler = new Handler(Looper.getMainLooper());
     private volatile int tickCounter = 0;
     private Runnable ticker = new Runnable() {
         @Override
         public void run() {
-            tickCounter = (tickCounter + 1) % Integer.MAX_VALUE;//防止次数过多导致抛出异常
+            tickCounter = (tickCounter + 1) % Integer.MAX_VALUE;
+            //防止次数过多导致抛出异常
         }
     };
     private long frequency;

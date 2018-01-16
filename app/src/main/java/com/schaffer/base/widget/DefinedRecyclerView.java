@@ -68,8 +68,9 @@ public class DefinedRecyclerView extends RecyclerView {
         int size = arr.length;
         int maxVal = Integer.MIN_VALUE;
         for (int i = 0; i < size; i++) {
-            if (arr[i] > maxVal)
+            if (arr[i] > maxVal) {
                 maxVal = arr[i];
+            }
         }
         return maxVal;
     }

@@ -33,6 +33,7 @@ public class TestAidlActivity extends AppCompatActivity {
     public ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
+
             DefineInterface define = DefineInterface.Stub.asInterface(service);
 
             try {

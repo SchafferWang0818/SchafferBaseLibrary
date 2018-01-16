@@ -43,14 +43,16 @@ public class BasePagerSingleViewAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-//        super.destroyItem(container, position, object);
+        /*super.destroyItem(container, position, object);*/
         container.removeView(views.get(position));
 
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        if (titles == null) return "";
+        if (titles == null) {
+            return "";
+        }
         return TextUtils.isEmpty(titles.get(position)) ? "" : titles.get(position);
     }
 }

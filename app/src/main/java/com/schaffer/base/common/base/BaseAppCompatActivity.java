@@ -41,11 +41,14 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
             mFrameContent.addView(inflateView, params == null ? new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT) : params);
         }
     }
+
     /**
      * -------------------------------------------------------------标题处理----------------------------------------------------------------------------------------
      */
     public void setToolbar() {
-        if (findViewById(R.id.layout_toolbar_tb) == null) return;
+        if (findViewById(R.id.layout_toolbar_tb) == null) {
+            return;
+        }
         if (this instanceof AppCompatActivity) {
             Toolbar toolbar = (Toolbar) findViewById(R.id.layout_toolbar_tb);
             setSupportActionBar(toolbar);
@@ -140,8 +143,10 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
     }
 
     protected void setRightTextColor(String color) {
-        if (!color.startsWith("#") && !(color.length() != 4 || color.length() != 5 || color.length() != 7 || color.length() != 9))
+        int length = color.length();
+        if (!color.startsWith("#") && !(length != 4 || length != 5 || length != 7 || length != 9)) {
             return;
+        }
         setRightTextColor(Color.parseColor(color));
     }
 
@@ -167,12 +172,16 @@ public abstract class BaseAppCompatActivity<V extends BaseView, P extends BasePr
 
     protected void setToolbar(int visible, String title, boolean leftBack, boolean rightAllDismiss, boolean rightTextShow, String right, @DrawableRes int rightResId, View.OnClickListener rightClick) {
         setToolbar(visible);
-        if (visible == View.GONE) return;
+        if (visible == View.GONE) {
+            return;
+        }
         setActivityTitle(title == null ? "" : title);
         if (leftBack) {
             setLeftClick(null);
         }
-        if (rightAllDismiss) return;
+        if (rightAllDismiss) {
+            return;
+        }
         if (rightTextShow) {
             setRightText(right, rightClick);
         } else {

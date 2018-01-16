@@ -75,7 +75,9 @@ public abstract class HeaderFooterRecyclerAdapter<T> extends BaseRecyclerAdapter
     }
 
     public void removeHeaderView() {
-        if (headerResId <= 0 && headerView == null) return;
+        if (headerResId <= 0 && headerView == null) {
+            return;
+        }
         headerResId = 0;
         headerView = null;
 //        notifyItemRemoved(0);
@@ -83,7 +85,9 @@ public abstract class HeaderFooterRecyclerAdapter<T> extends BaseRecyclerAdapter
     }
 
     public void removeFooterView() {
-        if (footerResId <= 0 && footerView == null) return;
+        if (footerResId <= 0 && footerView == null) {
+            return;
+        }
         footerResId = 0;
         footerView = null;
 //        notifyItemRemoved(0);

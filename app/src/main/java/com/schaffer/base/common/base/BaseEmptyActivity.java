@@ -249,12 +249,16 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
         if (handler != null) {
             handler.removeCallbacksAndMessages(null);
         }
-        if (permissionResultListener != null) permissionResultListener = null;
+        if (permissionResultListener != null) {
+            permissionResultListener = null;
+        }
         application.getActivityManager().popActivity(this);
     }
 
     private void initEventBus() {
-        if (!eventbusEnable) return;
+        if (!eventbusEnable) {
+            return;
+        }
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         } else {
@@ -320,8 +324,9 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
             }).create().show();
         } else {
             if (ActivityCompat.checkSelfPermission(this, permissions[0]) == PackageManager.PERMISSION_GRANTED) {
-                if (permissionResultListener != null)
+                if (permissionResultListener != null) {
                     permissionResultListener.onSinglePermissionGranted(permissions[0]);
+                }
             } else {
                 new AlertDialog.Builder(this).setCancelable(false)
                         .setMessage(TextUtils.isEmpty(description) ? "为了能正常实现功能，我们将向您申请权限。" : description).setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -366,10 +371,13 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_CODE_PERMISSION) {//单个权限申请结果
-            if (grantResults.length == 0) return;
+            if (grantResults.length == 0) {
+                return;
+            }
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {//权限申请成功
-                if (permissionResultListener != null)
+                if (permissionResultListener != null) {
                     permissionResultListener.onSinglePermissionGranted(permissions[0]);
+                }
             } else {//权限申请失败
                 if (!ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0])) {//已点不再询问
                     showSnackbar("权限已被禁止,并不再询问,请在设置中打开", Snackbar.LENGTH_LONG);
@@ -381,13 +389,16 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
                         }
                     }).create().show();
                 } else {//再次询问?
-                    if (permissionResultListener != null)
+                    if (permissionResultListener != null) {
                         permissionResultListener.onSinglePermissionDenied(permissions[0]);
+                    }
                 }
             }
         }
         if (requestCode == REQUEST_CODE_PERMISSIONS) {//多个权限申请结果
-            if (grantResults.length == 0) return;
+            if (grantResults.length == 0) {
+                return;
+            }
             List<String> deniedPermissions = new ArrayList<>();
             for (int i = 0; i < permissions.length; i++) {
                 if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
@@ -395,11 +406,13 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
                 }
             }
             if (deniedPermissions.size() != 0) {//有权限未允许
-                if (permissionResultListener != null)
+                if (permissionResultListener != null) {
                     permissionResultListener.onPermissionsDenied(deniedPermissions);
+                }
             } else {//权限已被完全允许
-                if (permissionResultListener != null)
+                if (permissionResultListener != null) {
                     permissionResultListener.onPermissionsGrantedAll();
+                }
             }
         }
     }
@@ -437,20 +450,24 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
     /*----------------------------------------------------------倒计时如下--------------------------------------------------------------------------------*/
 
     protected void countDown(int second, final CountDownTimeListener listener) {
-        if (second <= 0) return;
+        if (second <= 0) {
+            return;
+        }
         countDownTimer = new CountDownTimer(second * 1000, 1000) {
 
             @Override
             public void onTick(long millisUntilFinished) {
                 int secondUntilFinished = Math.round(millisUntilFinished / 1000);
-                if (listener != null)
+                if (listener != null) {
                     listener.onCountDownTick(secondUntilFinished);
+                }
             }
 
             @Override
             public void onFinish() {
-                if (listener != null)
+                if (listener != null) {
                     listener.onCountDownFinish();
+                }
             }
         };
         countDownTimer.start();

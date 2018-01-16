@@ -25,7 +25,7 @@ public class GlideRoundTransform extends BitmapTransformation {
 
     public GlideRoundTransform(Context context, int dp) {
         super(context);
-        this.radius = Resources.getSystem().getDisplayMetrics().density * dp;
+        radius = Resources.getSystem().getDisplayMetrics().density * dp;
     }
 
     @Override protected Bitmap transform(BitmapPool pool, Bitmap toTransform, int outWidth, int outHeight) {
@@ -33,7 +33,9 @@ public class GlideRoundTransform extends BitmapTransformation {
     }
 
     private static Bitmap roundCrop(BitmapPool pool, Bitmap source) {
-        if (source == null) return null;
+        if (source == null) {
+            return null;
+        }
 
         Bitmap result = pool.get(source.getWidth(), source.getHeight(), Bitmap.Config.RGB_565);
         if (result == null) {

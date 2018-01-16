@@ -26,6 +26,7 @@ public class ImgSaveDialog extends BaseDialog implements View.OnClickListener {
         initView(view);
     }
 
+    @Override
     public void initView(View view) {
         mTvSave = (TextView) view.findViewById(R.id.dialog_img_menu_tv_save);
         mTvSave.setOnClickListener(ImgSaveDialog.this);

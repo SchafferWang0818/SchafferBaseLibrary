@@ -159,7 +159,9 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V
     }
 
     public void callPhone(final String telephone) {
-        if (TextUtils.isEmpty(telephone)) return;
+        if (TextUtils.isEmpty(telephone)) {
+            return;
+        }
         StringBuffer sb = new StringBuffer().append(getString(R.string.call));
         new AlertDialog.Builder(activity).setMessage(sb.toString())
                 .setPositiveButton(getString(R.string.ensure), new DialogInterface.OnClickListener() {
@@ -180,15 +182,24 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V
     public static final int REQUEST_CODE_PERMISSION = 19;
 
     protected String[] dangerousPermissions = {
-            Manifest.permission.WRITE_EXTERNAL_STORAGE//读写权限0
-            , Manifest.permission.CAMERA//相机权限1
-            , Manifest.permission.WRITE_CONTACTS//写入联系人2
-            , Manifest.permission.CALL_PHONE//打电话3
-            , Manifest.permission.SEND_SMS//发送短信4
-            , Manifest.permission.RECORD_AUDIO//麦克风打开5
-            , Manifest.permission.ACCESS_FINE_LOCATION//定位相关6
-            , Manifest.permission.BODY_SENSORS//传感器 7  最小使用SDK 20
-            , Manifest.permission.WRITE_CALENDAR//日历写入8
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            //读写权限0
+            , Manifest.permission.CAMERA
+            //相机权限1
+            , Manifest.permission.WRITE_CONTACTS
+            //写入联系人2
+            , Manifest.permission.CALL_PHONE
+            //打电话3
+            , Manifest.permission.SEND_SMS
+            //发送短信4
+            , Manifest.permission.RECORD_AUDIO
+            //麦克风打开5
+            , Manifest.permission.ACCESS_FINE_LOCATION
+            //定位相关6
+            , Manifest.permission.BODY_SENSORS
+            //传感器 7  最小使用SDK 20
+            , Manifest.permission.WRITE_CALENDAR
+            //日历写入8
     };
 
     void requestPermission(String description, final String... permissions) {
@@ -203,8 +214,9 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V
             }).create().show();
         } else {
             if (ActivityCompat.checkSelfPermission(activity, permissions[0]) == PackageManager.PERMISSION_GRANTED) {
-                if (permissionResultListener != null)
+                if (permissionResultListener != null) {
                     permissionResultListener.onSinglePermissionGranted(permissions[0]);
+                }
             } else {
                 new AlertDialog.Builder(activity).setCancelable(false)
                         .setMessage(TextUtils.isEmpty(description) ? "为了能正常实现功能，我们将向您申请权限。" : description).setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -249,11 +261,14 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_CODE_PERMISSION) {
             //单个权限申请结果
-            if (grantResults.length == 0) return;
+            if (grantResults.length == 0) {
+                return;
+            }
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //权限申请成功
-                if (permissionResultListener != null)
+                if (permissionResultListener != null) {
                     permissionResultListener.onSinglePermissionGranted(permissions[0]);
+                }
             } else {//权限申请失败
                 if (!ActivityCompat.shouldShowRequestPermissionRationale(activity, permissions[0])) {
                     //已点不再询问
@@ -266,13 +281,16 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V
                         }
                     }).create().show();
                 } else {//再次询问?
-                    if (permissionResultListener != null)
+                    if (permissionResultListener != null) {
                         permissionResultListener.onSinglePermissionDenied(permissions[0]);
+                    }
                 }
             }
         }
         if (requestCode == REQUEST_CODE_PERMISSIONS) {//多个权限申请结果
-            if (grantResults.length == 0) return;
+            if (grantResults.length == 0) {
+                return;
+            }
             List<String> deniedPermissions = new ArrayList<>();
             for (int i = 0; i < permissions.length; i++) {
                 if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
@@ -280,11 +298,13 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V
                 }
             }
             if (deniedPermissions.size() != 0) {//有权限未允许
-                if (permissionResultListener != null)
+                if (permissionResultListener != null) {
                     permissionResultListener.onPermissionsDenied(deniedPermissions);
+                }
             } else {//权限已被完全允许
-                if (permissionResultListener != null)
+                if (permissionResultListener != null) {
                     permissionResultListener.onPermissionsGrantedAll();
+                }
             }
         }
     }
@@ -354,7 +374,8 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V
     }
 
     public ProgressDialog showProgress(String content, boolean touchOutside) {
-        ProgressDialog loadingDialog = new ProgressDialog(activity);    // 创建自定义样式dialog
+        ProgressDialog loadingDialog = new ProgressDialog(activity);
+        // 创建自定义样式dialog
         loadingDialog.setCancelable(false);
         loadingDialog.setCanceledOnTouchOutside(touchOutside);
         loadingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

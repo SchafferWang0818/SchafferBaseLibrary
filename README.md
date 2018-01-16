@@ -2,7 +2,7 @@
 
 这是 **SchafferWang** 用于记录/优化 Android 工程代码和笔记的项目。
 
-笔记文件夹为 `SchafferBaseLibrary\notes`;
+笔记文件夹为 `SchafferBaseLibrary \ notes`;
 
 - Android与C,C++,JNI,NDK
 - Android之adb

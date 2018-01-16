@@ -10,7 +10,7 @@ import android.widget.TextView;
  * Created by AndroidSchaffer on 2017/9/18.
  */
 
-public class DrawableCenterTextView extends TextView {
+public class DrawableCenterTextView extends android.support.v7.widget.AppCompatTextView {
 
     public DrawableCenterTextView(Context context, AttributeSet attrs,
                                   int defStyle) {

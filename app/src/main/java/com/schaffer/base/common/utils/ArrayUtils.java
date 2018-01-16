@@ -39,10 +39,14 @@ public final class ArrayUtils {
      * not found.
      */
     public static <T> int indexOf(T[] array, T value) {
-        if (array == null) return -1;
+        if (array == null) {
+            return -1;
+        }
         for (int i = 0; i < array.length; i++) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                if (Objects.equals(array[i], value)) return i;
+                if (Objects.equals(array[i], value)) {
+                    return i;
+                }
             }
         }
         return -1;

@@ -59,19 +59,28 @@ public class WebActivity extends BaseActivity<WebActivity, WebPresenter> {
 
     }
 
+    @Override
     public void initView() {
         webView = (WebView) findViewById(R.id.web_wv_web);
         WebSettings settings = webView.getSettings();
-        settings.setJavaScriptEnabled(true);//js交互
-        settings.setAllowFileAccess(true);//可访问文件
-        settings.setLoadWithOverviewMode(true);//缩放至屏幕大小
-        settings.setUseWideViewPort(true);//图片调整到适合webView的大小
-        settings.setSupportZoom(true);//支持缩放
+        settings.setJavaScriptEnabled(true);
+        //js交互
+        settings.setAllowFileAccess(true);
+        //可访问文件
+        settings.setLoadWithOverviewMode(true);
+        //缩放至屏幕大小
+        settings.setUseWideViewPort(true);
+        //图片调整到适合webView的大小
+        settings.setSupportZoom(true);
+        //支持缩放
         settings.setNeedInitialFocus(false);
         settings.setSupportMultipleWindows(true);
-        settings.setDomStorageEnabled(true);//开启(离线加载) DOM storage API 功能
-        settings.setDatabaseEnabled(true);   //开启 database storage API 功能
-        settings.setAppCacheEnabled(true);//开启 Application Caches 功能
+        settings.setDomStorageEnabled(true);
+        //开启(离线加载) DOM storage API 功能
+        settings.setDatabaseEnabled(true);
+        //开启 database storage API 功能
+        settings.setAppCacheEnabled(true);
+        //开启 Application Caches 功能
         //5.0 以后 https不可以直接加载http资源
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);

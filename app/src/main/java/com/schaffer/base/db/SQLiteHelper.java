@@ -42,8 +42,9 @@ public class SQLiteHelper {
 
     public void execSQL(String sqlStr) {
         SQLiteDatabase db = helper.getReadableDatabase();
-        if (sqlStr != null)
+        if (sqlStr != null) {
             db.execSQL(sqlStr);
+        }
         db.close();
     }
 
@@ -62,7 +63,9 @@ public class SQLiteHelper {
      * @param insertValue 值
      */
     public void insertValue(String tabName, String insertValue) {
-        if (tabName.isEmpty() || insertValue.isEmpty()) return;
+        if (tabName.isEmpty() || insertValue.isEmpty()) {
+            return;
+        }
         execSQL("INSERT INTO " + tabName + " VALUES " + insertValue);
     }
 
@@ -73,7 +76,9 @@ public class SQLiteHelper {
      * @param delWhere
      */
     public void deleteValue(String tabName, String delWhere) {
-        if (tabName.isEmpty() || delWhere.isEmpty()) return;
+        if (tabName.isEmpty() || delWhere.isEmpty()) {
+            return;
+        }
         execSQL("DELETE FROM " + tabName + " WHERE " + delWhere);
     }
 
@@ -85,17 +90,23 @@ public class SQLiteHelper {
      * @param conditionsWhere
      */
     public void updateValue(String tabName, String updateValue, String conditionsWhere) {
-        if (tabName.isEmpty() || updateValue.isEmpty() || conditionsWhere.isEmpty()) return;
+        if (tabName.isEmpty() || updateValue.isEmpty() || conditionsWhere.isEmpty()) {
+            return;
+        }
         execSQL("UPDATE " + tabName + "SET " + updateValue + "WHERE " + conditionsWhere);
     }
 
     public SQLiteDatabase getDatabaseFromFile(File file) {
-        if (!file.exists() || file.isDirectory()) return null;
+        if (!file.exists() || file.isDirectory()) {
+            return null;
+        }
         return SQLiteDatabase.openOrCreateDatabase(file, null);
     }
 
     public SQLiteDatabase getDatabaseFromFile(String filePathName) {
-        if (filePathName.isEmpty()) return null;
+        if (filePathName.isEmpty()) {
+            return null;
+        }
         return getDatabaseFromFile(new File(filePathName));
     }
 

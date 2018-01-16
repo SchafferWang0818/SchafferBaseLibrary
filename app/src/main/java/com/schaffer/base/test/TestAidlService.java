@@ -82,4 +82,13 @@ public class TestAidlService extends Service {
         }
     }
 
+    public static class MyStaticBinder extends Binder {
+
+        public void doSomething() {
+            //nothing.
+        }
+
+
+    }
+
 }

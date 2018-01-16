@@ -190,8 +190,9 @@ public class ScrollerRulerView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getY() < getMeasuredHeight() / 2) {
-            if (mScroller.isFinished())
+            if (mScroller.isFinished()) {
                 adjustLocation();
+            }
             return false;
         }
         if (mGestureDetector.onTouchEvent(event)) {
@@ -218,8 +219,9 @@ public class ScrollerRulerView extends View {
     }
 
     private void adjustLocation() {
-        if (beginX % scaleWidth == 0)
+        if (beginX % scaleWidth == 0) {
             return;
+        }
         //判断是左移还是右移
         int dx = Math.abs(beginX) % scaleWidth > scaleWidth / 2 ? (scaleWidth - Math.abs(beginX) % scaleWidth) * (beginX / Math.abs(beginX))
                 : Math.abs(beginX) % scaleWidth * (-beginX / Math.abs(beginX));

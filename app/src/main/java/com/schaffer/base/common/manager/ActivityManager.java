@@ -36,8 +36,9 @@ public class ActivityManager {
     // 获得当前栈顶Activity
     public Activity currentActivity() {
         Activity activity = null;
-        if (!activityStack.empty())
+        if (!activityStack.empty()) {
             activity = activityStack.lastElement().get();
+        }
         return activity;
     }
 

@@ -6,13 +6,14 @@ import android.graphics.Path;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ImageView;
 
 /**
- * Created by AndroidSchaffer on 2017/9/28.
+ *
+ * @author AndroidSchaffer
+ * @date 2017/9/28
  */
 
-public class RoundImageView extends ImageView {
+public class RoundImageView extends android.support.v7.widget.AppCompatImageView {
 
     float width, height;
     int roundPx = 20;
