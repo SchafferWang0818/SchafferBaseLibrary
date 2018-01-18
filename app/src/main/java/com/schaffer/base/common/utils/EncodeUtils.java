@@ -10,15 +10,16 @@ import java.net.URLEncoder;
 
 /**
  * <pre>
- *     desc  : 编码解码相关工具类
- * urlEncode          : URL编码
- * urlDecode          : URL解码
- * base64Encode       : Base64编码
- * base64Encode2String: Base64编码
- * base64Decode       : Base64解码
- * base64UrlSafeEncode: Base64URL安全编码
- * htmlEncode         : Html编码
- * htmlDecode         : Html解码
+ * @desc  : 编码解码相关工具类
+ * @author AndroidSchaffer
+ * {@link #urlEncode URL编码}
+ * {@link #urlDecode URL解码}
+ * {@link #base64Encode         Base64编码}
+ * {@link #base64Encode2String  Base64编码}
+ * {@link #base64Decode         Base64解码}
+ * {@link #base64UrlSafeEncode  Base64URL安全编码}
+ * {@link #htmlEncode           Html编码}
+ * {@link #htmlDecode           Html解码}
  * </pre>
  */
 public final class EncodeUtils {

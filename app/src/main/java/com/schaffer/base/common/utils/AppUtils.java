@@ -41,14 +41,16 @@ import java.util.List;
  * {@link AppUtils#getAppSignatureSHA1  }   : 获取应用签名的的SHA1值
  * {@link AppUtils#isAppForeground  } : 判断App是否处于前台
  * {@link AppUtils#getAppInfo  } : 获取App信息
- * {@link AppUtils#getAppsInfo()} : 获取所有已安装App信息
+ * {@link AppUtils#getAppsInfo} : 获取所有已安装App信息
  * {@link AppUtils#cleanAppData}        : 清除App所有数据
  */
 public class AppUtils {
-    public static final String PACKAGE_WECHAT="com.tencent.mm";
-    public static final String PACKAGE_QQ_LITE="com.tencent.qqlite";
-    public static final String PACKAGE_QQ="com.tencent.mobileqq";
-    public static final String PACKAGE_WEIBO="com.sina.weibo";
+    public static final String PACKAGE_WECHAT = "com.tencent.mm";
+    public static final String PACKAGE_QQ_LITE = "com.tencent.qqlite";
+    public static final String PACKAGE_QQ = "com.tencent.mobileqq";
+    public static final String PACKAGE_WEIBO = "com.sina.weibo";
+    public static final String PACKAGE_ALIPAY = "com.eg.android.AlipayGphone";
+
     /**
      * 获取系统版本号
      *
