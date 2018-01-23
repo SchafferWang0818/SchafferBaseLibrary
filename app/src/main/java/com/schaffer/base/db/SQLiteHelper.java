@@ -36,7 +36,7 @@ public class SQLiteHelper {
         return instance;
     }
 
-    private SQLiteHelper(Context context) {
+    public SQLiteHelper(Context context) {
         helper = new PersonalSQLiteHelper(context);
     }
 

@@ -29,8 +29,8 @@ import com.schaffer.base.common.utils.FileIOUtils;
 import com.schaffer.base.common.utils.ImageUtils;
 import com.schaffer.base.common.utils.LTUtils;
 import com.schaffer.base.common.utils.NetworkUtils;
-import com.schaffer.base.common.webClient.DefinedWebChromeClient;
-import com.schaffer.base.common.webClient.DefinedWebViewClient;
+import com.schaffer.base.common.webclient.DefinedWebChromeClient;
+import com.schaffer.base.common.webclient.DefinedWebViewClient;
 import com.schaffer.base.ui.activity.ImgsShowActivity;
 
 import java.io.File;
@@ -84,29 +84,27 @@ public class BaseWebActivity extends AppCompatActivity {
 
     private void initWebSettings() {
         WebSettings settings = mWvWeb.getSettings();
-        settings.setJavaScriptEnabled(true);//js交互
-        settings.setAllowFileAccess(true);//可访问文件
-        settings.setLoadWithOverviewMode(true);//缩放至屏幕大小
-        settings.setUseWideViewPort(true);//图片调整到适合webView的大小
-        settings.setSupportZoom(true);//支持缩放
+        settings.setJavaScriptEnabled(true);
+        settings.setAllowFileAccess(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setUseWideViewPort(true);
+        settings.setSupportZoom(true);
         settings.setNeedInitialFocus(false);
         settings.setSupportMultipleWindows(true);
         //5.0 以后 https不可以直接加载http资源
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
-        if (NetworkUtils.isConnected()) {
-            settings.setCacheMode(WebSettings.LOAD_DEFAULT);//根据cache-control决定是否从网络上取数据。
-        } else {
-            settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);//没网，则从本地获取，即离线加载
-        }
-        settings.setDomStorageEnabled(true);//开启(离线加载) DOM storage API 功能
-        settings.setDatabaseEnabled(true);   //开启 database storage API 功能
-        settings.setAppCacheEnabled(true);//开启 Application Caches 功能
+        setCacheSettings();
     }
 
     private void initWebClients() {
-        mWvWeb.setWebViewClient(new DefinedWebViewClient());
+        mWvWeb.setWebViewClient(new DefinedWebViewClient() {
+            @Override
+            protected void callbackErrorInfo(int errorCode, String description, String failingUrl) {
+                showSnackbar("加载失败,错误码:" + errorCode, Snackbar.LENGTH_SHORT);
+            }
+        });
         mWvWeb.setWebChromeClient(new DefinedWebChromeClient(inputListener) {
 
             @Override
@@ -182,10 +180,10 @@ public class BaseWebActivity extends AppCompatActivity {
             return;
         }
         switch (requestCode) {
-            case REQUEST_CODE_PHOTO_CAMERA_COMPRESS://摄像机获取压缩图
+            case REQUEST_CODE_PHOTO_CAMERA_COMPRESS:
+                //摄像机获取压缩图
                 if (data != null && data.getData() != null) {
-//                    Bundle bundle = data.getExtras();
-////                    Bitmap bitmap = (Bitmap) bundle.get("data");
+                    /* Bundle bundle = data.getExtras();Bitmap bitmap = (Bitmap) bundle.get("data");*/
                     if (TextUtils.isEmpty(tempPath)) {
                         compressAndSetValue(tempPath);
                         tempPath = null;
@@ -201,7 +199,8 @@ public class BaseWebActivity extends AppCompatActivity {
 //
 //
 //                break;
-            case REQUEST_CODE_PHOTO_ALBUM://相册获取
+            case REQUEST_CODE_PHOTO_ALBUM:
+                //相册获取
                 if (data != null && data.getData() != null) {
                     Uri uri = data.getData();
                     String path = Environment.getRootDirectory().getAbsolutePath() + System.currentTimeMillis() + ".jpg";
@@ -253,7 +252,8 @@ public class BaseWebActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    mWvWeb.evaluateJavascript("javascript:" + functionName, new ValueCallback<String>() {//例如: javascript:callJS()
+                    mWvWeb.evaluateJavascript("javascript:" + functionName, new ValueCallback<String>() {
+                        //例如: javascript:callJS()
                         @Override
                         public void onReceiveValue(String value) {
                             //此处为 js 返回的结果
@@ -267,16 +267,16 @@ public class BaseWebActivity extends AppCompatActivity {
     }
 
 
-//    /**
-//     * 从相机获取原图
-//     */
-//    public void getPhotoFromCameraDefault() {
-//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        tempPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/" + System.currentTimeMillis() + ".png";
-//        Uri uri = Uri.fromFile(new File(tempPath));
-//        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-//        startActivityForResult(intent, REQUEST_CODE_PHOTO_CAMERA_DEFAULT);
-//    }
+    /**
+     * 从相机获取原图
+     */
+    /*public void getPhotoFromCameraDefault() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        tempPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/" + System.currentTimeMillis() + ".png";
+        Uri uri = Uri.fromFile(new File(tempPath));
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        startActivityForResult(intent, REQUEST_CODE_PHOTO_CAMERA_DEFAULT);
+    }*/
 
     /**
      * 从相机获取压缩图
@@ -306,7 +306,7 @@ public class BaseWebActivity extends AppCompatActivity {
     }
 
 
-    //    @SuppressLint("JavascriptInterface")
+    //@SuppressLint("JavascriptInterface")
     public static class JsInterface {
 
         private final Context context;
@@ -338,7 +338,9 @@ public class BaseWebActivity extends AppCompatActivity {
          */
         @JavascriptInterface
         public void getImgsPath2Show(String pathStr, int currentIndex) {
-            if (TextUtils.isEmpty(pathStr.trim())) return;
+            if (TextUtils.isEmpty(pathStr.trim())) {
+                return;
+            }
             String[] paths = pathStr.split("\n");
             int index = currentIndex >= paths.length ? 0 : currentIndex;
             Intent intent = new Intent(context, ImgsShowActivity.class);
@@ -380,30 +382,6 @@ public class BaseWebActivity extends AppCompatActivity {
 
 
     @Override
-    public void onBackPressed() {
-
-        if (mWvWeb.canGoBack()) {
-            mWvWeb.goBack();
-        } else {
-            super.onBackPressed();
-        }
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mWvWeb.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mWvWeb.onPause();
-    }
-
-
-    @Override
     protected void onDestroy() {
         if (mWvWeb != null) {
             mWvWeb.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
@@ -436,9 +414,57 @@ public class BaseWebActivity extends AppCompatActivity {
     }
 
     public void showSnackbar(String content, int duration) {
-        if (duration != Snackbar.LENGTH_SHORT && duration != Snackbar.LENGTH_LONG)
+        if (duration != Snackbar.LENGTH_SHORT && duration != Snackbar.LENGTH_LONG) {
             return;
+        }
         Snackbar.make(mFrameContent, content, duration).show();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mWvWeb.canGoBack()) {
+            mWvWeb.goBack();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mWvWeb != null) {
+            mWvWeb.resumeTimers();
+            mWvWeb.getSettings().setJavaScriptEnabled(true);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mWvWeb != null) {
+            mWvWeb.pauseTimers();
+            mWvWeb.getSettings().setJavaScriptEnabled(false);
+        }
+    }
+
+
+    public void setCacheSettings() {
+        if (mWvWeb != null) {
+            WebSettings settings = mWvWeb.getSettings();
+            if (NetworkUtils.isConnected()) {
+                settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+            } else {
+                settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+            }
+            settings.setDomStorageEnabled(true);
+            settings.setDatabaseEnabled(true);
+            settings.setAppCacheEnabled(true);
+            try {
+                File cacheDir = getCacheDir();
+                settings.setAppCachePath(cacheDir.getAbsolutePath() + (cacheDir.isDirectory() ? "webCache" : "/webCache"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

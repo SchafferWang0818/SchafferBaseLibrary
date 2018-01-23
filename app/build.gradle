@@ -126,6 +126,7 @@ dependencies {
     compile rootProject.ext.dependencies["buglyupgrade"]
     compile rootProject.ext.dependencies["buglynative"]
     compile rootProject.ext.dependencies["okhttputils"]
+    compile rootProject.ext.dependencies["airbnbLottie"]
     debugCompile rootProject.ext.dependencies["leak"]
     releaseCompile rootProject.ext.dependencies["leak_no"]
 }

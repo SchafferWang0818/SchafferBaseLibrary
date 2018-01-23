@@ -1,15 +1,19 @@
-package com.schaffer.base.common.webClient;
+package com.schaffer.base.common.webclient;
 
 import android.graphics.Bitmap;
+import android.net.http.SslError;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 /**
  * 处理各种通知 & 请求事件
- * Created by SchafferWang on 2017/7/8.
+ *
+ * @author SchafferWang
+ * @date 2017/7/8
  */
 
-public class DefinedWebViewClient extends WebViewClient {
+public abstract class DefinedWebViewClient extends WebViewClient {
 
     /**
      * 打开网页时不调用系统浏览器， 而是在本WebView中显示
@@ -82,7 +86,7 @@ public class DefinedWebViewClient extends WebViewClient {
     }
 
     /**
-     * 错误时调用
+     * 加载页面的服务器出现错误时（如404）调用。
      *
      * @param view
      * @param errorCode
@@ -91,9 +95,32 @@ public class DefinedWebViewClient extends WebViewClient {
      */
     @Override
     public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-//        super.onReceivedError(view, errorCode, description, failingUrl);
-        view.loadUrl("http://blank");
+        callbackErrorInfo(errorCode, description, failingUrl);
     }
 
+    /**
+     * 加载失败时回调
+     *
+     * @param errorCode   错误码
+     * @param description 错误描述
+     * @param failingUrl  加载失败的链接
+     */
+    protected abstract void callbackErrorInfo(int errorCode, String description, String failingUrl);
 
+
+    /**
+     * 处理https请求 webView默认是不处理https请求的
+     *
+     * @param view
+     * @param handler
+     * @param error
+     */
+    @Override
+    public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+        super.onReceivedSslError(view, handler, error);
+        /* 等待证书响应 */
+        handler.proceed();
+        // handler.cancel();      //表示挂起连接，为默认方式
+        // handler.handleMessage(null);    //可做其他处理
+    }
 }

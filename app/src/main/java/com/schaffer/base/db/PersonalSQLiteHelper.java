@@ -9,7 +9,7 @@ import android.util.Log;
  * Created by a7352 on 2017/5/14.操作
  */
 
-class PersonalSQLiteHelper extends SQLiteOpenHelper {
+public class PersonalSQLiteHelper extends SQLiteOpenHelper {
 
 
     public PersonalSQLiteHelper(Context context) {

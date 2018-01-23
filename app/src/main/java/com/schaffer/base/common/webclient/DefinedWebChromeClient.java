@@ -1,4 +1,4 @@
-package com.schaffer.base.common.webClient;
+package com.schaffer.base.common.webclient;
 
 import android.net.Uri;
 import android.webkit.JsPromptResult;

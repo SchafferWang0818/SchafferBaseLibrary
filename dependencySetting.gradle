@@ -1,20 +1,22 @@
 ext {
     android = [
-            compileSdkVersion: 25,
-            buildToolsVersion: "25.0.0",
+            compileSdkVersion: 26,
+            buildToolsVersion: "26.0.1",
             minSdkVersion    : 15,
-            targetSdkVersion : 22,
+            targetSdkVersion : 25,
             versionCode      : 1,
             versionName      : "1.0",
             tinkerId         : "base-4.2.0-patch",
-            baseApkDir       : "app-1201-19-21-49"
+            baseApkDir       : "app-1201-19-21-49",
+            supportVersion   : "26.0.0-alpha1"
     ]
+
     dependencies = [
-            "appcompat-v7"        : "com.android.support:appcompat-v7:25.3.1",
+            "appcompat-v7"        : "com.android.support:appcompat-v7:" + android.supportVersion,
+            "design"              : "com.android.support:design:" + android.supportVersion,
+            "recyclerview"        : "com.android.support:recyclerview-v7:" + android.supportVersion,
+            "cardview"            : "com.android.support:cardview-v7:" + android.supportVersion,
             "constraint"          : "com.android.support.constraint:constraint-layout:1.0.2",
-            "design"              : "com.android.support:design:25.3.1",
-            "recyclerview"        : "com.android.support:recyclerview-v7:25.3.1",
-            "cardview"            : "com.android.support:cardview-v7:25.3.1",
 
             "retrofit"            : "com.squareup.retrofit2:retrofit:2.1.0",
             "retrofit-converter"  : "com.squareup.retrofit2:converter-gson:2.1.0",
@@ -36,7 +38,7 @@ ext {
             "banner"              : "com.youth.banner:banner:1.4.10",
             "svganimview"         : "com.github.mcxtzhang:PathAnimView:V1.0.0",
             "gifview"             : "com.github.Cutta:GifView:1.1",
-            "airbnbLottie"        : "com.airbnb.android:lottie:2.2.5",
+            "airbnbLottie"        : "com.airbnb.android:lottie:2.5.0-beta3",
 
             "gson"                : "com.google.code.gson:gson:2.6.2",
             "butterknife"         : "com.jakewharton:butterknife:7.0.1",
@@ -62,5 +64,4 @@ ext {
 
 
     ]
-
 }

@@ -14,11 +14,15 @@ import android.widget.TextView;
 
 import com.schaffer.base.R;
 import com.schaffer.base.common.constants.Constants;
+import com.schaffer.base.common.utils.NetworkUtils;
 import com.schaffer.base.presenter.WebPresenter;
+
+import java.io.File;
 
 
 /**
- * Created by AndroidSchaffer on 2017/9/21.
+ * @author AndroidSchaffer
+ * @date 2017/9/21
  */
 
 public class WebActivity extends BaseActivity<WebActivity, WebPresenter> {
@@ -28,7 +32,6 @@ public class WebActivity extends BaseActivity<WebActivity, WebPresenter> {
 
     @Override
     protected void inflateView() {
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         inflateContent(R.layout.activity_web);
         setToolbar(View.VISIBLE);
         initView();
@@ -75,11 +78,7 @@ public class WebActivity extends BaseActivity<WebActivity, WebPresenter> {
         //支持缩放
         settings.setNeedInitialFocus(false);
         settings.setSupportMultipleWindows(true);
-        settings.setDomStorageEnabled(true);
-        //开启(离线加载) DOM storage API 功能
-        settings.setDatabaseEnabled(true);
-        //开启 database storage API 功能
-        settings.setAppCacheEnabled(true);
+        setCacheSettings();
         //开启 Application Caches 功能
         //5.0 以后 https不可以直接加载http资源
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -100,7 +99,8 @@ public class WebActivity extends BaseActivity<WebActivity, WebPresenter> {
         }
 
         if (!TextUtils.isEmpty(url)) {
-            if (!(url.trim().startsWith("http://") || url.startsWith("https://")/*||url.startsWith("Http://")||url.startsWith("Https://")*/)) {
+            if (!(url.trim().startsWith("http://")
+                    || url.startsWith("https://"))) {
                 url = "http://" + url;
             }
             webView.loadUrl(url);
@@ -116,7 +116,57 @@ public class WebActivity extends BaseActivity<WebActivity, WebPresenter> {
     public void onBackPressed() {
         if (webView.canGoBack()) {
             webView.goBack();
+        } else {
+            super.onBackPressed();
         }
-        super.onBackPressed();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (webView != null) {
+            webView.resumeTimers();
+            webView.getSettings().setJavaScriptEnabled(true);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (webView != null) {
+            webView.pauseTimers();
+            webView.getSettings().setJavaScriptEnabled(false);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (webView != null) {
+            webView.clearCache(true);
+            webView.clearHistory();
+            webView.destroy();
+        }
+    }
+
+    public void setCacheSettings() {
+        if (webView != null) {
+            WebSettings settings = webView.getSettings();
+            if (NetworkUtils.isConnected()) {
+                settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+            } else {
+                settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+            }
+            settings.setDomStorageEnabled(true);
+            settings.setDatabaseEnabled(true);
+            settings.setAppCacheEnabled(true);
+            try {
+                File cacheDir = getCacheDir();
+                settings.setAppCachePath(cacheDir.getAbsolutePath() + (cacheDir.isDirectory() ? "webCache" : "/webCache"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

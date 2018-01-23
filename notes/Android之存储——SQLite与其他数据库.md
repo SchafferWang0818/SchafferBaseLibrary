@@ -63,8 +63,36 @@ public class MySqliteHelper extends SQLiteOpenHelper {
 
 ### 2. 数据库操作 ###
 
-- 创建数据库
+- 创建或获取数据库
 
+	- 打开或创建原始位置的数据库
+
+		```java
+		PersonalSQLiteHelper helper = new PersonalSQLiteHelper(this, "db_name", 1);
+		SQLiteDatabase db0 = helper.getReadableDatabase();
+		//获取位置信息
+		List<Pair<String, String>> attachedDbs = db0.getAttachedDbs();
+		String path = attachedDbs.get(0).first + attachedDbs.get(0).second;
+		```
+
+	- 打开指定位置的数据库
+
+		```java
+		SQLiteDatabase db1 = SQLiteDatabase.openOrCreateDatabase(filePath, null);
+		SQLiteDatabase db2 = SQLiteDatabase.openOrCreateDatabase(file, null);
+		//获取位置信息
+		List<Pair<String, String>> attachedDbs = db1.getAttachedDbs();
+		String path = attachedDbs.get(0).first + attachedDbs.get(0).second;
+		```
+
+	- 打开或创建指定操作模式的数据库
+
+		```java
+		SQLiteDatabase db3 = this.openOrCreateDatabase("db_name", MODE_PRIVATE, null, null);
+		//获取位置信息
+		List<Pair<String, String>> attachedDbs = db3.getAttachedDbs();
+		String path = attachedDbs.get(0).first + attachedDbs.get(0).second;
+		```
 
 - 创建表单`(create)`
 	- SQL 语句
@@ -102,7 +130,62 @@ public class MySqliteHelper extends SQLiteOpenHelper {
    			FROM second_table_name [WHERE condition]
 
 		```
+	- API
 
+		```java
+		    /**
+		     * 给user表中新增一条数据
+		     * <p>
+		     * long insert(String table, String nullColumnHack, ContentValues values)
+		     * 第一个参数：数据库表名
+		     * 第二个参数：当values参数为空或者里面没有内容的时候，
+		     * insert是会失败的(底层数据库不允许插入一个空行)，
+		     * 为了防止这种情况，要在这里指定一个列名，
+		     * 到时候如果发现将要插入的行为空行时，
+		     * 就会将你指定的这个列名的值设为null，然后再向数据库中插入。
+		     * 第三个参数：要插入的值
+		     * 返回值：成功操作的行号，错误返回-1
+		     *
+		     * @param v
+		     */
+		    public void insert(View v) {
+		        String table = "user";
+		        ContentValues contentValues = new ContentValues();
+		        contentValues.put("name", "张三");
+		        contentValues.put("age", 25);
+		        long num = sqLiteDatabase.insert(table, null, contentValues);
+		        if (num == -1) {
+		            Toast.makeText(this, "插入失败", Toast.LENGTH_SHORT).show();
+		        } else {
+		            Toast.makeText(this, "成功插入到第" + num + "行", Toast.LENGTH_SHORT).show();
+		        }
+		    }
+		
+		```
+	- <font color = red>**API 批量操作的优化**</font>
+
+		```java 
+			long startTime = System.currentTimeMillis();
+			String table = "user";
+			/**开启一个事务**/
+			sqLiteDatabase.beginTransaction();
+			try {
+		            for (int i = 0; i < 100; i++) {
+		                ContentValues contentValues = new ContentValues();
+		                contentValues.put("name", "张三" + i);
+		                contentValues.put("age", i);
+		                sqLiteDatabase.insertOrThrow(table, null, contentValues);
+		            }
+		            /**将数据库事务设置为成功**/
+		            sqLiteDatabase.setTransactionSuccessful();
+			} catch (Exception e) {
+		            e.printStackTrace();
+			} finally {
+		            /**结束数据库事务**/
+		            sqLiteDatabase.endTransaction();
+			}
+		
+		```
 - 删`(delete)`
 	- SQL 语句
 		```
@@ -112,7 +195,33 @@ public class MySqliteHelper extends SQLiteOpenHelper {
 			DELETE FROM User WHERE id=2
 			DELETE FROM COMPANY //删除所有记录
 		```
+	- API
 
+		```java
+		 /**
+		     * 删除user表中id为2的记录
+		     * <p>
+		     * int delete(String table, String whereClause, String[] whereArgs)
+		     * 第一个参数：删除的表名
+		     * 第二个参数：修改的条件的字段
+		     * 第三个参数：修改的条件字段对应的值
+		     * 返回值：影响的行数
+		     *
+		     * @param v
+		     */
+		    public void delete(View v) {
+		    	//1
+		        //String table = "user";
+		        //String where = "id=2";
+		        //sqLiteDatabase.delete(table, where, null);
+		        
+		        //2
+		        String table = "user";
+		        String where = "id=?";
+		        String[] whereArgs = new String[]{"2"};
+		        int num = sqLiteDatabase.delete(table, where, whereArgs);
+		    }
+		```
 - 改`(update)`
 	- SQL 语句
 		```
@@ -123,6 +232,32 @@ public class MySqliteHelper extends SQLiteOpenHelper {
 			UPDATE User SET name="李四" WHERE id=2;
 			UPDATE COMPANY SET ADDRESS = 'Texas' WHERE ID = 6;
 			UPDATE COMPANY SET ADDRESS = 'Texas', SALARY = 20000.00;//修改所有
+		```
+	- API
+
+		```java
+		     /* UPDATE User SET name="李四" WHERE id=2; */
+		     public void update(View v) {
+		         /**
+		          * 方式一
+		          */		
+		         //String table = "user";
+		         //ContentValues contentValues = new ContentValues();
+		         //contentValues.put("name", "李四");
+		         //String where = "id=2";
+		         //sqLiteDatabase.update(table, contentValues, where, null);
+
+		         /**
+		          * 方式二
+		          */
+		         String table = "user";
+		         ContentValues contentValues = new ContentValues();
+		         contentValues.put("name", "李四");
+		         String where = "id=?";
+		         String[] whereArgs = new String[]{"2"};
+		         int num = sqLiteDatabase.update(table, contentValues, where, whereArgs);
+		         Toast.makeText(this, "修改了" + num + "行", Toast.LENGTH_SHORT).show();
+		     }
 		```
 
 - 查`(select)`
@@ -141,18 +276,58 @@ public class MySqliteHelper extends SQLiteOpenHelper {
 			SELECT name,age FROM  User WHERE name IS NULL
 			SELECT name,age FROM  User ORDER BY age
 		
+		//查询过程		
+		public void query(View v) {
+
+			String sql = "SELECT * FROM user";
+			/***这里得到的是一个游标*/
+			Cursor cursor = sqLiteDatabase.rawQuery(sql, null, null);
+			if (cursor == null) {
+				return;
+			}
+			/***循环游标得到数据*/
+			while (cursor.moveToNext()) {
+				Log.d(Contacts.TAG,
+					"id=" + cursor.getInt(0) 
+					+ "，name=" + cursor.getString(1)
+					+ "，age=" + cursor.getInt(2));
+				int id = cursor.getInt(cursor.getColumnIndex("id"));
+			}
+			/***记得操作完将游标关闭*/
+			cursor.close();
+		}
 		```
 
 - 关闭数据库
-- 删除数据库
 
+	```java
+	//查询的游标
+	queryCursor.close();
+	//数据库对象
+	sqLiteDatabase.close();
+	
+	```
+- 删除数据库,通过删除文件进行删除操作
+
+	```java
+		//关闭数据库文件及操作
+		db2.close();
+		String path1 = db2.getPath();
+		File file = new File(path1);
+		if (file.exists() && file.isFile()) {
+			try {
+				file.delete();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	```
 ### 3. SQL语句中的子句 ###
 
 - `WHERE`
 	1. 比较 / 逻辑运算符: >、<、=
-	2. 与( AND )、或( OR 、  IN ( value1, value2 ) )、非( IS NOT )、包含( LIKE )
-	3. 全局( GLOB ) 
-	4. 筛选语句,先子后父
+	2. 与( AND )、或( OR 、  IN ( value1, value2 ) )、非( IS NOT )、包含( LIKE / GLOB  )
+	3. 筛选语句,先子后父
 
 ```
 	eg:
