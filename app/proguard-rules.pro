@@ -83,7 +83,21 @@
  -keep public class * extends android.support.v4.**
  -keep public class * extends android.support.v7.**
  -keep public class * extends android.support.annotation.**
- 
+
+
+# support-v4
+-dontwarn android.support.v4.**
+-keep class android.support.v4.app.** { *; }
+-keep interface android.support.v4.app.** { *; }
+-keep class android.support.v4.** { *; }
+
+
+# support-v7
+-dontwarn android.support.v7.**
+-keep class android.support.v7.internal.** { *; }
+-keep interface android.support.v7.internal.** { *; }
+-keep class android.support.v7.** { *; }
+
  # 保留R下面的资源
  -keep class **.R$* {*;}
  
@@ -151,18 +165,6 @@
 
 
 
-# support-v4
--dontwarn android.support.v4.**
--keep class android.support.v4.app.** { *; }
--keep interface android.support.v4.app.** { *; }
--keep class android.support.v4.** { *; }
-
-
-# support-v7
--dontwarn android.support.v7.**
--keep class android.support.v7.internal.** { *; }
--keep interface android.support.v7.internal.** { *; }
--keep class android.support.v7.** { *; }
 
 # support design
 #@link http://stackoverflow.com/a/31028536
@@ -247,7 +249,7 @@
 -keep class com.alibaba.fastjson.** { *; }
 -keepattributes Signature
 -keepattributes *Annotation*
-	# 兼容6.0
+# 兼容6.0
 -dontwarn android.net.compatibility.**
 -dontwarn android.net.http.**
 -dontwarn com.android.internal.http.multipart.**
@@ -303,9 +305,6 @@
  }
 
 #-------------------------realm-------------------------------------------
-
-
-#-------------------------三方View :circleimageview,xlhratingbar_lib,materialrefeshlayout,pickerview,wheelpicker-------------------------------------------
 
 
 #-------------------------第三方---------------------------------------------
@@ -422,7 +421,7 @@
 
 
 # 支付宝混淆
-	# -libraryjars libs/alipaySDK-20150610.jar
+# -libraryjars libs/alipaySDK-20150610.jar
 -ignorewarnings
 -keep class com.alipay.android.app.IAlixPay{*;}
 -keep class com.alipay.android.app.IAlixPay$Stub{*;}
@@ -470,4 +469,18 @@
 -keep class vi.com.** {*;}
 -dontwarn com.baidu.**
 
+
+
+# todo 实体类
+-keep class [类所在包名].**{*;}
+
+# todo 与js互相调用的类
+-keep class [类所在包名].** { *; }
+-keepclasseswithmembers class [你的类所在的包].父类$子类 { ; }
+-keepclasseswithmembers class com.schaffer.base.common.base.BaseWebActivity$JsInterface{ ; }
+
+# todo 反射相关的类和方法
+
+# todo 三方包
+-libraryjars [jar_name].jar
 

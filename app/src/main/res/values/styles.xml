@@ -96,6 +96,8 @@
         <!--<item name="android:foreground">@drawable/click_ripper</item>-->
     </style>
 
+
+
     <!--Style for definedView-->
 
     <declare-styleable name="StyleForDefinedClockView">
