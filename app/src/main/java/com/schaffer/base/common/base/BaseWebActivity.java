@@ -27,7 +27,7 @@ import android.widget.FrameLayout;
 import com.schaffer.base.R;
 import com.schaffer.base.common.utils.FileIOUtils;
 import com.schaffer.base.common.utils.ImageUtils;
-import com.schaffer.base.common.utils.LTUtils;
+import com.schaffer.base.common.utils.LtUtils;
 import com.schaffer.base.common.utils.NetworkUtils;
 import com.schaffer.base.common.webclient.DefinedWebChromeClient;
 import com.schaffer.base.common.webclient.DefinedWebViewClient;
@@ -397,7 +397,7 @@ public class BaseWebActivity extends AppCompatActivity {
     }
 
     public void showLog(String msg) {
-        LTUtils.w(TAG, msg);
+        LtUtils.w(TAG, msg);
     }
 
     public void showLog(int resId) {
@@ -406,7 +406,7 @@ public class BaseWebActivity extends AppCompatActivity {
 
     public void showToast(String msg) {
         showLog(msg);
-        LTUtils.showToastShort(this, msg);
+        LtUtils.showToastShort(this, msg);
     }
 
     public void showToast(int resId) {

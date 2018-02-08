@@ -1,4 +1,5 @@
 # 外部存储
+![存储方式](https://i.imgur.com/C9ggy4K.jpg)
 
 <font color="blue">
 **外部存储包括私有目录和公有目录.

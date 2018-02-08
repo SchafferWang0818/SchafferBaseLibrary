@@ -9,7 +9,7 @@ import com.schaffer.base.common.base.BaseActivity;
  * Created by AndroidSchaffer on 2017/10/10.
  */
 
-public class TestbuglyActivity extends BaseActivity<TestbuglyActivity, TestBuglyPresenter> {
+public class TestBuglyActivity extends BaseActivity<TestBuglyActivity, TestBuglyPresenter> {
 
 
     @Override

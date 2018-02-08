@@ -215,7 +215,7 @@ public class ThumbnailUtil {
         return thumbnail;
     }
 
-    /*
+    /**
      * Compute the sample size as a function of minSideLength
      * and maxNumOfPixels.
      * minSideLength is used to specify that minimal width or height of a
@@ -231,7 +231,7 @@ public class ThumbnailUtil {
      *
      * Also, the function rounds up the sample size to a power of 2 or multiple
      * of 8 because BitmapFactory only honors sample size this way.
-     * For example, BitmapFactory downsamples an image by 2 even though the
+     * For example, BitmapFactory down-samples an image by 2 even though the
      * request is 3. So we round up the sample size to avoid OOM.
      */
     private static int computeSampleSize(BitmapFactory.Options options,

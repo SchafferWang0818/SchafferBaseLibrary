@@ -24,7 +24,7 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.schaffer.base.R;
-import com.schaffer.base.common.utils.LTUtils;
+import com.schaffer.base.common.utils.LtUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,7 +108,7 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V
 
     @Override
     public void showLog(String msg) {
-        LTUtils.w(tag, msg);
+        LtUtils.w(tag, msg);
     }
 
     @Override
@@ -119,7 +119,7 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V
     @Override
     public void showToast(String msg) {
         showLog(msg);
-        LTUtils.showToastShort(activity, msg);
+        LtUtils.showToastShort(activity, msg);
     }
 
     @Override

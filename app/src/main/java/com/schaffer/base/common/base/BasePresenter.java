@@ -4,7 +4,7 @@ import android.os.Build;
 
 import com.schaffer.base.common.utils.AppUtils;
 import com.schaffer.base.common.utils.EncryptUtils;
-import com.schaffer.base.common.utils.LTUtils;
+import com.schaffer.base.common.utils.LtUtils;
 import com.schaffer.base.common.utils.StringUtils;
 import com.zhy.http.okhttp.builder.OkHttpRequestBuilder;
 
@@ -44,7 +44,7 @@ public class BasePresenter<V extends BaseView> {
     }
 
     public void showLog(String content) {
-        LTUtils.w(tag, content);
+        LtUtils.w(tag, content);
     }
 
     public void showToast(String content) {
@@ -91,13 +91,22 @@ public class BasePresenter<V extends BaseView> {
                 .addHeader("s", s);
     }
 
-    protected void onFailed(Throwable e) {
-        if (mView != null) {
-            mView.dismissLoading();
-            mView.showLog(e.getMessage() + "-->\n\t\t" + e.getLocalizedMessage());
-        }
-        e.printStackTrace();
-        if (e instanceof SocketTimeoutException && mView != null) {
+    protected void onFailed(Throwable t) {
+        try {
+            if (t == null) {
+                return;
+            }
+            if (mView != null) {
+                mView.dismissLoading();
+                mView.showLog(t.getMessage() + "-->\n\t\t" + t.getLocalizedMessage());
+            }
+            t.printStackTrace();
+            if (t instanceof SocketTimeoutException && mView != null) {
+                mView.showToast("网络状况好像不太好");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
             mView.showToast("网络状况好像不太好");
         }
     }

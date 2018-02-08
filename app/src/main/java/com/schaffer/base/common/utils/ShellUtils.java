@@ -6,9 +6,10 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 /**
- * <pre>
- * execCmd: 是否是在root下执行命令
- * </pre>
+ * @author AndroidSchaffer
+ *         <pre>
+ *         {@link #execCmd}: 是否是在root下执行命令
+ *         </pre>
  */
 public final class ShellUtils {
 

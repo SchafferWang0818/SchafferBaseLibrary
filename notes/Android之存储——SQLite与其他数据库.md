@@ -1,4 +1,4 @@
-# SQLite 操作 & 其他数据库 #
+# SQLite 操作  #
 ---
 - 目录
 
@@ -25,7 +25,7 @@
 	- [ **SQLite 教程 | 菜鸟教程** ](http://www.runoob.com/sqlite/sqlite-tutorial.html)
 	- [ **Android ：这是一份详细 & 全面的 SQLlite数据库 使用手册** ](https://juejin.im/post/5a5bfc016fb9a01ca10ae0a9#heading-5)
 	- [ **玩转SQLite系列** ](http://blog.csdn.net/linglongxin24/article/details/53230842)
-	- [ 我所了解的Android数据库框架——DBFlow ](http://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&mid=2650242234&idx=1&sn=e710a97e9425bcd4231026db4903f122&chksm=88638dd5bf1404c3f09df3a1c906deb462b1fdce859b9b906255ecf66cc72cccdf85db6397b3&scene=0#rd)
+
 
 ---
 ## SQLite ##
@@ -447,13 +447,6 @@ A|B = 0011 1101;
 ~	|二进制补码运算符是一元运算符，具有"翻转"位效应，即0变成1，1变成0。	|( ~ A ) = -61，即为 1100 0011，一个有符号二进制数的补码形式。
 <<	|二进制左移运算符。左操作数的值向左移动右操作数指定的位数。	|A << 2=240，即为 1111 0000
 >>	|二进制右移运算符。左操作数的值向右移动右操作数指定的位数。	|A >> 2 =15，即为 0000 1111
-
-
----
-## 其他数据库 ##
-
-
-
 
 
 ---

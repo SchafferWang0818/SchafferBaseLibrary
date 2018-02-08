@@ -18,39 +18,41 @@ import java.util.List;
 
 /**
  * <pre>
- *     Fragment 参考操作工具类
- * addFragment              : 新增fragment
- * hideAddFragment          : 先隐藏后新增fragment
- * addFragments             : 新增多个fragment
- * removeFragment           : 移除fragment
- * removeToFragment         : 移除到指定fragment
- * removeFragments          : 移除同级别fragment
- * removeAllFragments       : 移除所有fragment
- * replaceFragment          : 替换fragment
- * popFragment              : 出栈fragment
- * popToFragment            : 出栈到指定fragment
- * popFragments             : 出栈同级别fragment
- * popAllFragments          : 出栈所有fragment
- * popAddFragment           : 先出栈后新增fragment
- * hideFragment             : 隐藏fragment
- * hideFragments            : 隐藏同级别fragment
- * showFragment             : 显示fragment
- * hideShowFragment         : 先隐藏后显示fragment
- * getLastAddFragment       : 获取同级别最后加入的fragment
- * getLastAddFragmentInStack: 获取栈中同级别最后加入的fragment
- * getTopShowFragment       : 获取顶层可见fragment
- * getTopShowFragmentInStack: 获取栈中顶层可见fragment
- * getFragments             : 获取同级别fragment
- * getFragmentsInStack      : 获取栈中同级别fragment
- * getAllFragments          : 获取所有fragment
- * getAllFragmentsInStack   : 获取栈中所有fragment
- * getPreFragment           : 获取目标fragment的前一个fragment
- * findFragment             : 查找fragment
- * dispatchBackPress        : 处理fragment回退键
- * setBackgroundColor       : 设置背景色
- * setBackgroundResource    : 设置背景资源
- * setBackground            : 设置背景
+ * Fragment 参考操作工具类
+ * {@link #addFragment              }: 新增fragment
+ * {@link #hideAddFragment          }: 先隐藏后新增fragment
+ * {@link #addFragments             }: 新增多个fragment
+ * {@link #removeFragment           }: 移除fragment
+ * {@link #removeToFragment         }: 移除到指定fragment
+ * {@link #removeFragments          }: 移除同级别fragment
+ * {@link #removeAllFragments       }: 移除所有fragment
+ * {@link #replaceFragment          }: 替换fragment
+ * {@link #popFragment              }: 出栈fragment
+ * {@link #popToFragment            }: 出栈到指定fragment
+ * {@link #popFragments             }: 出栈同级别fragment
+ * {@link #popAllFragments          }: 出栈所有fragment
+ * {@link #popAddFragment           }: 先出栈后新增fragment
+ * {@link #hideFragment             }: 隐藏fragment
+ * {@link #hideFragments            }: 隐藏同级别fragment
+ * {@link #showFragment             }: 显示fragment
+ * {@link #hideShowFragment         }: 先隐藏后显示fragment
+ * {@link #getLastAddFragment       }: 获取同级别最后加入的fragment
+ * {@link #getLastAddFragmentInStack}: 获取栈中同级别最后加入的fragment
+ * {@link #getTopShowFragment       }: 获取顶层可见fragment
+ * {@link #getTopShowFragmentInStack}: 获取栈中顶层可见fragment
+ * {@link #getFragments             }: 获取同级别fragment
+ * {@link #getFragmentsInStack      }: 获取栈中同级别fragment
+ * {@link #getAllFragments          }: 获取所有fragment
+ * {@link #getAllFragmentsInStack   }: 获取栈中所有fragment
+ * {@link #getPreFragment           }: 获取目标fragment的前一个fragment
+ * {@link #findFragment             }: 查找fragment
+ * {@link #dispatchBackPress        }: 处理fragment回退键
+ * {@link #setBackgroundColor       }: 设置背景色
+ * {@link #setBackgroundResource    }: 设置背景资源
+ * {@link #setBackground            }: 设置背景
  * </pre>
+ *
+ * @author AndroidSchaffer
  */
 public final class FragmentUtils {
 
@@ -536,7 +538,7 @@ public final class FragmentUtils {
                                             final SharedElement... sharedElements) {
         if (srcFragment == destFragment) return null;
         if (srcFragment != null && srcFragment.isRemoving()) {
-            LTUtils.e(srcFragment.getClass().getName() + " is isRemoving");
+            LtUtils.e(srcFragment.getClass().getName() + " is isRemoving");
             return null;
         }
         String name = destFragment.getClass().getName();

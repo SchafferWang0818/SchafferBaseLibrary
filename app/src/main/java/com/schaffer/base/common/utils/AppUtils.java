@@ -18,31 +18,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * {@link AppUtils#getVersionCode }       : 版本号
- * {@link AppUtils#getVersionName }          :版本名
- * {@link AppUtils#getCurProcessName }     : 当前进程名称
- * {@link AppUtils#isInstallApp}  : 判断App是否安装
- * {@link AppUtils#installApk}  : 安装App（支持7.0）
- * {@link AppUtils#installAppSilent }    : 静默安装App
- * {@link AppUtils#uninstallApp } : 卸载App
- * {@link AppUtils#uninstallAppSilent }  : 静默卸载App
- * {@link AppUtils#isAppRoot()}  : 判断App是否有root权限
- * {@link AppUtils#launchApp }  : 打开App
- * {@link AppUtils#getAppPackageName()}   : 获取App包名
- * {@link AppUtils#getAppDetailsSettings  } 获取App具体设置
- * {@link AppUtils#getAppName  } : 获取App名称
- * {@link AppUtils#getAppIcon  }  : 获取App图标
- * {@link AppUtils#getAppPath  } : 获取App路径
- * {@link AppUtils#getAppVersionName  }     : 获取App版本号
- * {@link AppUtils#getAppVersionCode  }    : 获取App版本码
- * {@link AppUtils#isSystemApp  }  : 判断App是否是系统应用
- * {@link AppUtils#isAppDebug  }    : 判断App是否是Debug版本
- * {@link AppUtils#getAppSignature  }    : 获取App签名
- * {@link AppUtils#getAppSignatureSHA1  }   : 获取应用签名的的SHA1值
- * {@link AppUtils#isAppForeground  } : 判断App是否处于前台
- * {@link AppUtils#getAppInfo  } : 获取App信息
- * {@link AppUtils#getAppsInfo} : 获取所有已安装App信息
- * {@link AppUtils#cleanAppData}        : 清除App所有数据
+ * @author AndroidSchaffer
+ *         {@link AppUtils#getVersionCode }       : 版本号
+ *         {@link AppUtils#getVersionName }          :版本名
+ *         {@link AppUtils#getCurProcessName }     : 当前进程名称
+ *         {@link AppUtils#isInstallApp}  : 判断App是否安装
+ *         {@link AppUtils#installApk}  : 安装App（支持7.0）
+ *         {@link AppUtils#installAppSilent }    : 静默安装App
+ *         {@link AppUtils#uninstallApp } : 卸载App
+ *         {@link AppUtils#uninstallAppSilent }  : 静默卸载App
+ *         {@link AppUtils#isAppRoot()}  : 判断App是否有root权限
+ *         {@link AppUtils#launchApp }  : 打开App
+ *         {@link AppUtils#getAppPackageName()}   : 获取App包名
+ *         {@link AppUtils#getAppDetailsSettings  } 获取App具体设置
+ *         {@link AppUtils#getAppName  } : 获取App名称
+ *         {@link AppUtils#getAppIcon  }  : 获取App图标
+ *         {@link AppUtils#getAppPath  } : 获取App路径
+ *         {@link AppUtils#getAppVersionName  }     : 获取App版本号
+ *         {@link AppUtils#getAppVersionCode  }    : 获取App版本码
+ *         {@link AppUtils#isSystemApp  }  : 判断App是否是系统应用
+ *         {@link AppUtils#isAppDebug  }    : 判断App是否是Debug版本
+ *         {@link AppUtils#getAppSignature  }    : 获取App签名
+ *         {@link AppUtils#getAppSignatureSHA1  }   : 获取应用签名的的SHA1值
+ *         {@link AppUtils#isAppForeground  } : 判断App是否处于前台
+ *         {@link AppUtils#getAppInfo  } : 获取App信息
+ *         {@link AppUtils#getAppsInfo} : 获取所有已安装App信息
+ *         {@link AppUtils#cleanAppData}        : 清除App所有数据
  */
 public class AppUtils {
     public static final String PACKAGE_WECHAT = "com.tencent.mm";
@@ -246,7 +247,7 @@ public class AppUtils {
             return true;
         }
         if (result.errorMsg != null) {
-            LTUtils.d("isAppRoot", result.errorMsg);
+            LtUtils.d("isAppRoot", result.errorMsg);
         }
         return false;
     }

@@ -61,7 +61,7 @@ public final class ProcessUtils {
                         Utils.getContext().startActivity(intent);
                     }
                     if (aom.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, info.uid, info.packageName) != AppOpsManager.MODE_ALLOWED) {
-                        LTUtils.d("没有打开\"有权查看使用权限的应用\"选项");
+                        LtUtils.d("没有打开\"有权查看使用权限的应用\"选项");
                         return null;
                     }
                     UsageStatsManager usageStatsManager = (UsageStatsManager) Utils.getContext().getSystemService(Context.USAGE_STATS_SERVICE);
@@ -80,7 +80,7 @@ public final class ProcessUtils {
                     e.printStackTrace();
                 }
             } else {
-                LTUtils.d("无\"有权查看使用权限的应用\"选项");
+                LtUtils.d("无\"有权查看使用权限的应用\"选项");
             }
         }
         return null;

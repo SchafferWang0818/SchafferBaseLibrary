@@ -8,6 +8,9 @@ import android.support.annotation.StyleRes;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
+import android.widget.Toast;
+
+import com.schaffer.base.common.utils.LtUtils;
 
 /**
  * Created by SchafferW on 2016/11/25.
@@ -20,12 +23,11 @@ public class BaseDialog extends Dialog {
     public int windowWidth;
     public Activity activity;
     public View view;
-    private String tag;
+    private String tag = getClass().getSimpleName().toString();
 
     public BaseDialog(Context context) {
         super(context);
         this.context = context;
-        tag = getClass().getSimpleName();
         window = getWindow();
         window.requestFeature(Window.FEATURE_NO_TITLE);
         activity = (Activity) context;
@@ -74,5 +76,14 @@ public class BaseDialog extends Dialog {
 
     protected void initView(View view) {
 
+    }
+
+    public void showToast(String content) {
+        showLog(content);
+        Toast.makeText(context, content, Toast.LENGTH_SHORT).show();
+    }
+
+    public void showLog(String content) {
+        LtUtils.d(tag, content);
     }
 }

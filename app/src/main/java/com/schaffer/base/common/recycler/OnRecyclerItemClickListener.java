@@ -38,12 +38,11 @@ public abstract class OnRecyclerItemClickListener implements RecyclerView.OnItem
      * {@link RecyclerView.ViewHolder#getAdapterPosition()}快速切换存在=-1的情况
      *
      * @param holder
+     * @param e
      */
-    public abstract void onItemClick(RecyclerView.ViewHolder holder);
+    public abstract void onItemClick(RecyclerView.ViewHolder holder, MotionEvent e);
 
-    public abstract void onItemLongClick(RecyclerView.ViewHolder holder);
-
-    public void onItemClickEvent(RecyclerView.ViewHolder holder, MotionEvent e) {
+    public void onItemLongClick(RecyclerView.ViewHolder holder) {
 
     }
 
@@ -64,7 +63,7 @@ public abstract class OnRecyclerItemClickListener implements RecyclerView.OnItem
             View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
             if (child != null) {
                 RecyclerView.ViewHolder holder = recyclerView.getChildViewHolder(child);
-                onItemClick(holder);
+                onItemClick(holder, e);
             }
             return true;
         }
@@ -79,8 +78,9 @@ public abstract class OnRecyclerItemClickListener implements RecyclerView.OnItem
             View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
             if (child != null) {
                 RecyclerView.ViewHolder holder = recyclerView.getChildViewHolder(child);
-                onItemLongClick(holder);
-                onItemClickEvent(holder, e);
+                if (holder != null && holder.getAdapterPosition() != -1) {
+                    onItemLongClick(holder);
+                }
             }
         }
 

@@ -9,10 +9,10 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.webkit.WebView;
 
-/**
- * Created by AndroidSchaffer on 2018/1/2.
- */
 
+/**
+ * @author AndroidSchaffer
+ */
 public class NestedWebView extends WebView implements NestedScrollingChild {
     private int mLastY;
     private final int[] mScrollOffset = new int[2];

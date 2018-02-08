@@ -16,28 +16,29 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- * <pre>
- * encryptMD2, encryptMD2ToString                        : MD2加密
- * encryptMD5, encryptMD5ToString                        : MD5加密
- * encryptMD5File, encryptMD5File2String                 : MD5加密文件
- * encryptSHA1, encryptSHA1ToString                      : SHA1加密
- * encryptSHA224, encryptSHA224ToString                  : SHA224加密
- * encryptSHA256, encryptSHA256ToString                  : SHA256加密
- * encryptSHA384, encryptSHA384ToString                  : SHA384加密
- * encryptSHA512, encryptSHA512ToString                  : SHA512加密
- * encryptHmacMD5, encryptHmacMD5ToString                : HmacMD5加密
- * encryptHmacSHA1, encryptHmacSHA1ToString              : HmacSHA1加密
- * encryptHmacSHA224, encryptHmacSHA224ToString          : HmacSHA224加密
- * encryptHmacSHA256, encryptHmacSHA256ToString          : HmacSHA256加密
- * encryptHmacSHA384, encryptHmacSHA384ToString          : HmacSHA384加密
- * encryptHmacSHA512, encryptHmacSHA512ToString          : HmacSHA512加密
- * encryptDES, encryptDES2HexString, encryptDES2Base64   : DES加密
- * decryptDES, decryptHexStringDES, decryptBase64DES     : DES解密
- * encrypt3DES, encrypt3DES2HexString, encrypt3DES2Base64: 3DES加密
- * decrypt3DES, decryptHexString3DES, decryptBase64_3DES : 3DES解密
- * encryptAES, encryptAES2HexString, encryptAES2Base64   : AES加密
- * decryptAES, decryptHexStringAES, decryptBase64AES     : AES解密
- * </pre>
+ * @author AndroidSchaffer
+ *         <pre>
+ *         {@link #encryptMD2}, {@link #encryptMD2ToString}                        : MD2加密
+ *         {@link #encryptMD5}, {@link #encryptMD5ToString}                        : MD5加密
+ *         {@link #encryptMD5File}, {@link #encryptMD5File2String}                 : MD5加密文件
+ *         {@link #encryptSHA1}, {@link #encryptSHA1ToString}                      : SHA1加密
+ *         {@link #encryptSHA224}, {@link #encryptSHA224ToString }                 : SHA224加密
+ *         {@link #encryptSHA256}, {@link #encryptSHA256ToString }                 : SHA256加密
+ *         {@link #encryptSHA384}, {@link #encryptSHA384ToString }                 : SHA384加密
+ *         {@link #encryptSHA512}, {@link #encryptSHA512ToString }                 : SHA512加密
+ *         {@link #encryptHmacMD5}, {@link #encryptHmacMD5ToString}                : HmacMD5加密
+ *         {@link #encryptHmacSHA1}, {@link #encryptHmacSHA1ToString}              : HmacSHA1加密
+ *         {@link #encryptHmacSHA224}, {@link #encryptHmacSHA224ToString}          : HmacSHA224加密
+ *         {@link #encryptHmacSHA256}, {@link #encryptHmacSHA256ToString}          : HmacSHA256加密
+ *         {@link #encryptHmacSHA384}, {@link #encryptHmacSHA384ToString}          : HmacSHA384加密
+ *         {@link #encryptHmacSHA512}, {@link #encryptHmacSHA512ToString}          : HmacSHA512加密
+ *         {@link #encryptDES}, {@link #encryptDES2HexString}, {@link #encryptDES2Base64}   : DES加密
+ *         {@link #decryptDES}, {@link #decryptHexStringDES}, {@link #decryptBase64DES}     : DES解密
+ *         {@link #encrypt3DES}, {@link #encrypt3DES2HexString}, {@link #encrypt3DES2Base64}: 3DES加密
+ *         {@link #decrypt3DES}, {@link #decryptHexString3DES}, {@link #decryptBase64_3DES} : 3DES解密
+ *         {@link #encryptAES}, {@link #encryptAES2HexString}, {@link #encryptAES2Base64}   : AES加密
+ *         {@link #decryptAES}, {@link #decryptHexStringAES}, {@link #decryptBase64AES}     : AES解密
+ *         </pre>
  */
 public final class EncryptUtils {
 

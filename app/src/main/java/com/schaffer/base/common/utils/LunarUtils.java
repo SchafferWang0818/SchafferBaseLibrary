@@ -2,10 +2,8 @@ package com.schaffer.base.common.utils;
 
 /**
  * <pre>
- *     author: Blankj
- *     blog  : http://blankj.com
- *     time  : 2016/12/05
- *     desc  : 阴历相关工具类
+ * @author AndroidSchaffer
+ * 阴历相关工具类
  * </pre>
  */
 public final class LunarUtils {
@@ -14,7 +12,7 @@ public final class LunarUtils {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
-    /*
+    /**
      * |----4位闰月|-------------13位1为30天，0为29天|
      */
     private static int[] lunar_month_days = {1887, 0x1694, 0x16aa, 0x4ad5, 0xab6, 0xc4b7, 0x4ae, 0xa56, 0xb52a, 0x1d2a,
@@ -190,9 +188,9 @@ public final class LunarUtils {
 
     public static class Lunar {
         public boolean isLeap;
-        public int     lunarDay;
-        public int     lunarMonth;
-        public int     lunarYear;
+        public int lunarDay;
+        public int lunarMonth;
+        public int lunarYear;
     }
 
     public static class Solar {

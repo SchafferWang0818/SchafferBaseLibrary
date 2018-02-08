@@ -2,7 +2,7 @@ package com.schaffer.base.common.base;
 
 import com.schaffer.base.BuildConfig;
 import com.schaffer.base.api.ApiInterface;
-import com.schaffer.base.common.utils.LTUtils;
+import com.schaffer.base.common.utils.LtUtils;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -142,9 +142,9 @@ public abstract class BaseModel<T> {
         public void log(String message) {
             if (BuildConfig.DEBUG) {
                 if (message.startsWith("{") && message.endsWith("}")) {
-                    LTUtils.d(">>>:\n" + message + "\n");
+                    LtUtils.d(">>>:\n" + message + "\n");
                 } else {
-                    LTUtils.d(message);
+                    LtUtils.d(message);
                 }
             }
         }

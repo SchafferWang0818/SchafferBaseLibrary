@@ -7,16 +7,15 @@ import java.io.File;
 import java.math.BigDecimal;
 
 /**
- * <pre>
- *     清理工具类
- * {@link CleanUtils#cleanInternalCache()}    : 清除内部缓存
- * {@link CleanUtils#cleanInternalFiles()}    : 清除内部文件
- * {@link CleanUtils#cleanInternalDbs()}      : 清除内部数据库
- * {@link CleanUtils#cleanInternalDbByName(String)} : 根据名称清除数据库
- * {@link CleanUtils#cleanInternalSP()}      : 清除内部SP
- * {@link CleanUtils#cleanExternalCache()}    : 清除外部缓存
- * {@link CleanUtils#cleanCustomCache(File)}     : 清除自定义目录下的文件
- * </pre>
+ * @author AndroidSchaffer
+ *         清理工具类
+ *         {@link CleanUtils#cleanInternalCache()}    : 清除内部缓存
+ *         {@link CleanUtils#cleanInternalFiles()}    : 清除内部文件
+ *         {@link CleanUtils#cleanInternalDbs()}      : 清除内部数据库
+ *         {@link CleanUtils#cleanInternalDbByName(String)} : 根据名称清除数据库
+ *         {@link CleanUtils#cleanInternalSP()}      : 清除内部SP
+ *         {@link CleanUtils#cleanExternalCache()}    : 清除外部缓存
+ *         {@link CleanUtils#cleanCustomCache(File)}     : 清除自定义目录下的文件
  */
 public final class CleanUtils {
 

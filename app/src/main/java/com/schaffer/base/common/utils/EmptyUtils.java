@@ -13,8 +13,8 @@ import java.util.Map;
 /**
  * <pre>
  *     desc  : 判空相关工具类
- *     isEmpty   : 判断对象是否为空
- *     isNotEmpty: 判断对象是否非空
+ *     {@link #isEmpty   }: 判断对象是否为空
+ *     {@link #isNotEmpty}: 判断对象是否非空
  * </pre>
  */
 public final class EmptyUtils {

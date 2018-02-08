@@ -33,7 +33,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.schaffer.base.R;
 import com.schaffer.base.common.constants.Constants;
-import com.schaffer.base.common.utils.LTUtils;
+import com.schaffer.base.common.utils.LtUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -80,7 +80,7 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
 
     @Override
     public void showLog(String msg) {
-        LTUtils.w(tag, msg);
+        LtUtils.w(tag, msg);
     }
 
     @Override
@@ -91,7 +91,7 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
     @Override
     public void showToast(String msg) {
         showLog(msg);
-        LTUtils.showToastShort(this, msg);
+        LtUtils.showToastShort(this, msg);
     }
 
     @Override
@@ -192,6 +192,13 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
 //            getWindow().setExitTransition(new Fade());
 //        }//新转场动画
 //        onCreateInit((Object) this.getClass().getSuperclass() instanceof BaseAppCompatActivity);
+
+//        if (savedInstanceState != null) {
+//            LoginResponse userInfo = (LoginResponse) savedInstanceState.getSerializable("SAVE_USER_INFO");
+//            if (userInfo != null) {
+//                MyApplication.getInstance().setUserInfo(userInfo);
+//            }
+//        }
         onCreateInit(this.getClass().isAssignableFrom(BaseEmptyActivity.class));
         setCurrentTransition(getIntent().getIntExtra(Constants.WINDOW_TRANSITION, -1));
     }
@@ -610,4 +617,26 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
             super.startActivityForResult(intent, requestCode);
         }
     }
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+//        showLog("onSaveInstanceState");
+//        if (outState != null && MyApplication.getInstance().isLogin()) {
+//            LoginResponse userInfo = MyApplication.getInstance().getUserInfo();
+//            outState.putSerializable("SAVE_USER_INFO", userInfo);
+//        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+//        showLog("onRestoreInstanceState");
+//        if (savedInstanceState != null) {
+//            if (BaseApplication.getInstance().isLogin()) {
+//                LoginResponse userInfo = MyApplication.getInstance().getUserInfo();
+//                savedInstanceState.putSerializable("SAVE_USER_INFO", userInfo);
+//            }
+//        }
+    }
+
 }

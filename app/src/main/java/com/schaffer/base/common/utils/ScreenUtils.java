@@ -14,16 +14,16 @@ import android.view.WindowManager;
 
 /**
  * <pre>
- * getScreenWidth         : 获取屏幕的宽度（单位：px）
- * getScreenHeight        : 获取屏幕的高度（单位：px）
- * setLandscape           : 设置屏幕为横屏
- * setPortrait            : 设置屏幕为竖屏
- * isLandscape            : 判断是否横屏
- * isPortrait             : 判断是否竖屏
- * getScreenRotation      : 获取屏幕旋转角度
- * captureWithStatusBar   : 获取当前屏幕截图，包含状态栏
- * captureWithoutStatusBar: 获取当前屏幕截图，不包含状态栏
- * isScreenLock           : 判断是否锁屏
+ * {@link #getScreenWidth         }: 获取屏幕的宽度（单位：px）
+ * {@link #getScreenHeight        }: 获取屏幕的高度（单位：px）
+ * {@link #setLandscape           }: 设置屏幕为横屏
+ * {@link #setPortrait            }: 设置屏幕为竖屏
+ * {@link #isLandscape            }: 判断是否横屏
+ * {@link #isPortrait             }: 判断是否竖屏
+ * {@link #getScreenRotation      }: 获取屏幕旋转角度
+ * {@link #captureWithStatusBar   }: 获取当前屏幕截图，包含状态栏
+ * {@link #captureWithoutStatusBar}: 获取当前屏幕截图，不包含状态栏
+ * {@link #isScreenLock           }: 判断是否锁屏
  * </pre>
  */
 public final class ScreenUtils {
@@ -39,8 +39,10 @@ public final class ScreenUtils {
      */
     public static int getScreenWidth() {
         WindowManager windowManager = (WindowManager) Utils.getContext().getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics dm = new DisplayMetrics();// 创建了一张白纸
-        windowManager.getDefaultDisplay().getMetrics(dm);// 给白纸设置宽高
+        DisplayMetrics dm = new DisplayMetrics();
+        // 创建了一张白纸
+        windowManager.getDefaultDisplay().getMetrics(dm);
+        // 给白纸设置宽高
         return dm.widthPixels;
     }
 
@@ -51,8 +53,10 @@ public final class ScreenUtils {
      */
     public static int getScreenHeight() {
         WindowManager windowManager = (WindowManager) Utils.getContext().getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics dm = new DisplayMetrics();// 创建了一张白纸
-        windowManager.getDefaultDisplay().getMetrics(dm);// 给白纸设置宽高
+        DisplayMetrics dm = new DisplayMetrics();
+        // 创建了一张白纸
+        windowManager.getDefaultDisplay().getMetrics(dm);
+        // 给白纸设置宽高
         return dm.heightPixels;
     }
 

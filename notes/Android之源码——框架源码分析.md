@@ -14,7 +14,8 @@
 	- [ ** 带你全面了解Glide 4的用法 ** ](http://mp.weixin.qq.com/s/p5mIA6nuVEWZsWPHOCHcYw)
 	- [ **实战，实现带进度的Glide图片加载功能 ** ](http://mp.weixin.qq.com/s/ANc7ZJRe7UjpD0v8ioz0yA)
 	- [ ** 来学习一下Glide强大的图片变换功能吧 ** ](http://mp.weixin.qq.com/s/M12AzUNSeLq202GV5h_4PQ)
-
+	- [ ** Android图片加载框架最全解析（二），从源码的角度理解Glide的执行流程 ** ](http://blog.csdn.net/guolin_blog/article/details/53939176)
+	
 ---
 ### `Gson` ###
 - 参考:

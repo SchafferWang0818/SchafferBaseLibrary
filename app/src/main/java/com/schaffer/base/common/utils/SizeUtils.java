@@ -7,13 +7,16 @@ import android.view.ViewGroup;
 
 /**
  * <pre>
- * dp2px, px2dp     : dp与px转换
- * sp2px, px2sp     : sp与px转换
- * applyDimension   : 各种单位转换
- * forceGetViewSize : 在onCreate中获取视图的尺寸
- * measureView      : 测量视图尺寸
- * getMeasuredWidth : 获取测量视图宽度
- * getMeasuredHeight: 获取测量视图高度
+ * @author AndroidSchaffer
+ * {@link #dp2px            }: dp与px转换
+ * {@link #px2dp            }: dp与px转换
+ * {@link #sp2px            }: sp与px转换
+ * {@link #px2sp            }: sp与px转换
+ * {@link #applyDimension   }: 各种单位转换
+ * {@link #forceGetViewSize }: 在onCreate中获取视图的尺寸
+ * {@link #measureView      }: 测量视图尺寸
+ * {@link #getMeasuredWidth }: 获取测量视图宽度
+ * {@link #getMeasuredHeight}: 获取测量视图高度
  * </pre>
  */
 public final class SizeUtils {
@@ -89,8 +92,9 @@ public final class SizeUtils {
                 return value * metrics.xdpi;
             case TypedValue.COMPLEX_UNIT_MM:
                 return value * metrics.xdpi * (1.0f / 25.4f);
+            default:
+                return 0;
         }
-        return 0;
     }
 
     /**

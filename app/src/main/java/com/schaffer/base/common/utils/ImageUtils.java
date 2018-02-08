@@ -55,8 +55,8 @@ import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 /**
  * <pre>
  *     desc  : 图片相关工具类
- * {@link #bitmap2Bytes}, {@link #bytes2Bitmap  }    :           bitmap与byteArr互转
- * {@link #drawable2Bitmap}, {@link #bitmap2Drawable}:  drawable与bitmap互转
+ * {@link #bitmap2Bytes}, {@link #bytes2Bitmap  }    :      bitmap与byteArr互转
+ * {@link #drawable2Bitmap}, {@link #bitmap2Drawable}:      drawable与bitmap互转
  * {@link #drawable2Bytes}, {@link #bytes2Drawable } :      drawable与byteArr互转
  * {@link #getBitmap }                      : 获取bitmap
  * {@link #scale   }                        : 缩放图片
@@ -75,13 +75,15 @@ import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
  * {@link #addImageWatermark  }             : 添加图片水印
  * {@link #toAlpha        }                 : 转为alpha位图
  * {@link #toGray     }                     : 转为灰度图片
- * {@link #save}: 保存图片
+ * {@link #save}                            : 保存图片
  * {@link #isImage }                        : 根据文件名判断文件是否为图片
  * {@link #getImageType}                    : 获取图片类型
  * {@link #compressByScale  }               : 按缩放压缩
  * {@link #compressByQuality  }             : 按质量压缩
  * {@link #compressBySampleSize }           : 按采样大小压缩
  * </pre>
+ *
+ * @author AndroidSchaffer
  */
 public final class ImageUtils {
 

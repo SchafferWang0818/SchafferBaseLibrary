@@ -14,16 +14,17 @@ import java.io.File;
 /**
  * <pre>
  *     desc  : 意图相关工具类
- * getInstallAppIntent        : 获取安装App（支持6.0）的意图
- * getUninstallAppIntent      : 获取卸载App的意图
- * getLaunchAppIntent         : 获取打开App的意图
- * getAppDetailsSettingsIntent: 获取App具体设置的意图
- * getShareTextIntent         : 获取分享文本的意图
- * getShareImageIntent        : 获取分享图片的意图
- * getComponentIntent         : 获取其他应用组件的意图
- * getShutdownIntent          : 获取关机的意图
- * getCaptureIntent           : 获取拍照的意图
+ * {@link #getInstallAppIntent        }: 获取安装App（支持6.0）的意图
+ * {@link #getUninstallAppIntent      }: 获取卸载App的意图
+ * {@link #getLaunchAppIntent         }: 获取打开App的意图
+ * {@link #getAppDetailsSettingsIntent}: 获取App具体设置的意图
+ * {@link #getShareTextIntent         }: 获取分享文本的意图
+ * {@link #getShareImageIntent        }: 获取分享图片的意图
+ * {@link #getComponentIntent         }: 获取其他应用组件的意图
+ * {@link #getShutdownIntent          }: 获取关机的意图
+ * {@link #getCaptureIntent           }: 获取拍照的意图
  * </pre>
+ * @author AndroidSchaffer
  */
 public final class IntentUtils {
 
@@ -33,6 +34,7 @@ public final class IntentUtils {
 
     /**
      * 提醒其他应用更新图片列表
+     *
      * @param context
      * @param file
      */

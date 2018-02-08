@@ -12,11 +12,11 @@ import java.io.InputStreamReader;
 
 /**
  * <pre>
- * isSDCardEnable: 判断SD卡是否可用
- * getSDCardPath : 获取SD卡路径
- * getDataPath   : 获取SD卡Data路径
- * getFreeSpace  : 计算SD卡的剩余空间
- * getSDCardInfo : 获取SD卡信息
+ * {@link #isSDCardEnable}: 判断SD卡是否可用
+ * {@link #getSDCardPath }: 获取SD卡路径
+ * {@link #getDataPath   }: 获取SD卡Data路径
+ * {@link #getFreeSpace  }: 计算SD卡的剩余空间
+ * {@link #getSDCardInfo }: 获取SD卡信息
  * </pre>
  */
 public final class SDCardUtils {

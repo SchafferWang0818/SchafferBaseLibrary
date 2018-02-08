@@ -12,12 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <pre>
- *     author: Blankj
- *     blog  : http://blankj.com
- *     time  : 2017/04/16
- *     desc  : 权限相关工具类
- * </pre>
+ * desc  : 权限相关工具类
+ *
+ * @author AndroidSchaffer
  */
 public final class PermissionUtils {
 

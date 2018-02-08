@@ -7,7 +7,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.schaffer.base.BuildConfig;
-import com.schaffer.base.common.utils.LTUtils;
+import com.schaffer.base.common.utils.LtUtils;
 
 /**
  * 参考Android英雄传做法。 Page 157
@@ -77,7 +77,7 @@ public class BaseSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     private void showLog(String content) {
         if (BuildConfig.DEBUG) {
-            LTUtils.d(">>>" + content);
+            LtUtils.d(">>>" + content);
         }
     }
 

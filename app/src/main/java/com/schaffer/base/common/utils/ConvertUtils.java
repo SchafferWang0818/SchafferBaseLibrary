@@ -22,23 +22,23 @@ import java.io.UnsupportedEncodingException;
 /**
  * <pre>
  * desc  : 转换相关工具类
- * {@link ConvertUtils#bytes2HexString}{@link ConvertUtils#hexString2Bytes}      : byteArr与hexString互转
- * {@link ConvertUtils#chars2Bytes}{@link ConvertUtils#bytes2Chars}     : charArr与byteArr互转
- * {@link ConvertUtils#memorySize2Byte}{@link ConvertUtils#byte2MemorySize}   : 以unit为单位的内存大小与字节数互转
- * {@link ConvertUtils#byte2FitMemorySize}                  : 字节数转合适内存大小
- * {@link ConvertUtils#timeSpan2Millis}{@link ConvertUtils#millis2TimeSpan}     : 以unit为单位的时间长度与毫秒时间戳互转
- * {@link ConvertUtils#millis2FitTimeSpan}                   : 毫秒时间戳转合适时间长度
- * {@link ConvertUtils#bytes2Bits}{@link ConvertUtils#bits2Bytes}        : bytes与bits互转
- * {@link ConvertUtils#input2OutputStream}{@link ConvertUtils#output2InputStream} : inputStream与outputStream互转
- * {@link ConvertUtils#inputStream2Bytes}{@link ConvertUtils#bytes2InputStream}   : inputStream与byteArr互转
- * {@link ConvertUtils#outputStream2Bytes}{@link ConvertUtils#bytes2OutputStream} : outputStream与byteArr互转
- * {@link ConvertUtils#inputStream2String}{@link ConvertUtils#string2InputStream}  : inputStream与string按编码互转
- * {@link ConvertUtils#outputStream2String}{@link ConvertUtils#string2OutputStream}     : outputStream与string按编码互转
- * {@link ConvertUtils#bitmap2Bytes}{@link ConvertUtils#bytes2Bitmap}              : bitmap与byteArr互转
- * {@link ConvertUtils#drawable2Bitmap}{@link ConvertUtils#bitmap2Drawable}    : drawable与bitmap互转
- * {@link ConvertUtils#drawable2Bytes}{@link ConvertUtils#bytes2Drawable}       : drawable与byteArr互转
- * {@link ConvertUtils#view2Bitmap}                    : view转Bitmap
- * {@link ConvertUtils#dp2px}{@link ConvertUtils#px2dp}     : dp与px互转
+ * {@link ConvertUtils#bytes2HexString}{@link ConvertUtils#hexString2Bytes}         : byteArr与hexString互转
+ * {@link ConvertUtils#chars2Bytes}{@link ConvertUtils#bytes2Chars}                 : charArr与byteArr互转
+ * {@link ConvertUtils#memorySize2Byte}{@link ConvertUtils#byte2MemorySize}         : 以unit为单位的内存大小与字节数互转
+ * {@link ConvertUtils#byte2FitMemorySize}                                          : 字节数转合适内存大小
+ * {@link ConvertUtils#timeSpan2Millis}{@link ConvertUtils#millis2TimeSpan}         : 以unit为单位的时间长度与毫秒时间戳互转
+ * {@link ConvertUtils#millis2FitTimeSpan}                                          : 毫秒时间戳转合适时间长度
+ * {@link ConvertUtils#bytes2Bits}{@link ConvertUtils#bits2Bytes}                   : bytes与bits互转
+ * {@link ConvertUtils#input2OutputStream}{@link ConvertUtils#output2InputStream}   : inputStream与outputStream互转
+ * {@link ConvertUtils#inputStream2Bytes}{@link ConvertUtils#bytes2InputStream}     : inputStream与byteArr互转
+ * {@link ConvertUtils#outputStream2Bytes}{@link ConvertUtils#bytes2OutputStream}   : outputStream与byteArr互转
+ * {@link ConvertUtils#inputStream2String}{@link ConvertUtils#string2InputStream}   : inputStream与string按编码互转
+ * {@link ConvertUtils#outputStream2String}{@link ConvertUtils#string2OutputStream} : outputStream与string按编码互转
+ * {@link ConvertUtils#bitmap2Bytes}{@link ConvertUtils#bytes2Bitmap}               : bitmap与byteArr互转
+ * {@link ConvertUtils#drawable2Bitmap}{@link ConvertUtils#bitmap2Drawable}         : drawable与bitmap互转
+ * {@link ConvertUtils#drawable2Bytes}{@link ConvertUtils#bytes2Drawable}           : drawable与byteArr互转
+ * {@link ConvertUtils#view2Bitmap}                                                 : view转Bitmap
+ * {@link ConvertUtils#dp2px}{@link ConvertUtils#px2dp}                             : dp与px互转
  * {@link ConvertUtils#sp2px}{@link ConvertUtils#px2sp}                             : sp与px互转
  * </pre>
  */

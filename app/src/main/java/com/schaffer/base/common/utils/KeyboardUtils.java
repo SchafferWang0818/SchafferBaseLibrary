@@ -9,10 +9,10 @@ import android.view.inputmethod.InputMethodManager;
 /**
  * <pre>
  *     desc  : 键盘相关工具类
- * showSoftInput               : 动态显示软键盘
- * hideSoftInput               : 动态隐藏软键盘
- * toggleSoftInput             : 切换键盘显示与否状态
- * clickBlankArea2HideSoftInput: 点击屏幕空白区域隐藏软键盘
+ * {@link #showSoftInput               }: 动态显示软键盘
+ * {@link #hideSoftInput               }: 动态隐藏软键盘
+ * {@link #toggleSoftInput             }: 切换键盘显示与否状态
+ * {@link #clickBlankArea2HideSoftInput}: 点击屏幕空白区域隐藏软键盘
  * </pre>
  */
 public final class KeyboardUtils {

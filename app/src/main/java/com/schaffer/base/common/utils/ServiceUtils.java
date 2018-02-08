@@ -11,14 +11,15 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * <pre>
- * getAllRunningService: 获取所有运行的服务
- * startService        : 启动服务
- * stopService         : 停止服务
- * bindService         : 绑定服务
- * unbindService       : 解绑服务
- * isServiceRunning    : 判断服务是否运行
- * </pre>
+ * @author AndroidSchaffer
+ *         <pre>
+ *         {@link #getAllRunningService}: 获取所有运行的服务
+ *         {@link #startService        }: 启动服务
+ *         {@link #stopService         }: 停止服务
+ *         {@link #bindService         }: 绑定服务
+ *         {@link #unbindService       }: 解绑服务
+ *         {@link #isServiceRunning    }: 判断服务是否运行
+ *         </pre>
  */
 public final class ServiceUtils {
 

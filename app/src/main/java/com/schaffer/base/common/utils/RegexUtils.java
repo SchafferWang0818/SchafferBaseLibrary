@@ -9,24 +9,25 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * <pre>
- * isMobileSimple : 验证手机号（简单）
- * isMobileExact  : 验证手机号（精确）
- * isTel          : 验证电话号码
- * isIDCard15     : 验证身份证号码15位
- * isIDCard18     : 验证身份证号码18位
- * isEmail        : 验证邮箱
- * isURL          : 验证URL
- * isZh           : 验证汉字
- * isUsername     : 验证用户名
- * isDate         : 验证yyyy-MM-dd格式的日期校验，已考虑平闰年
- * isIP           : 验证IP地址
- * isMatch        : 判断是否匹配正则
- * getMatches     : 获取正则匹配的部分
- * getSplits      : 获取正则匹配分组
- * getReplaceFirst: 替换正则匹配的第一部分
- * getReplaceAll  : 替换所有正则匹配的部分
- * </pre>
+ * @author AndroidSchaffer
+ *         <pre>
+ *         {@link #isMobileSimple }: 验证手机号（简单）
+ *         {@link #isMobileExact  }: 验证手机号（精确）
+ *         {@link #isTel          }: 验证电话号码
+ *         {@link #isIDCard15     }: 验证身份证号码15位
+ *         {@link #isIDCard18     }: 验证身份证号码18位
+ *         {@link #isEmail        }: 验证邮箱
+ *         {@link #isURL          }: 验证URL
+ *         {@link #isZh           }: 验证汉字
+ *         {@link #isUsername     }: 验证用户名
+ *         {@link #isDate         }: 验证yyyy-MM-dd格式的日期校验，已考虑平闰年
+ *         {@link #isIP           }: 验证IP地址
+ *         {@link #isMatch        }: 判断是否匹配正则
+ *         {@link #getMatches     }: 获取正则匹配的部分
+ *         {@link #getSplits      }: 获取正则匹配分组
+ *         {@link #getReplaceFirst}: 替换正则匹配的第一部分
+ *         {@link #getReplaceAll  }: 替换所有正则匹配的部分
+ *         </pre>
  */
 public final class RegexUtils {
 

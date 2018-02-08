@@ -10,16 +10,17 @@ import com.schaffer.base.BuildConfig;
 
 
 /**
- * Created by SchafferWang on 2016/12/8.
+ * @author SchafferWang
+ * @date 2016/12/8
  */
 
-public class LTUtils {
+public class LtUtils {
 
     private static Toast toast;
     private static boolean isDebug = true;
     private static String mTag = "Schaffer";
 
-    private LTUtils() {
+    private LtUtils() {
     }
 
     private static void showToast(Context context, String msg, int duration, int gravity) {
@@ -29,8 +30,9 @@ public class LTUtils {
             toast.setText(msg);
             toast.setDuration(duration);
         }
-        if (gravity == Gravity.CENTER)
+        if (gravity == Gravity.CENTER) {
             toast.setGravity(gravity, 0, 0);
+        }
         toast.show();
     }
 
@@ -77,22 +79,25 @@ public class LTUtils {
     }
 
     public static void e(String msg) {
-        if (!BuildConfig.DEBUG && !isDebug)
+        if (!BuildConfig.DEBUG && !isDebug) {
             return;
+        }
         e(null, msg);
     }
 
     public static void e(String tag, String msg) {
-        if (!isDebug)
+        if (!isDebug) {
             return;
+        }
         String finalTag = getWithTag(tag);
         StackTraceElement stackTraceElement = getTagetStackTraceElement();
         Log.e(finalTag, "(" + stackTraceElement.getFileName() + ":" + stackTraceElement.getLineNumber() + ")" + stackTraceElement.getMethodName() + "::" + msg);
     }
 
     private static String getWithTag(String tag) {
-        if (!TextUtils.isEmpty(tag))
+        if (!TextUtils.isEmpty(tag)) {
             return tag;
+        }
         return mTag;
     }
 
@@ -101,7 +106,7 @@ public class LTUtils {
         boolean shouldTrace = false;
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         for (StackTraceElement stackTraceElement : stackTrace) {
-            boolean isLogMethod = stackTraceElement.getClassName().equals(LTUtils.class.getName());
+            boolean isLogMethod = stackTraceElement.getClassName().equals(LtUtils.class.getName());
             if (shouldTrace && !isLogMethod) {
                 tagetStackTrace = stackTraceElement;
                 break;

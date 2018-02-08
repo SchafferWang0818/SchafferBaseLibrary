@@ -17,42 +17,41 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * <pre>
- * getFileByPath            : 根据文件路径获取文件
- * isFileExists             : 判断文件是否存在
- * rename                   : 重命名文件
- * isDir                    : 判断是否是目录
- * isFile                   : 判断是否是文件
- * createOrExistsDir        : 判断目录是否存在，不存在则判断是否创建成功
- * createOrExistsFile       : 判断文件是否存在，不存在则判断是否创建成功
- * createFileByDeleteOldFile: 判断文件是否存在，存在则在创建之前删除
- * copyDir                  : 复制目录
- * copyFile                 : 复制文件
- * moveDir                  : 移动目录
- * moveFile                 : 移动文件
- * deleteDir                : 删除目录
- * deleteFile               : 删除文件
- * listFilesInDir           : 获取目录下所有文件
- * listFilesInDir           : 获取目录下所有文件包括子目录
- * listFilesInDirWithFilter : 获取目录下所有后缀名为suffix的文件
- * listFilesInDirWithFilter : 获取目录下所有后缀名为suffix的文件包括子目录
- * listFilesInDirWithFilter : 获取目录下所有符合filter的文件
- * listFilesInDirWithFilter : 获取目录下所有符合filter的文件包括子目录
- * searchFileInDir          : 获取目录下指定文件名的文件包括子目录
- * getFileLastModified      : 获取文件最后修改的毫秒时间戳
- * getFileCharsetSimple     : 简单获取文件编码格式
- * getFileLines             : 获取文件行数
- * getDirSize               : 获取目录大小
- * getFileSize              : 获取文件大小
- * getDirLength             : 获取目录长度
- * getFileLength            : 获取文件长度
- * getFileMD5               : 获取文件的MD5校验码
- * getFileMD5ToString       : 获取文件的MD5校验码
- * getDirName               : 根据全路径获取最长目录
- * getFileName              : 根据全路径获取文件名
- * getFileNameNoExtension   : 根据全路径获取文件名不带拓展名
- * getFileExtension         : 根据全路径获取文件拓展名
- * </pre>
+ * @author AndroidSchaffer
+ *         {@link #getFileByPath            : 根据文件路径获取文件}
+ *         {@link #isFileExists             : 判断文件是否存在}
+ *         {@link #rename                   : 重命名文件}
+ *         {@link #isDir                    : 判断是否是目录}
+ *         {@link #isFile                   : 判断是否是文件}
+ *         {@link #createOrExistsDir        : 判断目录是否存在，不存在则判断是否创建成功}
+ *         {@link #createOrExistsFile       : 判断文件是否存在，不存在则判断是否创建成功}
+ *         {@link #createFileByDeleteOldFile: 判断文件是否存在，存在则在创建之前删除}
+ *         {@link #copyDir                  : 复制目录}
+ *         {@link #copyFile                 : 复制文件}
+ *         {@link #moveDir                  : 移动目录}
+ *         {@link #moveFile                 : 移动文件}
+ *         {@link #deleteDir                : 删除目录}
+ *         {@link #deleteFile               : 删除文件}
+ *         {@link #listFilesInDir           : 获取目录下所有文件}
+ *         {@link #listFilesInDir           : 获取目录下所有文件包括子目录}
+ *         {@link #listFilesInDirWithFilter : 获取目录下所有后缀名为suffix的文件}
+ *         {@link #listFilesInDirWithFilter : 获取目录下所有后缀名为suffix的文件包括子目录}
+ *         {@link #listFilesInDirWithFilter : 获取目录下所有符合filter的文件}
+ *         {@link #listFilesInDirWithFilter : 获取目录下所有符合filter的文件包括子目录}
+ *         {@link #searchFileInDir          : 获取目录下指定文件名的文件包括子目录}
+ *         {@link #getFileLastModified      : 获取文件最后修改的毫秒时间戳}
+ *         {@link #getFileCharsetSimple     : 简单获取文件编码格式}
+ *         {@link #getFileLines             : 获取文件行数}
+ *         {@link #getDirSize               : 获取目录大小}
+ *         {@link #getFileSize              : 获取文件大小}
+ *         {@link #getDirLength             : 获取目录长度}
+ *         {@link #getFileLength            : 获取文件长度}
+ *         {@link #getFileMD5               : 获取文件的MD5校验码}
+ *         {@link #getFileMD5ToString       : 获取文件的MD5校验码}
+ *         {@link #getDirName               : 根据全路径获取最长目录}
+ *         {@link #getFileName              : 根据全路径获取文件名}
+ *         {@link #getFileNameNoExtension   : 根据全路径获取文件名不带拓展名}
+ *         {@link #getFileExtension         : 根据全路径获取文件拓展名}
  */
 public final class FileUtils {
 

@@ -18,17 +18,17 @@ import java.util.Locale;
 
 /**
  * <pre>
- * isGpsEnabled     : 判断Gps是否可用
- * isLocationEnabled: 判断定位是否可用
- * openGpsSettings  : 打开Gps设置界面
- * register         : 注册
- * unregister       : 注销
- * getAddress       : 根据经纬度获取地理位置
- * getCountryName   : 根据经纬度获取所在国家
- * getLocality      : 根据经纬度获取所在地
- * getStreet        : 根据经纬度获取所在街道
- * isBetterLocation : 是否更好的位置
- * isSameProvider   : 是否相同的提供者
+ * {@link #isGpsEnabled     }: 判断Gps是否可用
+ * {@link #isLocationEnabled}: 判断定位是否可用
+ * {@link #openGpsSettings  }: 打开Gps设置界面
+ * {@link #register         }: 注册
+ * {@link #unregister       }: 注销
+ * {@link #getAddress       }: 根据经纬度获取地理位置
+ * {@link #getCountryName   }: 根据经纬度获取所在国家
+ * {@link #getLocality      }: 根据经纬度获取所在地
+ * {@link #getStreet        }: 根据经纬度获取所在街道
+ * {@link #isBetterLocation }: 是否更好的位置
+ * {@link #isSameProvider   }: 是否相同的提供者
  * </pre>
  */
 public final class LocationUtils {
@@ -66,6 +66,7 @@ public final class LocationUtils {
         return Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE,
                 Settings.Secure.LOCATION_MODE_OFF) != Settings.Secure.LOCATION_MODE_OFF;
     }
+
     /**
      * 打开Gps设置界面
      */
@@ -95,7 +96,7 @@ public final class LocationUtils {
         mLocationManager = (LocationManager) Utils.getContext().getSystemService(Context.LOCATION_SERVICE);
         mListener = listener;
         if (!isLocationEnabled()) {
-            LTUtils.showToastShort(Utils.getContext(), "无法定位，请打开定位服务");
+            LtUtils.showToastShort(Utils.getContext(), "无法定位，请打开定位服务");
             return false;
         }
         String provider = mLocationManager.getBestProvider(getCriteria(), true);
@@ -287,13 +288,13 @@ public final class LocationUtils {
             }
             switch (status) {
                 case LocationProvider.AVAILABLE:
-                    LTUtils.d("onStatusChanged", "当前GPS状态为可见状态");
+                    LtUtils.d("onStatusChanged", "当前GPS状态为可见状态");
                     break;
                 case LocationProvider.OUT_OF_SERVICE:
-                    LTUtils.d("onStatusChanged", "当前GPS状态为服务区外状态");
+                    LtUtils.d("onStatusChanged", "当前GPS状态为服务区外状态");
                     break;
                 case LocationProvider.TEMPORARILY_UNAVAILABLE:
-                    LTUtils.d("onStatusChanged", "当前GPS状态为暂停服务状态");
+                    LtUtils.d("onStatusChanged", "当前GPS状态为暂停服务状态");
                     break;
             }
         }

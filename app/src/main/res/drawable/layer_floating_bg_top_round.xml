@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--外层底部-->
+    <item>
+        <shape>
+            <corners
+                android:topLeftRadius="@dimen/dimen_5dp"
+                android:topRightRadius="5dp" />
+            <padding
+                android:top="1.5dp" />
+            <solid android:color="#22f6f6f6" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <corners
+                android:topLeftRadius="@dimen/dimen_5dp"
+                android:topRightRadius="5dp" />
+            <padding
+
+                android:top="1.5dp" />
+            <solid android:color="#22f5f5f5" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <corners
+                android:topLeftRadius="@dimen/dimen_5dp"
+                android:topRightRadius="5dp" />
+            <padding
+
+                android:top="1.5dp" />
+            <solid android:color="#22f4f4f4" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <corners
+                android:topLeftRadius="@dimen/dimen_5dp"
+                android:topRightRadius="5dp" />
+            <padding
+
+                android:top="1.5dp" />
+            <solid android:color="#22f3f3f3" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <corners
+                android:topLeftRadius="@dimen/dimen_5dp"
+                android:topRightRadius="5dp" />
+            <padding
+
+                android:top="1.5dp" />
+            <solid android:color="#22f2f2f2" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <corners
+                android:topLeftRadius="@dimen/dimen_5dp"
+                android:topRightRadius="5dp" />
+            <padding
+                android:top="1.5dp" />
+            <solid android:color="#22f1f1f1" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <corners
+                android:topLeftRadius="@dimen/dimen_5dp"
+                android:topRightRadius="5dp" />
+            <padding
+
+                android:top="1.5dp" />
+            <solid android:color="#11f0f0f0" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="#FFFFFF" />
+            <corners
+                android:topLeftRadius="@dimen/dimen_5dp"
+                android:topRightRadius="5dp" />
+        </shape>
+    </item>
+</layer-list>

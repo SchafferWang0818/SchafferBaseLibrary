@@ -311,7 +311,7 @@ public class STUtils {
             long l = DTUtils.formatDateToTimeStamp(choose);
             long l1 = DTUtils.formatDateToTimeStamp(new Date());
             if (l < l1) {
-                LTUtils.showToastShort(context, "选择的时间不能早于当前时间");
+                LtUtils.showToastShort(context, "选择的时间不能早于当前时间");
                 return;
             }
             String timePicked = DTUtils.formatDateToString(choose,"yyyy-MM-dd HH:mm");//转换成 yyyy-MM-dd HH:mm
