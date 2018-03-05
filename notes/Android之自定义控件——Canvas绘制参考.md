@@ -39,7 +39,6 @@
                 
                 public void drawPicture (Picture picture, RectF dst)                
                 
-        
     3. picture → pictureDrawable → pictureDrawable.draw(canvas),**不会缩放,按显示区域大小显示一部分**;
 
             // 包装成为Drawable
@@ -79,7 +78,6 @@
             // 此处省略了获取网络输入流的代码
             Bitmap bitmap = BitmapFactory.decodeStream(is);
             is.close();
-
 
 2. 绘制
     
