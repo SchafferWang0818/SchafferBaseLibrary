@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -25,11 +26,12 @@ public class TipImageView extends android.support.v7.widget.AppCompatImageView {
 
     private int mTipCount = 0;
     private int mTipColor = Color.parseColor("#ff6e62");
-    private int mTipTextSize = ConvertUtils.sp2px(8);
+    private int mTipTextSize = ConvertUtils.sp2px(10);
     private Paint mTextPaint;
     private Paint mCirclePaint;
     private String mTipText;
     private Paint mInnerCirclePaint;
+    private int mTextSize_init;
 
     public TipImageView(Context context) {
         this(context, null);
@@ -48,7 +50,9 @@ public class TipImageView extends android.support.v7.widget.AppCompatImageView {
         mTextPaint = new Paint();
         mTextPaint.setColor(mTipColor);
         mTextPaint.setAntiAlias(true);
+        mTextPaint.setTypeface(Typeface.MONOSPACE);
         mTextPaint.setTextSize(mTipTextSize);
+//        mTextPaint.setTextAlign(Paint.Align.CENTER);
 
         mCirclePaint = new Paint();
         mCirclePaint.setColor(mTipColor);
@@ -82,11 +86,19 @@ public class TipImageView extends android.support.v7.widget.AppCompatImageView {
 
     public void setTipCount(int tipCount) {
         mTipCount = tipCount;
-        if (mTipCount > 0 && mTipCount < 99) {
+        if (mTipCount > 0 && mTipCount <= 99) {
             mTipText = mTipCount + "";
         } else {
             mTipText = "99+";
         }
+        if (mTipCount > 0 && mTipCount <= 9) {
+            mTextPaint.setTextSize(ConvertUtils.sp2px(12));
+        } else if (mTipCount >= 10 && mTipCount <= 99) {
+            mTextPaint.setTextSize(ConvertUtils.sp2px(10));
+        } else if (mTipCount > 99) {
+            mTextPaint.setTextSize(ConvertUtils.sp2px(8));
+        }
+        mTextSize_init = (int) mTextPaint.getTextSize();
         postInvalidate();
     }
 
@@ -103,26 +115,30 @@ public class TipImageView extends android.support.v7.widget.AppCompatImageView {
         }
 
         Rect rectF = new Rect();
+
+        /* 测量宽度 */
+        mTextPaint.setTextSize(ConvertUtils.sp2px(8));
         mTextPaint.getTextBounds("99+", 0, "99+".length(), rectF);
         int textHeight = rectF.height();
         int textWidth = rectF.width();
-       /* float textWidth = mTextPaint.measureText(mTipText);*/
-        float innerCircleRadius = textWidth / 2 + ConvertUtils.dp2px(1);
-        float outerCircleRadius = textWidth / 2 + ConvertUtils.dp2px(2);
-
+//        float textWidth = mTextPaint.measureText(mTipText);
+        float innerCircleRadius = textWidth / 2;
+        float outerCircleRadius = innerCircleRadius + 2;
         int measuredWidth = getMeasuredWidth();
-
         canvas.translate(measuredWidth - outerCircleRadius, outerCircleRadius);
         canvas.drawCircle(0, 0, outerCircleRadius, mCirclePaint);
         canvas.drawCircle(0, 0, innerCircleRadius, mInnerCirclePaint);
 
-        canvas.save();
-        canvas.restore();
-
+//        canvas.save();
+//        canvas.restore();
+        mTextPaint.setTextSize(mTextSize_init);
         Rect rect = new Rect();
         mTextPaint.getTextBounds(mTipText, 0, mTipText.length(), rect);
         int width = rect.width();
-        canvas.drawText(mTipText, -width / 2, textHeight / 2, mTextPaint);
+
+        Paint.FontMetrics metrics = mTextPaint.getFontMetrics();
+
+        canvas.drawText(mTipText, -width / 2, rect.height() / 2, mTextPaint);
 
         canvas.save();
         canvas.restore();
