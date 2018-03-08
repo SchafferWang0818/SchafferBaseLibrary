@@ -33,6 +33,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.schaffer.base.R;
 import com.schaffer.base.common.constants.Constants;
+import com.schaffer.base.common.utils.ConvertUtils;
 import com.schaffer.base.common.utils.LtUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -639,4 +640,12 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
 //        }
     }
 
+    public void setElevation(boolean set) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            View viewById = findViewById(R.id.layout_toolbar_tb);
+            if (viewById!=null){
+                viewById.setElevation(set ? ConvertUtils.dp2px(5) : 0);
+            }
+        }
+    }
 }

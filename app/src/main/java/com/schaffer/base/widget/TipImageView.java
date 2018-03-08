@@ -52,7 +52,7 @@ public class TipImageView extends android.support.v7.widget.AppCompatImageView {
         mTextPaint.setAntiAlias(true);
         mTextPaint.setTypeface(Typeface.MONOSPACE);
         mTextPaint.setTextSize(mTipTextSize);
-//        mTextPaint.setTextAlign(Paint.Align.CENTER);
+        mTextPaint.setTextAlign(Paint.Align.LEFT);
 
         mCirclePaint = new Paint();
         mCirclePaint.setColor(mTipColor);
@@ -114,14 +114,12 @@ public class TipImageView extends android.support.v7.widget.AppCompatImageView {
             return;
         }
 
-        Rect rectF = new Rect();
-
         /* 测量宽度 */
         mTextPaint.setTextSize(ConvertUtils.sp2px(8));
+        Rect rectF = new Rect();
         mTextPaint.getTextBounds("99+", 0, "99+".length(), rectF);
-        int textHeight = rectF.height();
         int textWidth = rectF.width();
-//        float textWidth = mTextPaint.measureText(mTipText);
+
         float innerCircleRadius = textWidth / 2;
         float outerCircleRadius = innerCircleRadius + 2;
         int measuredWidth = getMeasuredWidth();
@@ -129,16 +127,13 @@ public class TipImageView extends android.support.v7.widget.AppCompatImageView {
         canvas.drawCircle(0, 0, outerCircleRadius, mCirclePaint);
         canvas.drawCircle(0, 0, innerCircleRadius, mInnerCirclePaint);
 
-//        canvas.save();
-//        canvas.restore();
+        canvas.save();
+        canvas.restore();
         mTextPaint.setTextSize(mTextSize_init);
         Rect rect = new Rect();
         mTextPaint.getTextBounds(mTipText, 0, mTipText.length(), rect);
-        int width = rect.width();
-
         Paint.FontMetrics metrics = mTextPaint.getFontMetrics();
-
-        canvas.drawText(mTipText, -width / 2, rect.height() / 2, mTextPaint);
+        canvas.drawText(mTipText, -rect.centerX(),-(metrics.ascent + metrics.descent) / 2, mTextPaint);
 
         canvas.save();
         canvas.restore();
