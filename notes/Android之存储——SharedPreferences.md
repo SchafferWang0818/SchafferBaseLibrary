@@ -44,7 +44,9 @@
 
 			可以被其他应用写入;
 
+	- Context.MODE_MULTI_PROCESS
 
+			多进程,非多进程安全
 
 ---
 ### 3. 存储方式
@@ -62,7 +64,17 @@
 
 
 2. 读取
+		
+		//读取其他app的sp
+		try {
+			otherAppContext = createPackageContext("com.package.name", Context.CONTEXT_IGNORE_SECURITY);
+		} catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+		}
+		//根据Context取得对应的SharedPreferences
+		sp = otherAppContext.getSharedPreferences("share", Context.MODE_WORLD_READABLE);
 
+		//读取自己的app
 		SharedPreferences sps= getSharedPreferences("share", MODE_PRIVATE);    
 		String name = sps.getString("name", "");  
 		int age = sps.getInt("age", 0);  
