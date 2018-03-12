@@ -11,7 +11,7 @@
 		- 两个Activity 之间跳转时必然会执行的是哪几个方法？
 		- 前台切换到后台，然后再回到前台，Activity生命周期回调方法。弹出Dialog，生命值周期回调方法。
 		- Activity的四种启动模式对比
-		- Activity状态保存于恢复
+		- Activity状态保存与恢复
 		- fragment各种情况下的生命周期
 		- Fragment状态保存startActivityForResult是哪个类的方法，在什么情况下使用？
 		- 如何实现Fragment的滑动？
@@ -37,7 +37,7 @@
 		- 谈谈对接口与回调的理解
 		- 回调的原理
 		- 写一个回调demo
-		- 介绍下SurfView
+		- 介绍下SurfaceView
 		- RecycleView的使用
 		- 序列化的作用，以及Android两种序列化的区别
 		- 差值器
@@ -66,7 +66,7 @@
 		- AsyncTask 如何使用?
 		- SpareArray原理
 		- 请介绍下ContentProvider 是如何实现数据共享的？
-		- AndroidService与Activity之间通信的几种方式
+		- Android Service与Activity之间通信的几种方式
 		- IntentService原理及作用是什么？
 		- 说说Activity、Intent、Service 是什么关系
 		- ApplicationContext和ActivityContext的区别
