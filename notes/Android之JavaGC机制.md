@@ -1,6 +1,9 @@
 # Java垃圾回收机制 #
 
-	参考：http://www.cnblogs.com/laoyangHJ/articles/java_gc.html
+	参考：
+		1. http://www.cnblogs.com/laoyangHJ/articles/java_gc.html
+		2. https://www.jianshu.com/p/c4b283848970
+
 
 - 垃圾回收机制的目的在于清理不再使用的对象；
 - 通过确定对象是否被活动对象引用来确定是否收集；
@@ -49,21 +52,21 @@
 
 常用的垃圾收集器
 
-- 标记清除收集器
+- 标记清除收集器: 大部分Davik采取的都是标记-清理回收算法，而且具体使用什么算法是在编译期决定的，无法在运行的时候动态更换。标记-清理回收算法无法对Heap中空闲内存区域做碎片整理。**系统仅仅会在新的内存分配之前判断Heap的尾端剩余空间是否足够，如果空间不够会触发gc操作，从而腾出更多空闲的内存空间；这样内存空洞就产生了。**
 
 		单进程工作并停止其他工作。
 		清除未被标记的对象而不压缩导致大量内存碎片，造成浪费。
-
+	![标记清除收集器](https://upload-images.jianshu.io/upload_images/4056837-af944b516c7953ca?imageMogr2/auto-orient/strip%7CimageView2/2/w/350)
 - 标记压缩收集器
 
 		将标记对象复制到堆栈新域以便压缩堆栈，同时停止其他操作。
-
+	![标记压缩收集器](https://upload-images.jianshu.io/upload_images/4056837-f11bc1f2c7da2ee6?imageMogr2/auto-orient/strip%7CimageView2/2/w/350)
 - 复制收集器
 
 		- 堆栈分为两个域，每次只使用一半空间。
 		- gc运行时复制到另一个域，压缩堆栈。
 		- 持续复制长生存期的对象将导致效率降低，要求内存大。
-
+	![复制收集器](https://upload-images.jianshu.io/upload_images/4056837-bd4a3ddcd015d6e9?imageMogr2/auto-orient/strip%7CimageView2/2/w/350)
 - <font color="red">增量收集器</font>
 
 		- 将堆栈分为多个块儿，每次gc对其中一个块儿进行垃圾收集。
