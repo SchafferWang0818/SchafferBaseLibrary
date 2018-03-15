@@ -59,10 +59,19 @@
 	- [ ** ** ]()
 
 ---
-### `bugly / tinker` ###
+### 热更新`bugly / tinker` ###
 - 参考:
+	- [ **Android热更新实现原理** ](http://blog.csdn.net/lzyzsd/article/details/49843581/)
 	- [ ** ** ]()
 	- [ ** ** ]()
-	- [ ** ** ]()
+
+java运行时加载的类是通过ClassLoader来实现的,Android中使用PathClassLoader类作为Android的默认的类加载器， `PathClassLoader`其实实现的就是简单的从文件系统中加载类文件。BaseDexClassLoader将findClass方法委托给了pathList对象的findClass方法，pathList对象是在BaseDexClassLoader的构造函数中new出来的， 它的类型是`DexPathList`。
+
+**一旦有类被成功加载，那么它的dex一定会出现在dexElements所对应的dex文件中**，并且dexElements中出现的顺序也很重要，在dexElements前面出现的dex会被优先加载，一旦Class被加载成功，就会立即返回，也就是说，**如果想做hotpatch，一定要保证我们的hotpacth dex文件出现在dexElements列表的前面。**
+
+
+由于PathClassLoader.pathList.dexElements是private,就需要**反射**来修改。
+构造我们自己的dex文件所对应的dexElements数组的时候，我们也可以采取一个比较取巧的方式，就是通过构造一个DexClassLoader对象来加载我们的dex文件，并且调用一次`dexClassLoader.loadClass(dummyClassName)`; 
+方法，这样，`dexClassLoader.pathList.dexElements`中，就会包含我们的dex，**通过把`dexClassLoader.pathList.dexElements`插入到系统默认的`classLoader.pathList.dexElements`列表前面，就可以让系统优先加载我们的dex中的类**，从而可以实现热更新了。
 
 ---
