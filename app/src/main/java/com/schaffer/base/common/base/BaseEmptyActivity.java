@@ -657,7 +657,7 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
     }
 
     /**
-     * 设置入口
+     * 设置入口内容
      * @param aliasEntra    alias的包名+.name
      * @param recover   是否恢复原入口
      */
