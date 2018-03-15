@@ -1,11 +1,15 @@
 package com.schaffer.base.common.base;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.ActivityOptions;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -40,6 +44,8 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
 
 /**
  * @author Schaffer
@@ -618,6 +624,7 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
             super.startActivityForResult(intent, requestCode);
         }
     }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -643,8 +650,35 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
     public void setElevation(boolean set) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View viewById = findViewById(R.id.layout_toolbar_tb);
-            if (viewById!=null){
+            if (viewById != null) {
                 viewById.setElevation(set ? ConvertUtils.dp2px(5) : 0);
+            }
+        }
+    }
+
+    /**
+     * 设置入口
+     * @param aliasEntra    alias的包名+.name
+     * @param recover   是否恢复原入口
+     */
+    public void setEntra(String aliasEntra, boolean recover) {
+        PackageManager pm = getApplication().getPackageManager();
+        pm.setComponentEnabledSetting(getComponentName(),
+                recover ? COMPONENT_ENABLED_STATE_DISABLED : PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP);
+        pm.setComponentEnabledSetting(new ComponentName(getBaseContext(), aliasEntra),
+                recover ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                PackageManager.DONT_KILL_APP);
+
+        /*删除之前的快捷入口*/
+        ActivityManager am = (ActivityManager) getSystemService(Activity.ACTIVITY_SERVICE);
+        Intent i = new Intent(Intent.ACTION_MAIN);
+        i.addCategory(Intent.CATEGORY_HOME);
+        i.addCategory(Intent.CATEGORY_DEFAULT);
+        List<ResolveInfo> resolves = pm.queryIntentActivities(i, 0);
+        for (ResolveInfo res : resolves) {
+            if (res.activityInfo != null) {
+                am.killBackgroundProcesses(res.activityInfo.packageName);
             }
         }
     }
