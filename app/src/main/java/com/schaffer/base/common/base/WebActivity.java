@@ -64,7 +64,7 @@ public class WebActivity extends BaseActivity<WebActivity, WebPresenter> {
 
     @Override
     public void initView() {
-        webView = (WebView) findViewById(R.id.web_wv_web);
+        webView = findViewById(R.id.web_wv_web);
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         //js交互
@@ -78,6 +78,13 @@ public class WebActivity extends BaseActivity<WebActivity, WebPresenter> {
         //支持缩放
         settings.setNeedInitialFocus(false);
         settings.setSupportMultipleWindows(true);
+        /* 可以用于预览文件 */
+        settings.setAllowFileAccess(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            settings.setAllowUniversalAccessFromFileURLs(true);
+            settings.setAllowFileAccessFromFileURLs(true);
+        }
+
         setCacheSettings();
         //开启 Application Caches 功能
         //5.0 以后 https不可以直接加载http资源
@@ -101,9 +108,16 @@ public class WebActivity extends BaseActivity<WebActivity, WebPresenter> {
         if (!TextUtils.isEmpty(url)) {
             if (!(url.trim().startsWith("http://")
                     || url.startsWith("https://"))) {
-                url = "http://" + url;
+                webView.loadUrl("http://" + url);
+            } else if (getIntent().getBooleanExtra(Constants.INTENT_WEB_PDF, false)) {
+                /* 当打开一个pdf时 */
+                webView.loadUrl("http://mozilla.github.io/pdf.js/web/viewer.html?file=" + url);
+            } else {
+                webView.loadUrl(url);
             }
-            webView.loadUrl(url);
+        }else{
+            showToast("数据错误，请稍后再试");
+            finish();
         }
         TextView mTvTitle = (TextView) findViewById(R.id.layout_toolbar_tv_title);
         if (mTvTitle != null) {

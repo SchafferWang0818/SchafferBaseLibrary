@@ -31,6 +31,10 @@
     <!--状态栏颜色延伸主题,与Toolbar 的android:fitsSystemWindows 配合使用-->
     <style name="TransStatusTheme" parent="AppTheme"></style>
 
+    <style name="splash_screen" parent="TransStatusTheme">
+        <item name="android:windowBackground">@drawable/screen_splash</item>
+    </style>
+
     <!--Material Design 控件使用的基础Style-->
     <style name="Design" />
 

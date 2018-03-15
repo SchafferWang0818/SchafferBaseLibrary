@@ -1,41 +1,46 @@
+package com.schaffer.base.test;
 
-##Socket及其通信
-- 	套接字,支持TCP/IP协议网络通信的基本单元.是网络通信过程**端点**的抽象.
-- 	包含两个IP,两个协议端口,一个协议;
-- 	Socket接口的作用:区分不同的应用和连接,实现数据传输的并发服务.
--	**套接字连接过程:**
-			
-			1. 服务器端不知道客户端的套接字,处于等待请求状态;
-			2. 客户端套接字提出请求,以连接服务器端的套接字,描述IP和端口来连接确定;
-			3. 服务器端检测到请求之后开启线程发出自身的套接字描述,客户端确认之后建立连接.
-			4. 服务器端继续监听等待状态来接收其他请求.
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
----
-### [Socket TCP/UDP通讯示例](https://www.cnblogs.com/zhujiabin/p/5675716.html) ### 
-**TCP使用的是流的方式发送，UDP是以包的形式发送。**
+import com.schaffer.base.R;
 
----		
-## Socket 客户端最简单的TCP通信示例 ##
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-```java
+/**
+ * @author : SchafferWang at AndroidSchaffer
+ * @date : 2018/3/15
+ * Project : SchafferBaseLibrary
+ * Package : com.schaffer.base.test
+ * Description :
+ */
+
 public class TestSocketCreateActivity extends AppCompatActivity {
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.test_socket_create);
         try {
             connect("192.168.1.24",1000);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    //socket
     private Socket mSocket;
-    //线程池
     private ExecutorService mPool;
-    //发送信息时的输出流
     private OutputStream mOutputStream;
-    //得到消息的输入留
     private InputStream mInputStream;
 
     public boolean connect(String host, int port) throws IOException {
@@ -96,6 +101,7 @@ public class TestSocketCreateActivity extends AppCompatActivity {
             }
             mSocket.close();
             mSocket = null;
+            mPool.shutdown();
         }
     }
 
@@ -124,7 +130,14 @@ public class TestSocketCreateActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
-
-
-```

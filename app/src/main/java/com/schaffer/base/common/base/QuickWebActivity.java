@@ -27,6 +27,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.schaffer.base.R;
+import com.schaffer.base.common.constants.Constants;
 import com.schaffer.base.common.utils.AppUtils;
 import com.schaffer.base.common.utils.ConvertUtils;
 import com.schaffer.base.common.utils.NetworkUtils;
@@ -125,6 +126,14 @@ public class QuickWebActivity extends BaseEmptyActivity<QuickWebActivity, QuickW
             settings.setDomStorageEnabled(true);
             settings.setDatabaseEnabled(true);
             settings.setAppCacheEnabled(true);
+
+            /* 可以用于预览文件 */
+            settings.setAllowFileAccess(true);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                settings.setAllowUniversalAccessFromFileURLs(true);
+                settings.setAllowFileAccessFromFileURLs(true);
+            }
+
             try {
                 File cacheDir = getCacheDir();
                 settings.setAppCachePath(cacheDir.getAbsolutePath() + (cacheDir.isDirectory() ? "webCache" : "/webCache"));
@@ -242,18 +251,22 @@ public class QuickWebActivity extends BaseEmptyActivity<QuickWebActivity, QuickW
 
     @Override
     protected void initData() {
-        Intent intent = getIntent();
-        String url = intent.getStringExtra("INTENT_WEB_URL");
-        if (TextUtils.isEmpty(url)) {
-            showToast("网址不能为空");
-            finish();
-        } else {
-            if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("tfp://")) {
-                mWvWeb.loadUrl(url);
+        String url = this.getIntent().getStringExtra(Constants.INTENT_WEB_URL);
+        if (!TextUtils.isEmpty(url)) {
+            if (!(url.trim().startsWith("http://")
+                    || url.startsWith("https://"))) {
+                mWvWeb.loadUrl("http://" + url);
+            } else if (getIntent().getBooleanExtra(Constants.INTENT_WEB_PDF, false)) {
+                /* 当打开一个pdf时 */
+                mWvWeb.loadUrl("http://mozilla.github.io/pdf.js/web/viewer.html?file=" + url);
             } else {
+                mWvWeb.loadUrl(url);
                 Intent in = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 startActivity(in);
             }
+        }else{
+            showToast("数据错误，请稍后再试");
+            finish();
         }
     }
 

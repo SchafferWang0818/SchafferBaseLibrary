@@ -47,6 +47,7 @@ public class Constants {
     public static final String WINDOW_TRANSITION = "WINDOW_TRANSITION";
     public static final String INTENT_WEB_URL = "INTENT_WEB_URL";
     public static final String INTENT_WEB_TITLE = "INTENT_WEB_TITLE";
+    public static final String INTENT_WEB_PDF = "INTENT_WEB_PDF";
 
     public static final class TimeConstants {
 

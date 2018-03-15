@@ -25,6 +25,7 @@ import android.webkit.WebView;
 import android.widget.FrameLayout;
 
 import com.schaffer.base.R;
+import com.schaffer.base.common.constants.Constants;
 import com.schaffer.base.common.utils.FileIOUtils;
 import com.schaffer.base.common.utils.ImageUtils;
 import com.schaffer.base.common.utils.LtUtils;
@@ -68,6 +69,23 @@ public class BaseWebActivity extends AppCompatActivity {
         inflateAndFindView();
         initWebSettings();
         initWebClients();
+        String url = this.getIntent().getStringExtra(Constants.INTENT_WEB_URL);
+        if (!TextUtils.isEmpty(url)) {
+            if (!(url.trim().startsWith("http://")
+                    || url.startsWith("https://"))) {
+                mWvWeb.loadUrl("http://" + url);
+            } else if (getIntent().getBooleanExtra(Constants.INTENT_WEB_PDF, false)) {
+                /* 当打开一个pdf时 */
+                mWvWeb.loadUrl("http://mozilla.github.io/pdf.js/web/viewer.html?file=" + url);
+            } else {
+                mWvWeb.loadUrl(url);
+                Intent in = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(in);
+            }
+        } else {
+            showToast("数据错误，请稍后再试");
+            finish();
+        }
     }
 
     private void setToolbar() {
@@ -91,6 +109,13 @@ public class BaseWebActivity extends AppCompatActivity {
         settings.setSupportZoom(true);
         settings.setNeedInitialFocus(false);
         settings.setSupportMultipleWindows(true);
+        /* 可以用于预览文件 */
+        settings.setAllowFileAccess(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            settings.setAllowUniversalAccessFromFileURLs(true);
+            settings.setAllowFileAccessFromFileURLs(true);
+        }
+
         //5.0 以后 https不可以直接加载http资源
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
