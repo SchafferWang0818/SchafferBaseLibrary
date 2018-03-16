@@ -2,38 +2,40 @@
 
 	相关链接：
 			1. http://blog.csdn.net/spencer_hale/article/details/54968092
-
+			2. https://mp.weixin.qq.com/s?__biz=MzIwMzYwMTk1NA==&mid=2247485002&idx=1&sn=e07f1949362946ee545079259b6b9014&chksm=96cda707a1ba2e11da927e18c0500bcc9231a82e401069f06048f68b09392c3f332e7893f9a5&mpshare=1&scene=23&srcid=06168CkIdWwm7Ep72uzPbVLx#rd
+			3. https://mp.weixin.qq.com/s?__biz=MzAwNDY1ODY2OQ==&mid=400656149&idx=1&sn=122b4f4965fafebf78ec0b4fce2ef62a&mpshare=1&scene=1&srcid=0501f6p8yRsM5qj6OBKEVY1T&key=16e063fbfd27c52cdf5c92791e0542126da55aeb373dcd13df6aa6c417ec61127af2618384b2201ffa7c918e4bbe6780b4d20d3e2ec989af4e2ec3adfda18308cac9706ac4f970ae73fb86211c44b7c2&ascene=0&uin=ODExMTkxNjU%3D&devicetype=iMac+MacBookPro11%2C2+OSX+OSX+10.12.3+build&version=12020510&nettype=WIFI&fontScale=100&pass_ticket=AxhG0QxjCX8weF512sU8ttFb%2B7z%2B8JxvShlgh7diOtM%3D
 每一个应用会被分配一个唯一的UID， **<font color=red>具有相同UID的应用才能 共享数据 / 内存数据 / data目录 / 组件信息 等。</font>**
 
 
-	多进程的用处:
+多进程的用处:
 
-		1. 常驻后台做守护进程，收发消息;
-		2. 多进程可获得多份内存空间(最早版本单个应用可以使用16MB);
+	1. 常驻后台做守护进程，推送服务;
+	2. 多进程可获得多份内存空间(最早版本单个应用可以使用16MB);
+	3. 对于webview，图库等，由于存在内存系统泄露或者占用内存过多的问题，我们可以采用单独的进程。
 
-	多进程弊端：
+多进程弊端：
 
-		1. 耗电；
-		2. 调试断点问题；
-		3. 文件共享，内存对象共享问题；
-		4. Application多次重建问题；
-		4. 交互复杂性；
+	1. 耗电；
+	2. 调试断点问题；
+	3. 文件共享，内存对象共享问题；
+	4. Application多次重建问题；
+	4. 交互复杂性；
 
-	指定多进程的方式:
+指定多进程的方式:
 	
-		1. 四大组件指定 → android:process
-			1. 使用":"声明的进程属于私有进程,其他应用组件不可在同一进程;
-			2. 不使用":"声明的进程可以通过相同的ShareUID和签名才能在同一进程;
-		2. JNI native 层 fork 新进程
+	1. 四大组件指定 → android:process
+		1. 使用":"声明的进程属于私有进程,其他应用组件不可在同一进程;
+		2. 不使用":"声明的进程可以通过相同的ShareUID和签名才能在同一进程;
+	2. JNI native 层 fork 新进程
 
 
-	跨进程通信的方式有:
+跨进程通信的方式有:
 		
-		- Intent/Bundle传递数据;
-		- 共享文件和SharePreferences(私有进程可以访问);
-		- Binder机制(Messenger/AIDL机制);
-		- ContentProvider;
-		- Socket通信;
+	- Intent/Bundle传递数据;
+	- 共享文件和SharePreferences(私有进程可以访问);
+	- Binder机制(Messenger/AIDL机制);
+	- ContentProvider;
+	- Socket通信;
 
 
 名称 | 优点 | 缺点/注意点 |设用场景
