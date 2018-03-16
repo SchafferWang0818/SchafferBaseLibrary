@@ -468,13 +468,7 @@ public interface DefineInterface extends android.os.IInterface {
 	   replyTo	: 存储的是接收回复Message的Messenger信使;
 ---
 ### Socket ###
-
-
-
-
-
-
-
+[点击这里查看socket通信](https://github.com/SchafferWang0818/SchafferBaseLibrary/blob/master/notes/Android%E4%B9%8B%E9%80%9A%E4%BF%A1%E2%80%94%E2%80%94Socket%E9%80%9A%E4%BF%A1.md)
 
 ---
 ### 使用ContentProvider ###

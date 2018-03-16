@@ -42,9 +42,9 @@
 
 NAME|DEFINE
 -|-
-START_NOT_STICKY|onStartCommand() 返回后终止服务，<font color = orange>**没有挂起的 Intent 要传递，系统不会重建**</font>。避免在不必要时以及应用能够轻松重启所有未完成的作业时运行服务。
-START_STICKY|onStartCommand() 返回后终止服务，则<font color = orange>**会重建服务并调用 onStartCommand()，但不会重新传递最后一个 Intent**</font>。相反，除非有挂起 Intent 要启动服务（在这种情况下，将传递这些 Intent ），否则系统会通过空 Intent 调用 onStartCommand()。这适用于不执行命令、但无限期运行并等待作业的媒体播放器（或类似服务）。
-START_REDELIVER_INTENT|onStartCommand() 返回后终止服务，则会<font color = orange>**重建服务并通过传递给服务的最后一个 Intent 调用 onStartCommand()**</font>。任何挂起 Intent 均依次传递。这适用于主动执行应该立即恢复的作业（例如下载文件）的服务。
+`START_NOT_STICKY`|onStartCommand() 返回后终止服务，<font color = orange>**没有挂起的 Intent 要传递，系统不会重建**</font>。避免在不必要时以及应用能够轻松重启所有未完成的作业时运行服务。
+`START_STICKY`|onStartCommand() 返回后终止服务，则<font color = orange>**会重建服务并调用 onStartCommand()，但不会重新传递最后一个 Intent**</font>。相反，除非有挂起 Intent 要启动服务（在这种情况下，将传递这些 Intent ），否则系统会通过空 Intent 调用 onStartCommand()。这适用于不执行命令、但无限期运行并等待作业的媒体播放器（或类似服务）。
+`START_REDELIVER_INTENT`|onStartCommand() 返回后终止服务，则会<font color = orange>**重建服务并通过传递给服务的最后一个 Intent 调用 onStartCommand()**</font>。任何挂起 Intent 均依次传递。这适用于主动执行应该立即恢复的作业（例如下载文件）的服务。
 
 
 `Service`使用`stopSelf(int)`停止自己。传递与停止请求的 ID 对应的启动请求的 ID（传递给 `onStartCommand()` 的 `startId`）。然后，如果在您能够调用 `stopSelf(int)` 之前服务收到了新的启动请求，ID 就不匹配，服务也就不会停止。
@@ -83,6 +83,10 @@ START_REDELIVER_INTENT|onStartCommand() 返回后终止服务，则会<font colo
 `startService`: 当 `Service` 所有任务完成 或 调用`stopService()` 或 `stopSelf()` 后才会回调 `onDestroy()`后销毁 `Service`.
 
 > <font color = red>**当混合使用时 解绑所有 `ServiceConnection` 后并不能销毁 , 需要调用 `stopService()` 或 `stopSelf()` 完成销毁**</font>
+
+- 当混合使用不论先后
+	-  `stopService()` 不会进行任何操作,退出绑定页面后自动完成`unbind`操作,并回调`Service#onDestroy()`
+	- `unbindService()`完成解绑操作,退出页面不会销毁service;
 
 ---
 ### <font color = "red">**内存常驻的手段**</font> ###
