@@ -44,6 +44,11 @@
 			}  
 		};  
 		mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
+		
+		//发送
+		Intent intent = new Intent("com.example.broadcasttest.LOCAL_BROADCAST");
+		mLocalBroadcastManager.sendBroadcast(intent);
+		//注册广播接收器
 		mLocalBroadcastManager.registerReceiver(mReceiver, filter);
 	}
 	

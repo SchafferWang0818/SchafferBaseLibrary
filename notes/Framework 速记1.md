@@ -335,10 +335,10 @@ Zygote进程也不例外，它是在系统启动的过程，由init进程创建�
 
 3. preload()初始化需要的class类;
 
+	```
 		...
 
 		preload();
-
 
 		//preload()函数
 		static void preload() {
@@ -362,6 +362,7 @@ Zygote进程也不例外，它是在系统启动的过程，由init进程创建�
 		        Log.d(TAG, "end preload");
 		}
 
+	```
 
 4. 通过Zygote fork出SystemServer进程;
 		...
@@ -508,7 +509,6 @@ SystemServer 源码分析
 		            // This call may not return.
 		            performPendingShutdown();
 	
-	
 					//SystemServer#createSystemContext()初始化系统的上下文context;	
 		            // Initialize the system context.
 		            createSystemContext();
@@ -611,6 +611,7 @@ SystemServer 源码分析
 			--> PackageParser#parseMonolithicPackage(packageFile, flags)
 			--> PackageParser#parseBaseApk(apkFile, assets, flags)重载解析Manifest
 			--> while循环解析节点信息
+
 	2. 解析Manifest代码流程(android 25 中)
 
 			    /**
@@ -665,7 +666,6 @@ SystemServer 源码分析
 			                com.android.internal.R.styleable.AndroidManifest_installLocation,
 			                PARSE_DEFAULT_INSTALL_LOCATION);
 			        pkg.applicationInfo.installLocation = pkg.installLocation;
-			
 			
 			        /* Set the global "forward lock" flag */
 			        if ((flags & PARSE_FORWARD_LOCK) != 0) {
@@ -1183,9 +1183,6 @@ SystemServer 源码分析
 			        return pkg;
 			    }
 					
-
-
-
 	3. 解析后会将apk的Manifest信息保存在Settings对象中并持久化，然后执行重新安装的操作；
 
 ---
