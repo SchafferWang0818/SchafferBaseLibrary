@@ -1,3 +1,14 @@
+---
+
+title: Android之 Menu
+categories: "android 总结"
+tags: 
+	- OptionsMenu
+	- SubMenu
+	- PopupMenu
+	- PopupWindow
+	- ContextMenu 
+---
 # Menu
 
 	分类:

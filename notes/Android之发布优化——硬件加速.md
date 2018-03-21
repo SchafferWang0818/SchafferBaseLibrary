@@ -1,3 +1,11 @@
+---
+
+title: Android之 硬件加速
+categories: "android 总结"
+tags: 
+	- 硬件加速
+
+---
 # 硬件加速
 
 	API 11 开始支持 View Canvas 使用 GPU 绘制,占用一部分 RAM ;

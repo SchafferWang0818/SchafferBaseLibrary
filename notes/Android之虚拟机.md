@@ -1,3 +1,15 @@
+---
+
+title: Android之虚拟机 
+categories: "android 总结"
+tags: 
+     - android
+     - 虚拟机
+     - JVM
+     - Dalvik
+     - AndroidRuntime
+ 
+---
 ## JVM
  
 **包含有JVM的JRE为JDK提供java应用程序最低要求的<font color="red">环境</font>。**

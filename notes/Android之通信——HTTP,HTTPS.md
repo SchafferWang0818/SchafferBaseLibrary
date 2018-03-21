@@ -1,3 +1,12 @@
+---
+
+title: Android之 HTTP/HTTPS 
+categories: "android 总结"
+tags: 
+	- HTTP
+	- HTTPS 
+
+---
 # HTTP/HTTPS 基础与版本 #
 
 ---

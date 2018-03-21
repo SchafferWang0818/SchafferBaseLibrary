@@ -1,3 +1,13 @@
+---
+
+title: Canvas 绘制
+categories: "android 总结"
+tags: 
+     - android
+     - Canvas 
+     - 绘制
+ 
+---
 # Canvas 绘制 #
 
 	目录:

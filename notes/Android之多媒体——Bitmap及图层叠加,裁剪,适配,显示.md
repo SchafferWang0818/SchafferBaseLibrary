@@ -1,3 +1,11 @@
+---
+
+title: Android之 Bitmap
+categories: "android 总结"
+tags: 
+	- Bitmap
+
+---
 # Bitmap
 
 

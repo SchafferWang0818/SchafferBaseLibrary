@@ -1,3 +1,13 @@
+---
+
+title: Android之 C/C++,JNI,NDK
+categories: "android 总结"
+tags: 
+	-  C/C++
+	-  JNI
+	-  NDK
+
+---
 #  Android与C,C++,JNI,NDK
 
 - 参考: 

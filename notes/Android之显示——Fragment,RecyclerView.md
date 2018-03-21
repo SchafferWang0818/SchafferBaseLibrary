@@ -1,3 +1,13 @@
+---
+
+title: Android之 Fragment & RecyclerView
+categories: "android 总结"
+tags: 
+	- Fragment 
+	- RecyclerView
+
+---
+
 ## Fragment ##
 - 为防止出现`has parent view`的情况,在check事件中`frameGroup.removeAllViews();`
 

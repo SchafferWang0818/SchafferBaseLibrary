@@ -1,3 +1,11 @@
+---
+
+title: Android之 内部存储
+categories: "android 总结"
+tags: 
+	- 内部存储
+
+---
 # 内部存储
 ![存储方式](https://i.imgur.com/C9ggy4K.jpg)
 ### <font color="red"> 描述&注意事项 </font> ###

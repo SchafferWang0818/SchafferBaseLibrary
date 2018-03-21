@@ -1,3 +1,11 @@
+---
+
+title: Android之 多渠道打包
+categories: "android 总结"
+tags: 
+	- 多渠道打包
+
+---
 # 多渠道打包
 
 	http://www.jianshu.com/p/2f2ce33e670f

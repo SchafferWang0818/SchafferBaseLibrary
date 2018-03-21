@@ -1,3 +1,13 @@
+---
+
+title: Android之Surface & SurfaceView
+categories: "android 总结"
+tags: 
+     - android
+     - Surface
+     - SurfaceView
+ 
+---
 # Surface & SurfaceView #
 
 

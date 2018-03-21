@@ -1,3 +1,14 @@
+---
+
+title: Android 坐标与参数/对应函数
+categories: "android 总结"
+tags: 
+     - android
+     - View坐标
+     - 参数/对应函数
+ 
+---
+
 # View之坐标与参数/对应函数
 
 ---

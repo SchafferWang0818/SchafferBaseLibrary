@@ -1,3 +1,14 @@
+---
+
+title: Android之 Handler,Looper,MessageQueue和HandlerThread
+categories: "android 总结"
+tags: 
+	- Handler
+	- Looper
+	- MessageQueue
+	- HandlerThread
+
+---
 # Android开发笔记之Handler,Looper,MessageQueue和HandlerThread #
 
 	1. 目录:

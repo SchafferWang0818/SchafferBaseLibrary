@@ -1,3 +1,11 @@
+---
+
+title: Android之 Socket
+categories: "android 总结"
+tags: 
+	- Socket
+
+---
 ## Socket及其通信
 - 	套接字,支持TCP/IP协议网络通信的基本单元.是网络通信过程**端点**的抽象.
 - 	包含两个IP,两个协议端口,一个协议;

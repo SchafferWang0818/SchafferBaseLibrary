@@ -1,3 +1,12 @@
+---
+
+title: Android之 TCP/UDP
+categories: "android 总结"
+tags: 
+	- TCP
+	- UDP
+
+---
 ## TCP/UDP ##
 
 TCP (Transmission Control Protocol)和UDP(User Datagram Protocol)协议属于传输层协议。

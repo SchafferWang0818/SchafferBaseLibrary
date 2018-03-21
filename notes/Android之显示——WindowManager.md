@@ -1,3 +1,14 @@
+---
+
+title: Android之Window,WindowManager,WindowManagerService 
+categories: "android 总结"
+tags: 
+     - android
+     - Window
+     - WindowManager
+     - WindowManagerService 
+ 
+---
 # Window,WindowManager,WMS
 <font color="blue">
 **`Window`的增加 , 删除 , 更新过程整体总结:**

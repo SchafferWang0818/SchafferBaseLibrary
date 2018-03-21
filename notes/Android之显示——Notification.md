@@ -1,3 +1,14 @@
+---
+
+title: Android之 Notification & RemoteViews & PendingIntent
+categories: "android 总结"
+tags: 
+     - android
+     - RemoteViews
+     - PendingIntent
+     - Notification
+ 
+---
 # Notification & RemoteViews
 
 <font color="red">** `Notification` 与 `AppwidgetProvider`桌面控件 均运行在`SystemServer`进程中.**</font>

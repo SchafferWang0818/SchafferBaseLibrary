@@ -1,3 +1,11 @@
+---
+
+title: Android之 Application
+categories: "android 总结"
+tags: 
+	- Application
+
+---
 # Application
 
 	参考: http://www.cnblogs.com/popapa/p/android_application-element.html

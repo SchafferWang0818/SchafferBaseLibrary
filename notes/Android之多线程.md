@@ -7,8 +7,7 @@
 在`Thread`或`Runnable`接口中的`run()`首句加入`Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);` 
 //设置线程优先级为后台，这样当多个线程并发后很多无关紧要的线程分配的CPU时间将会减少，有利于主线程的处理
 
-Android平台专有的定义罗列有以下几种:
-
+	Android平台专有的定义罗列有以下几种:
 	int THREAD_PRIORITY_AUDIO //标准音乐播放使用的线程优先级
 	int THREAD_PRIORITY_BACKGROUND //标准后台程序
 	int THREAD_PRIORITY_DEFAULT // 默认应用的优先级

@@ -1,3 +1,11 @@
+---
+
+title: Android之 SharedPreferences的使用
+categories: "android 总结"
+tags: 
+	- SharedPreferences
+
+---
 # SharedPreferences的使用 #
 轻量级键值对存储形式.**可以被其他应用读取/写入.**
 

@@ -1,3 +1,11 @@
+---
+
+title: Android之 外部存储
+categories: "android 总结"
+tags: 
+	- 外部存储
+
+---
 # 外部存储
 ![存储方式](https://i.imgur.com/C9ggy4K.jpg)
 

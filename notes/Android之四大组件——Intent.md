@@ -1,4 +1,12 @@
-#Intent 
+---
+
+title: Android之 Intent
+categories: "android 总结"
+tags: 
+	- Intent
+
+---
+# Intent 
 
 Intent 常用构造方法：
 

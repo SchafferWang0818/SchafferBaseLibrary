@@ -1,3 +1,12 @@
+---
+
+title: Android之 缓存与LruCache
+categories: "android 总结"
+tags: 
+	- 缓存
+	- LruCache
+
+---
 # 缓存与LruCache #
 
 - 参考:

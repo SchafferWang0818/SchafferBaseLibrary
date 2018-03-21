@@ -1,3 +1,12 @@
+---
+
+title: Android之 内存与内存机制
+categories: "android 总结"
+tags: 
+	- 内存
+	- 内存机制
+
+---
 # 内存与内存机制 #
 
 

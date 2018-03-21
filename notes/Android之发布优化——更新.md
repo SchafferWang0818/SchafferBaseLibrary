@@ -1,3 +1,11 @@
+---
+
+title: Android之 更新与热更新
+categories: "android 总结"
+tags: 
+	- 更新
+
+---
 # bugly(Tinker包装) 热更新
 
 [视频链接](http://v.qq.com/boke/gplay/9f3b4b1232819f453becd2356a3493c4_bme000301803d13_5_w0384j4xrnd.html)

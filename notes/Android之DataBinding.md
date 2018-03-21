@@ -1,3 +1,11 @@
+---
+
+title: Android之 DataBinding
+categories: "android 总结"
+tags: 
+	- DataBinding
+
+---
 # DataBinding #
 
 友情链接:

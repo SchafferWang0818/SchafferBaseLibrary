@@ -1,9 +1,16 @@
+---
+
+title: Android之 Java垃圾回收机制
+categories: "android 总结"
+tags: 
+	- 垃圾回收机制
+
+---
 # Java垃圾回收机制 #
 
 	参考：
 		1. http://www.cnblogs.com/laoyangHJ/articles/java_gc.html
 		2. https://www.jianshu.com/p/c4b283848970
-
 
 - 垃圾回收机制的目的在于清理不再使用的对象；
 - 通过确定对象是否被活动对象引用来确定是否收集；

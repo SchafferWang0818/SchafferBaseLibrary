@@ -1,3 +1,11 @@
+---
+
+title: Android之 性能优化
+categories: "android 总结"
+tags: 
+	- 性能优化
+
+---
 ## 性能优化 ##
 
 可参考文献:

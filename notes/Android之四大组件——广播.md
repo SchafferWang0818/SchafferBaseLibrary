@@ -1,3 +1,12 @@
+---
+
+title: Android之 BroadcastReceiver
+categories: "android 总结"
+tags: 
+	- BroadcastReceiver
+	- Broadcast
+
+---
 # BroadcastReceiver
 ---
 <font color="red"> **`BroadcastReceiver` 没有停止的概念** </font>

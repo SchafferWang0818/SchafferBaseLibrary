@@ -1,3 +1,14 @@
+---
+
+title: View 自定义过程
+categories: "android 总结"
+tags: 
+     - android
+     - onMeasure 
+     - onLayout
+     - onDraw
+ 
+---
 # 自定义过程 #
 包括 `View/ViewGroup` **测量布局绘制体系** 与 **事件拦截体系**。
 

@@ -1,3 +1,13 @@
+---
+
+title: Android MotionEvent
+categories: "android 总结"
+tags: 
+     - android
+     - MotionEvent
+ 
+---
+
 # MotionEvent
 
 		1. 不常用事件;

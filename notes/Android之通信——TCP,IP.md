@@ -1,3 +1,13 @@
+---
+
+title: Android之 OSI模型和TCP/IP模型
+categories: "android 总结"
+tags: 
+	- TCP/IP
+	- OSI
+
+---
+
 ## OSI模型和TCP/IP模型
 - TCP/IP包含很多协议,被认为是TCP/IP协议簇.
 - OSI七层模型:**P**lease **d**o **n**ot **t**ell **s**tupid **p**eople **a**nything.

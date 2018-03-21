@@ -1,3 +1,12 @@
+---
+
+title: Android之 多进程与IPC
+categories: "android 总结"
+tags: 
+	- 多进程
+	- IPC
+
+---
 # <font color="red" size = 6 face="微软雅黑">多进程与IPC </font> #
 
 	相关链接：

@@ -1,3 +1,12 @@
+---
+
+title: Android之 ContentProvider
+categories: "android 总结"
+tags: 
+	- ContentProvider
+
+---
+
 # ContentProvider #
 <font color="blue"> **`ContentProvider` 由于操作函数在Binder线程池中被调用,不需要手动停止,所以 <font color="red">增删改查的操作需要处理线程同步 </font>** </font>
 

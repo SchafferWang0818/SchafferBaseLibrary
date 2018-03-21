@@ -1,3 +1,11 @@
+---
+
+title: Android之 adb
+categories: "android 总结"
+tags: 
+	- adb命令
+
+---
 # adb命令[Android Debug Bridge]
 
 ---

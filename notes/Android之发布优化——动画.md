@@ -1,3 +1,11 @@
+---
+
+title: Android之 动画
+categories: "android 总结"
+tags: 
+	- 动画
+
+---
 # 动画,让应用更唯美
 
 	分类:

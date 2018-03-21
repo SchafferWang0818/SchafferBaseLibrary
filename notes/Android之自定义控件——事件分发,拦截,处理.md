@@ -1,3 +1,13 @@
+---
+
+title: Android 事件分发机制表现与实现原理
+categories: "android 总结"
+tags: 
+     - android
+     - 分发
+     - 原理
+ 
+---
 # 事件分发机制表现与实现原理 #
 
 	http://blog.csdn.net/qq_23547831/article/details/51530671

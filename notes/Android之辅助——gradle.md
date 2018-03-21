@@ -1,3 +1,11 @@
+---
+
+title: Android之 Gradle
+categories: "android 总结"
+tags: 
+	- Gradle
+
+---
 # Gradle
 
 	参考博客与文献:
