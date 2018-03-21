@@ -32,7 +32,7 @@ tags:
 		measureChildren(widthMeasureSpec,heightMeasureSpec);
 
 	```
-- <font color=red face=黑体 size=5>通过判断子控件宽高和个数,和自身的 `SpecMode`判断并设置宽高参数,**建议使用默认大小或`LayoutParams`参数进行相关设置,同时考虑自身`padding`和子控件的`margin`。**</font>
+- <font color=red face=黑体 size=3>通过判断子控件宽高和个数,和自身的 `SpecMode`判断并设置宽高参数,**建议使用默认大小或`LayoutParams`参数进行相关设置,同时考虑自身`padding`和子控件的`margin`。**</font>
 
 	```
 		int widthSpecSize  = MeasureSpec.getSize(widthMeasureSpec);
@@ -40,9 +40,6 @@ tags:
 		setMeasureDimension(widthSpecSize,heightSpecSize);
 
 	```
-
-
-
 ### `onLayout()` ###
 - **当前函数可以使用 `measureWidth/measureHeight`.**
 
