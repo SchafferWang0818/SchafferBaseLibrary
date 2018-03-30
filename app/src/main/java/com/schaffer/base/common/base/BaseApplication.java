@@ -3,6 +3,7 @@ package com.schaffer.base.common.base;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Process;
 import android.support.multidex.MultiDex;
@@ -13,6 +14,8 @@ import com.schaffer.base.common.block.BlockLooper;
 import com.schaffer.base.common.manager.ActivityController;
 import com.schaffer.base.common.manager.ActivityManager;
 import com.schaffer.base.common.utils.Utils;
+import com.schaffer.base.db.model.DaoMaster;
+import com.schaffer.base.db.model.DaoSession;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 
@@ -30,6 +33,7 @@ public /*abstract*/ class BaseApplication extends Application {
 
     private static BaseApplication app;
     private ActivityManager mActivityManager;
+    private static DaoSession daoSession;
 
     protected static class DefinedActivityLifeCycleCallback implements ActivityLifecycleCallbacks {
 
@@ -128,38 +132,40 @@ public /*abstract*/ class BaseApplication extends Application {
 
 
 /**    protected void setJPushAlias(final String jPushAlias) {
-        final String TAG = "jpush";
-		JPushInterface.setAlias(this, jPushAlias, new TagAliasCallback() {
+ final String TAG = "jpush";
+ JPushInterface.setAlias(this, jPushAlias, new TagAliasCallback() {
 
-//			@Override
-			public void gotResult(int code, String arg1,
-								  Set<String> arg2) {
-				String logs;
-				switch (code) {
-					case 0:
-						logs = "Set tag and jPushAlias success";
+ //			@Override
+ public void gotResult(int code, String arg1,
+ Set<String> arg2) {
+ String logs;
+ switch (code) {
+ case 0:
+ logs = "Set tag and jPushAlias success";
 
-						// 建议这里往 SharePreference 里写一个成功设置的状态。成功设置一次后，以后不必再次设置了。
-						break;
-					case 6002:
-						logs = "Failed to set jPushAlias and tags due to timeout. Try again after 60s.";
-						Log.i(TAG, logs);
-						// 延迟 60 秒来调用 Handler 设置别名
-						Message message = mHandler.obtainMessage();
-						message.what = 6002;
-						message.obj = jPushAlias;
-						mHandler.sendMessageDelayed(message, 60000);
-						break;
-					default:
-						logs = "Failed with errorCode = " + code;
-						Log.e(TAG, logs);
-				}
-			}
-		});
-    }*/
+ // 建议这里往 SharePreference 里写一个成功设置的状态。成功设置一次后，以后不必再次设置了。
+ break;
+ case 6002:
+ logs = "Failed to set jPushAlias and tags due to timeout. Try again after 60s.";
+ Log.i(TAG, logs);
+ // 延迟 60 秒来调用 Handler 设置别名
+ Message message = mHandler.obtainMessage();
+ message.what = 6002;
+ message.obj = jPushAlias;
+ mHandler.sendMessageDelayed(message, 60000);
+ break;
+ default:
+ logs = "Failed with errorCode = " + code;
+ Log.e(TAG, logs);
+ }
+ }
+ });
+ }*/
 
 
-    /** 捕获ANR事件和影响*/
+    /**
+     * 捕获ANR事件和影响
+     */
     private static void configBlock() {
         BlockLooper.initialize(new BlockLooper.Builder(BaseApplication.getInstance())
                 .setIgnoreDebugger(true)
@@ -251,7 +257,7 @@ public /*abstract*/ class BaseApplication extends Application {
         Beta.installTinker();
     }
 
-    public static void initLibrary(){
+    public static void initLibrary() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -259,7 +265,18 @@ public /*abstract*/ class BaseApplication extends Application {
                 Utils.init(BaseApplication.getInstance());
                 configBlock();
                 libraryInit();
+
             }
         }).start();
+    }
+
+    public static void greenDaoInit() {
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(BaseApplication.getInstance(), "test-db", null);
+        SQLiteDatabase db = helper.getReadableDatabase();
+        daoSession = new DaoMaster(db).newSession();
+    }
+
+    public static DaoSession getDaoSession() {
+        return daoSession;
     }
 }

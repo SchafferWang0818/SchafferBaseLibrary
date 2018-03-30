@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
 apply from: 'tinker-support.gradle'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -31,20 +32,20 @@ android {
     signingConfigs {
         config {
             try {
-                keyAlias 'xigua'
-                keyPassword 'yglxigua'
-                storeFile file('C:/appkey/xigua.jks')
-                storePassword 'yglxigua'
+                storeFile file('C:/jks/kjb.jks')
+                storePassword 'k123456'
+                keyAlias 'kjb'
+                keyPassword 'k123456'
             } catch (ex) {
                 throw new InvalidUserDataException(ex.toString())
             }
         }
         debug_config {
             try {
-                keyAlias 'xigua'
-                keyPassword 'yglxigua'
-                storeFile file('C:/appkey/xigua.jks')
-                storePassword 'yglxigua'
+                storeFile file('C:/jks/kjb.jks')
+                storePassword 'k123456'
+                keyAlias 'kjb'
+                keyPassword 'k123456'
             } catch (ex) {
                 throw new InvalidUserDataException(ex.toString())
             }
@@ -98,6 +99,13 @@ android {
     }
 }
 
+//数据库版本配置
+greendao {
+    schemaVersion rootProject.ext.android.greendaoVersion  //对应当前数据库版本
+    daoPackage 'com.schaffer.base.db.model'  //由GreenDao自动生成代码所在的包名，默认的是在项目包下面新建一个gen。
+    targetGenDir 'src/main/java' //设置自动生成代码的目录。
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -127,7 +135,7 @@ dependencies {
     compile rootProject.ext.dependencies["buglynative"]
     compile rootProject.ext.dependencies["okhttputils"]
     compile rootProject.ext.dependencies["airbnbLottie"]
+    compile rootProject.ext.dependencies["greendao"]
     debugCompile rootProject.ext.dependencies["leak"]
     releaseCompile rootProject.ext.dependencies["leak_no"]
-    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
 }

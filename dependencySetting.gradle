@@ -8,7 +8,8 @@ ext {
             versionName      : "1.0",
             tinkerId         : "base-4.2.0-patch",
             baseApkDir       : "app-1201-19-21-49",
-            supportVersion   : "26.0.0-alpha1"
+            supportVersion   : "26.0.0-alpha1",
+            greendaoVersion  : 1
     ]
 
     dependencies = [
@@ -28,6 +29,7 @@ ext {
             "glide"               : "com.github.bumptech.glide:glide:3.7.0",
             "picasso"             : "com.squareup.picasso:picasso:2.5.2",
             "okhttputils"         : "com.zhy:okhttputils:2.6.2",
+            "greendao"            : "org.greenrobot:greendao:3.2.0",
 
             "circleimageview"     : "de.hdodenhof:circleimageview:2.1.0",
             "xlhratingbar_lib"    : "com.xingliuhua:xlhratingbar_lib:1.0.1",

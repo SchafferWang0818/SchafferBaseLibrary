@@ -8,8 +8,16 @@ import com.schaffer.base.common.utils.LtUtils;
 import com.schaffer.base.common.utils.StringUtils;
 import com.zhy.http.okhttp.builder.OkHttpRequestBuilder;
 
-import java.net.SocketTimeoutException;
+import org.greenrobot.greendao.AbstractDao;
+import org.greenrobot.greendao.query.QueryBuilder;
 
+import java.net.SocketTimeoutException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -150,5 +158,131 @@ public class BasePresenter<V extends BaseView> {
 //                    }
 //                }));
     }
+
+    public <T> void query(QueryBuilder<T> queryBuilder, MoreCurdsSubscriber<T> subscriber) {
+        try {
+            queryBuilder.rx().list().observeOn(AndroidSchedulers.mainThread()).subscribe(subscriber);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public <T, K> void insertOrReplace(AbstractDao<T, K> dao, T bean, SimpleCurdSubscriber<T> subscriber) {
+        try {
+            dao.rx().insertOrReplace(bean).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(subscriber);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public <T, K> void insert(AbstractDao<T, K> dao, List<T> beans, MoreCurdsSubscriber<T> subscriber) {
+        if (beans == null || beans.size() <= 0) {
+            return;
+        }
+        try {
+            dao.rx().insertInTx(beans).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(subscriber);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public <T, K> void delete(AbstractDao<T, K> dao, T bean, SimpleCurdSubscriber<Void> subscriber) {
+        try {
+            dao.rx().delete(bean).observeOn(AndroidSchedulers.mainThread()).subscribe(subscriber);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public <T, K> void deleteByKey(AbstractDao<T, K> dao, K key, SimpleCurdSubscriber<Void> subscriber) {
+        try {
+            dao.rx().deleteByKey(key).observeOn(AndroidSchedulers.mainThread()).subscribe(subscriber);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public <T, K> void delete(AbstractDao<T, K> dao, List<T> beans, Subscriber<Void> subscriber) {
+        if (beans == null || beans.size() <= 0) {
+            return;
+        }
+        try {
+            dao.rx().deleteInTx(beans).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(subscriber);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public <T, K> void deleteAll(AbstractDao<T, K> dao) {
+        try {
+            dao.rx().deleteAll().observeOn(AndroidSchedulers.mainThread());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public <T, K> void update(AbstractDao<T, K> dao, T bean, SimpleCurdSubscriber<T> subscriber) {
+        try {
+            dao.rx().update(bean).observeOn(AndroidSchedulers.mainThread()).subscribe(subscriber);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public abstract static class SimpleCurdSubscriber<T> extends Subscriber<T> {
+
+        private final BasePresenter mPresenter;
+
+        public SimpleCurdSubscriber(BasePresenter presenter) {
+            mPresenter = presenter;
+        }
+
+        @Override
+        public void onCompleted() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            mPresenter.onFailed(e);
+        }
+    }
+
+    public abstract static class MoreCurdsSubscriber<T> extends Subscriber<Iterable<T>> {
+
+        private final BasePresenter mPresenter;
+
+        public MoreCurdsSubscriber(BasePresenter presenter) {
+            mPresenter = presenter;
+        }
+
+        @Override
+        public void onCompleted() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            mPresenter.onFailed(e);
+        }
+
+        @Override
+        public void onNext(Iterable<T> ts) {
+            Iterator<T> iterator = ts.iterator();
+            List<T> data = new ArrayList<>();
+            while (iterator.hasNext()) {
+                data.add(iterator.next());
+            }
+            onNext(data);
+        }
+
+        public abstract void onNext(List<T> data);
+    }
+
 
 }

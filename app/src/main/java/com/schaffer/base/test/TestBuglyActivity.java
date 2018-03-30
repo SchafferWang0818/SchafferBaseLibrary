@@ -3,13 +3,13 @@ package com.schaffer.base.test;
 import android.view.View;
 
 import com.schaffer.base.R;
-import com.schaffer.base.common.base.BaseActivity;
+import com.schaffer.base.common.base.BaseEmptyActivity;
 
 /**
  * Created by AndroidSchaffer on 2017/10/10.
  */
 
-public class TestBuglyActivity extends BaseActivity<TestBuglyActivity, TestBuglyPresenter> {
+public class TestBuglyActivity extends BaseEmptyActivity<TestBuglyActivity, TestBuglyPresenter> {
 
 
     @Override
