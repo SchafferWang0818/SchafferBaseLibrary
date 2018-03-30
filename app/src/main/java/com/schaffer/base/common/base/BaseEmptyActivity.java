@@ -1,6 +1,8 @@
 package com.schaffer.base.common.base;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityOptions;
@@ -18,20 +20,30 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.transition.Explode;
 import android.transition.Fade;
 import android.transition.Slide;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -54,12 +66,6 @@ import static android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_DISABLED
 
 public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresenter<V>> extends AppCompatActivity implements BaseView {
 
-
-//    static {
-//        //允许使用svg于background,必须依附于状态选择器等StateListDrawable,InsetDrawable,LayerDrawable,LevelListDrawable,RotateDrawable
-//        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-//    }
-
     protected boolean isFirstInit = true;
     protected BaseApplication application;
     protected CountDownTimer countDownTimer;
@@ -67,19 +73,14 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
     protected Handler handler;
     protected boolean mActivityBeShown = false;
     protected P mPresenter;
-    private int mainThemeColor = Color.BLACK;
-    /**
-     * 需要用户自己 onCreate()之前设定
-     */
-    protected boolean eventbusEnable = false;
+    private int mainThemeColor = Color.parseColor("#ff8201");
     public static final int REQUEST_CODE_PERMISSIONS = 20;
     public static final int REQUEST_CODE_PERMISSION = 19;
-    public static final String INTENT_DATA_IMG_PATHS = "img_paths";
-    public static final String INTENT_DATA_IMG_RES = "img_resIds";
-    public static final String INTENT_DATA_IMG_CURRENT_INDEX = "img_current";
     protected ProgressDialog progress;
     protected Window window;
     protected FrameLayout mFrameContent;
+    private Toolbar mToolbar;
+
 
     public void setMainThemeColor(int mainThemeColor) {
         this.mainThemeColor = mainThemeColor;
@@ -194,26 +195,14 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//21
-//            getWindow().setEnterTransition(new Fade());
-//            getWindow().setExitTransition(new Fade());
-//        }//新转场动画
-//        onCreateInit((Object) this.getClass().getSuperclass() instanceof BaseAppCompatActivity);
-
-//        if (savedInstanceState != null) {
-//            LoginResponse userInfo = (LoginResponse) savedInstanceState.getSerializable("SAVE_USER_INFO");
-//            if (userInfo != null) {
-//                MyApplication.getInstance().setUserInfo(userInfo);
-//            }
-//        }
-        onCreateInit(this.getClass().isAssignableFrom(BaseEmptyActivity.class));
+        onCreateInit();
         setCurrentTransition(getIntent().getIntExtra(Constants.WINDOW_TRANSITION, -1));
     }
 
-    private void onCreateInit(boolean useBase) {
-        if (useBase) {
+    private void onCreateInit() {
+        if (isShowTitleBar()) {
             setContentView(R.layout.activity_base);
-            mFrameContent = (FrameLayout) findViewById(R.id.layout_group_content);
+            mFrameContent = findViewById(R.id.layout_group_content);
         }
         inflateView();
         initEventBus();
@@ -222,6 +211,17 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
         application = (BaseApplication) this.getApplication();
         application.getActivityManager().pushActivity(this);
         mPresenter = initPresenter();
+    }
+
+    /**
+     * 是否显示自定义标题并将布局填充入{@link #mFrameContent}
+     *
+     * @return 在 {@link #inflateView()}函数中,
+     * 如果重写返回true,使用{@link #inflateContent}函数填充布局到{@link #mFrameContent},
+     * 否则使用{@link #setContentView}填充控件即可
+     */
+    public boolean isShowTitleBar() {
+        return true;
     }
 
     @Override
@@ -270,7 +270,7 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
     }
 
     private void initEventBus() {
-        if (!eventbusEnable) {
+        if (!asEventSubscriber()) {
             return;
         }
         if (!EventBus.getDefault().isRegistered(this)) {
@@ -282,12 +282,12 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
     }
 
     /**
-     * 设置EventBus可用,填充界面时使用
+     * 是否作为EventBus的订阅对象{@link #initEventBus()}
      *
-     * @param enable
+     * @return
      */
-    protected void setEventbusEnable(boolean enable) {
-        eventbusEnable = enable;
+    public boolean asEventSubscriber() {
+        return false;
     }
 
     @Override
@@ -326,7 +326,7 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
             , Manifest.permission.WRITE_CALENDAR//日历写入8
     };
 
-    protected void requestPermission(String description, final String... permissions) {
+    public void requestPermission(String description, final String... permissions) {
         if (permissions.length > 1) {
             new AlertDialog.Builder(this).setCancelable(false)
                     .setMessage(TextUtils.isEmpty(description) ? "为了能正常实现功能，我们将向您申请权限。" : description).setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -360,7 +360,7 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
      * @param listener
      * @param permissions
      */
-    protected void requestPermission(PermissionResultListener listener, String... permissions) {
+    public void requestPermission(PermissionResultListener listener, String... permissions) {
         requestPermission(null, listener, permissions);
     }
 
@@ -370,7 +370,7 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
      * @param listener
      * @param permissions
      */
-    protected void requestPermission(String description, final PermissionResultListener listener, final String... permissions) {
+    public void requestPermission(String description, final PermissionResultListener listener, final String... permissions) {
         if (Build.VERSION.SDK_INT > 23) {
             permissionResultListener = listener;
             requestPermission(description, permissions);
@@ -505,7 +505,7 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
     /**
      * 栈内部是否只有当前一个Activity用于判断是否点击图标重新开始
      */
-    public void onSplashCreateTaskRootJudgment() {
+    public void judgeActivityTask() {
         if (!isTaskRoot()) {
             Intent intent = getIntent();
             String action = intent.getAction();
@@ -543,14 +543,14 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
      *
      * @param editText
      */
-    protected void judgementCursor(EditText editText) {
+    protected void judgeTextCursor(EditText editText) {
         editText.setSelection(editText.getText().length());
     }
 
     /**----------------------------------------------------------抽象函数如下--------------------------------------------------------------------------------*/
 
     /**
-     * 提醒继承者填充FrameLayout,可以使用{@link BaseActivity#inflateContent(int)}系列函数
+     * 提醒继承者填充FrameLayout
      */
     protected abstract void inflateView();
 
@@ -584,7 +584,7 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
         if (transition < 0) {
             return;
         }
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             switch (transition) {
                 case TRANSITION_EXPLODE:
                 default:
@@ -616,6 +616,7 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
         }
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -647,19 +648,26 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
 //        }
     }
 
-    public void setElevation(boolean set) {
+    public void shouldToolbarElevation(boolean isShould, int dpValues) {
+        if (!isShowTitleBar()) return;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View viewById = findViewById(R.id.layout_toolbar_tb);
             if (viewById != null) {
-                viewById.setElevation(set ? ConvertUtils.dp2px(5) : 0);
+                viewById.setElevation(isShould ? ConvertUtils.dp2px(dpValues > 0 ? dpValues : 5) : 0);
             }
         }
     }
 
+    public void shouldToolbarElevation(boolean isShould) {
+        shouldToolbarElevation(isShould, -1);
+    }
+
+
     /**
      * 设置入口内容
-     * @param aliasEntra    alias的包名+.name
-     * @param recover   是否恢复原入口
+     *
+     * @param aliasEntra alias的包名+.name
+     * @param recover    是否恢复原入口
      */
     public void setEntra(String aliasEntra, boolean recover) {
         PackageManager pm = getApplication().getPackageManager();
@@ -679,6 +687,289 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
         for (ResolveInfo res : resolves) {
             if (res.activityInfo != null) {
                 am.killBackgroundProcesses(res.activityInfo.packageName);
+            }
+        }
+    }
+
+
+    protected void inflateContent(@LayoutRes int resId) {
+        inflateContent(resId, null);
+    }
+
+    protected void inflateContent(View inflateView) {
+        inflateContent(inflateView, null);
+    }
+
+    protected void inflateContent(@LayoutRes int resId, FrameLayout.LayoutParams params) {
+        inflateContent(View.inflate(this, resId, null), params);
+    }
+
+    protected void inflateContent(View inflateView, FrameLayout.LayoutParams params) {
+        if (mFrameContent != null && inflateView != null) {
+
+            mFrameContent.addView(inflateView, params == null ? new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT) : params);
+        }
+    }
+
+    /**
+     * -------------------------------------------------------------标题处理----------------------------------------------------------------------------------------
+     */
+
+    /**
+     * 是否插入并使用了{@linkplain R.layout layout_toolbar}
+     *
+     * @return
+     */
+    public boolean useInitToolbar() {
+        if (mToolbar == null) {
+            mToolbar = findViewById(R.id.layout_toolbar_tb);
+        }
+        return mToolbar != null;
+    }
+
+    public void setToolbar() {
+        if (useInitToolbar()) {
+            setSupportActionBar(mToolbar);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            String title = getTitle().toString();
+
+            if (TextUtils.isEmpty(title)) {
+                setActivityTitle(title);
+            }
+            setLeftClick(null);
+        }
+    }
+
+    protected void setActivityTitle(CharSequence charSequence) {
+        if (useInitToolbar()) {
+            ((TextView) findViewById(R.id.layout_toolbar_tv_title)).setText(charSequence);
+        }
+    }
+
+    public void setToolbar(int visibility) {
+        setToolbar();
+        if (useInitToolbar()) {
+            mToolbar.setVisibility(visibility);
+        }
+    }
+
+
+    protected void setLeftIcon(@DrawableRes int resId, View.OnClickListener listener) {
+        if (useInitToolbar()) {
+            ImageView mIvBack = (ImageView) findViewById(R.id.layout_toolbar_iv_back);
+            mIvBack.setImageResource(resId);
+            setLeftIconVisible(View.VISIBLE);
+            setLeftClick(listener);
+        }
+    }
+
+    protected void setLeftClick(View.OnClickListener listener) {
+        if (useInitToolbar()) {
+            findViewById(R.id.layout_toolbar_iv_back).setOnClickListener(listener != null ? listener : new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    BaseEmptyActivity.super.onBackPressed();
+                }
+            });
+        }
+
+    }
+
+    protected void setLeftIconVisible(int visible) {
+        if (useInitToolbar()) {
+            findViewById(R.id.layout_toolbar_iv_back).setVisibility(visible == View.VISIBLE ? View.VISIBLE : View.GONE);
+            findViewById(R.id.layout_toolbar_tv_left).setVisibility(visible == View.VISIBLE ? View.GONE : View.VISIBLE);
+        }
+    }
+
+    protected void setLeftIconVisible(int ivVisible, int tvVisible) {
+        if (useInitToolbar()) {
+            findViewById(R.id.layout_toolbar_iv_back).setVisibility(ivVisible);
+            findViewById(R.id.layout_toolbar_tv_left).setVisibility(tvVisible);
+        }
+    }
+
+    protected void setLeftText(String content, View.OnClickListener onClickListener) {
+        if (useInitToolbar()) {
+            setLeftIconVisible(View.GONE);
+            findViewById(R.id.layout_toolbar_tv_left).setOnClickListener(onClickListener);
+            ((TextView) findViewById(R.id.layout_toolbar_tv_left)).setText(content);
+        }
+    }
+
+    protected void setLeftText(int spValue, @ColorInt int color, String content, View.OnClickListener onClickListener) {
+        if (useInitToolbar()) {
+            setLeftText(content, onClickListener);
+            setLeftTextColor(color);
+            setLeftTextSize(spValue);
+        }
+    }
+
+    protected void setLeftTextSize(int spValue) {
+        if (useInitToolbar()) {
+            ((TextView) findViewById(R.id.layout_toolbar_tv_left)).setTextSize(TypedValue.COMPLEX_UNIT_SP, spValue);
+        }
+    }
+
+    protected void setLeftTextColor(@ColorInt int color) {
+        if (useInitToolbar()) {
+            ((TextView) findViewById(R.id.layout_toolbar_tv_left)).setTextColor(color);
+        }
+    }
+
+
+    protected void setRightText(String content, View.OnClickListener onClickListener) {
+        if (useInitToolbar()) {
+            setRightText(content, View.VISIBLE, onClickListener);
+        }
+    }
+
+    protected void setRightText(String content, int visibility, View.OnClickListener onClickListener) {
+        if (useInitToolbar()) {
+            if (!TextUtils.isEmpty(content)) {
+                ((TextView) findViewById(R.id.layout_toolbar_tv_right)).setText(content);
+                findViewById(R.id.layout_toolbar_tv_right).setVisibility(visibility == View.VISIBLE ? View.VISIBLE : View.GONE);
+                findViewById(R.id.layout_toolbar_iv_right).setVisibility(visibility == View.VISIBLE ? View.GONE : View.VISIBLE);
+            }
+            if (onClickListener != null) {
+                findViewById(R.id.layout_toolbar_tv_right).setOnClickListener(onClickListener);
+            }
+        }
+    }
+
+    protected void setRightTextColor(@ColorInt int color) {
+        if (useInitToolbar()) {
+            ((TextView) findViewById(R.id.layout_toolbar_tv_right)).setTextColor(color);
+        }
+    }
+
+    protected void setRightTextColor(String color) {
+        int length = color.length();
+        if (!color.startsWith("#") && !(length != 4 || length != 5 || length != 7 || length != 9)) {
+            return;
+        }
+        setRightTextColor(Color.parseColor(color));
+    }
+
+    protected void setRightTextSize(int spValue) {
+        if (useInitToolbar()) {
+            ((TextView) findViewById(R.id.layout_toolbar_tv_right)).setTextSize(TypedValue.COMPLEX_UNIT_SP, spValue);
+        }
+    }
+
+
+    protected void setRightIcon(@DrawableRes int resId, View.OnClickListener onClickListener) {
+        if (useInitToolbar()) {
+            setRightIcon(resId, View.VISIBLE, onClickListener);
+        }
+    }
+
+    protected void setRightIcon(@DrawableRes int resId, int visibility, View.OnClickListener onClickListener) {
+        if (useInitToolbar())
+            if (resId != 0) {
+                if (onClickListener != null) {
+                    findViewById(R.id.layout_toolbar_iv_right).setOnClickListener(onClickListener);
+                }
+                findViewById(R.id.layout_toolbar_tv_right).setVisibility(visibility == View.VISIBLE ? View.GONE : View.VISIBLE);
+                findViewById(R.id.layout_toolbar_iv_right).setVisibility(visibility == View.VISIBLE ? View.VISIBLE : View.GONE);
+                ((ImageView) findViewById(R.id.layout_toolbar_iv_right)).setImageResource(resId);
+            }
+    }
+
+    protected void setToolbar(int visible, String title, boolean leftBack, boolean rightAllDismiss, boolean rightTextShow, String right, @DrawableRes int rightResId, View.OnClickListener rightClick) {
+        setToolbar(visible);
+        if (visible == View.GONE) {
+            return;
+        }
+        setActivityTitle(title == null ? "" : title);
+        if (leftBack) {
+            setLeftClick(null);
+        }
+        if (rightAllDismiss) {
+            return;
+        }
+        if (rightTextShow) {
+            setRightText(right, rightClick);
+        } else {
+            setRightIcon(rightResId, rightClick);
+        }
+    }
+
+    public void setToolbarBackground(int color) {
+        if (useInitToolbar()) {
+            (findViewById(R.id.layout_toolbar_tb)).setBackgroundColor(color);
+        }
+    }
+
+    public int getToolbarBackgroundColor() {
+        if (useInitToolbar()) {
+
+            return (findViewById(R.id.layout_toolbar_tb)).getDrawingCacheBackgroundColor();
+        }
+        return 0x00000000;
+    }
+
+    protected void toActivity(Class toClass) {
+        toActivity(toClass, -1);
+    }
+
+    protected void toActivity(Class toClass, int requestCode) {
+        Intent intent = new Intent(this, toClass);
+        if (requestCode != -1) {
+            startActivityForResult(intent, requestCode);
+        } else {
+            startActivity(intent);
+        }
+    }
+
+    public void callPhone(final String telephone) {
+        if (TextUtils.isEmpty(telephone)) return;
+        StringBuffer sb = new StringBuffer().append(getString(R.string.call)).append(telephone);
+        new AlertDialog.Builder(this).setMessage(sb.toString())
+                .setPositiveButton(getString(R.string.ensure), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + telephone));
+                        if (ActivityCompat.checkSelfPermission(BaseEmptyActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                            return;
+                        }
+                        BaseEmptyActivity.this.startActivity(intent);
+                    }
+                }).setNegativeButton(getString(R.string.cancel), null).create().show();
+    }
+
+
+    /**
+     * 5.0揭露动画
+     */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void animCircularReveal(View view, int centerX, int centerY, float startRadius, float endRadius, int seconds, Animator.AnimatorListener listener) {
+        Animator anim = ViewAnimationUtils.createCircularReveal(view, centerX, centerY, startRadius, endRadius);
+        anim.addListener(listener);
+        anim.setDuration(seconds * 1000);
+        anim.start();
+    }
+
+
+    /**
+     * 更改UI透明和是否可以截图选项
+     *
+     * @param showStatus     状态栏是否显示
+     * @param showNavigation 虚拟菜单栏是否显示
+     * @param couldCapture   是否可以截图
+     */
+    protected void setTranslucentSystemUI(boolean showStatus, boolean showNavigation, boolean couldCapture) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = getWindow();
+            if (!showStatus) {
+                window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            }
+            if (!showNavigation) {
+                window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            }
+            if (!couldCapture) {
+                window.addFlags(WindowManager.LayoutParams.FLAG_SECURE);
             }
         }
     }

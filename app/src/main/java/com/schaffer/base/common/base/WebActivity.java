@@ -25,7 +25,7 @@ import java.io.File;
  * @date 2017/9/21
  */
 
-public class WebActivity extends BaseActivity<WebActivity, WebPresenter> {
+public class WebActivity extends BaseEmptyActivity<WebActivity, WebPresenter> {
 
 
     protected WebView webView;

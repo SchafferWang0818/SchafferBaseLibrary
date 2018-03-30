@@ -12,7 +12,7 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.schaffer.base.common.adapter.ImgsPathShowSingleViewAdapter;
 import com.schaffer.base.common.adapter.ImgsResShowSingleViewAdapter;
-import com.schaffer.base.common.base.BaseActivity;
+import com.schaffer.base.common.base.BaseEmptyActivity;
 import com.schaffer.base.common.transformer.GlideCircleTransformer;
 import com.schaffer.base.common.utils.ImageUtils;
 import com.schaffer.base.presenter.ImgsShowPresenter;
@@ -26,7 +26,7 @@ import java.util.List;
  * 用于图片显示
  */
 
-public class ImgsShowActivity extends BaseActivity<ImgsShowActivity, ImgsShowPresenter> {
+public class ImgsShowActivity extends BaseEmptyActivity<ImgsShowActivity, ImgsShowPresenter> {
 
 
     private ViewPager pager;
@@ -37,7 +37,9 @@ public class ImgsShowActivity extends BaseActivity<ImgsShowActivity, ImgsShowPre
     private int length;
     private ImgsPathShowSingleViewAdapter pathAdapter;
     private ImgsResShowSingleViewAdapter resAdapter;
-
+    public static final String INTENT_DATA_IMG_PATHS = "img_paths";
+    public static final String INTENT_DATA_IMG_RES = "img_resIds";
+    public static final String INTENT_DATA_IMG_CURRENT_INDEX = "img_current";
     @Override
     protected void inflateView() {
         pager = new ViewPager(this);

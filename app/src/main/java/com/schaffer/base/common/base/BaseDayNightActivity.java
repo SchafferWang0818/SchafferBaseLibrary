@@ -25,7 +25,7 @@ import java.util.List;
  * Created by AndroidSchaffer on 2017/10/12.
  */
 
-public abstract class BaseDayNightActivity<V extends BaseView, P extends BasePresenter<V>> extends BaseAppCompatActivity {
+public abstract class BaseDayNightActivity<V extends BaseView, P extends BasePresenter<V>> extends BaseEmptyActivity<V,P> {
 
 
     protected List<TextView> textViews = new ArrayList<>();

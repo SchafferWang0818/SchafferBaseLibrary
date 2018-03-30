@@ -4,14 +4,14 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.schaffer.base.R;
-import com.schaffer.base.common.base.BaseActivity;
+import com.schaffer.base.common.base.BaseEmptyActivity;
 import com.schaffer.base.presenter.WXEntryPresenter;
 
 /**
  * Created by AndroidSchaffer on 2017/8/30.
  */
 
-public class WXEntryActivity extends BaseActivity<WXEntryActivity, WXEntryPresenter> /*implements IWXAPIEventHandler */{
+public class WXEntryActivity extends BaseEmptyActivity<WXEntryActivity, WXEntryPresenter> /*implements IWXAPIEventHandler */{
     private static final int RETURN_MSG_TYPE_LOGIN = 1;
     private static final int RETURN_MSG_TYPE_SHARE = 2;
 

@@ -3,14 +3,14 @@ package com.schaffer.base.test;
 import android.view.View;
 
 import com.schaffer.base.R;
-import com.schaffer.base.common.base.BaseActivity;
+import com.schaffer.base.common.base.BaseEmptyActivity;
 
 /**
  * @author Schaffer
  * @date 2017/7/6
  */
 
-public class TestStatusActivity extends BaseActivity<TestStatusActivity, TestStatusPresenter> {
+public class TestStatusActivity extends BaseEmptyActivity<TestStatusActivity, TestStatusPresenter> {
     @Override
     protected void inflateView() {
         setLeftIconVisible(View.GONE, View.GONE);
