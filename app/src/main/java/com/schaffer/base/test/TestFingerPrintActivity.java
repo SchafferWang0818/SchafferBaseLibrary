@@ -22,6 +22,7 @@ public class TestFingerPrintActivity extends AppCompatActivity {
     private FingerprintManager mManager;
     private FingerprintManagerCompat mManagerCompat;
     private Handler mHandler;
+    private boolean mLongPress;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ public class TestFingerPrintActivity extends AppCompatActivity {
                         mTvState.setText("解锁失败>>>" + msg.arg1 + "->" + msg.obj.toString());
                         break;
                     case 1:
-                        mTvState.setText("指纹解锁帮助");
+                        mTvState.setText("指纹解锁帮助-->");
                         break;
                     case 2:
                         mTvState.setText("指纹解锁成功!");
@@ -63,6 +64,9 @@ public class TestFingerPrintActivity extends AppCompatActivity {
 
 
     public void onFingerPrint(View view) {
+        if (mManagerCompat == null) {
+            return;
+        }
         if (mManagerCompat.isHardwareDetected()) {
             if (mManagerCompat.hasEnrolledFingerprints()) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -120,4 +124,26 @@ public class TestFingerPrintActivity extends AppCompatActivity {
             mHandler.sendEmptyMessage(3);
         }
     };
+
+
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_HOME && event.getRepeatCount() != 0) {
+//            if (mLongPress) {
+//                Toast.makeText(this, "长按事件?", Toast.LENGTH_SHORT).show();
+////            event.startTracking();
+//                mLongPress = false;
+//                return true;
+//            }
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
+//
+//    @Override
+//    public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_HOME) {
+//            mLongPress = true;
+//        }
+//        return super.onKeyLongPress(keyCode, event);
+//    }
 }

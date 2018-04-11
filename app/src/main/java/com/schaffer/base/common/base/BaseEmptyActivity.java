@@ -73,7 +73,7 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
     protected Handler handler;
     protected boolean mActivityBeShown = false;
     protected P mPresenter;
-    private int mainThemeColor = Color.parseColor("#ff8201");
+    private int mainThemeColor = getResources().getColor(R.color.colorMainTheme);
     public static final int REQUEST_CODE_PERMISSIONS = 20;
     public static final int REQUEST_CODE_PERMISSION = 19;
     protected ProgressDialog progress;
@@ -82,7 +82,7 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
     private Toolbar mToolbar;
 
 
-    public void setMainThemeColor(int mainThemeColor) {
+    public void setMainThemeColor(@ColorInt int mainThemeColor) {
         this.mainThemeColor = mainThemeColor;
     }
 
@@ -188,10 +188,6 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
         }
     }
 
-    /**
-     * -------------------------------------------------------基础生命周期函数如下-----------------------------------------------------------------------
-     */
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -203,6 +199,7 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
         if (isShowTitleBar()) {
             setContentView(R.layout.activity_base);
             mFrameContent = findViewById(R.id.layout_group_content);
+            setToolbar();
         }
         inflateView();
         initEventBus();
@@ -461,8 +458,12 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
         startActivity(localIntent);
     }
 
-    /*----------------------------------------------------------倒计时如下--------------------------------------------------------------------------------*/
-
+    /**
+     * 倒计时
+     *
+     * @param second   秒
+     * @param listener 监听
+     */
     protected void countDown(int second, final CountDownTimeListener listener) {
         if (second <= 0) {
             return;
@@ -536,7 +537,6 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
         }
         return bitmap;
     }
-    /**----------------------------------------------------------EditText Cursor 调整如下-----------------------------------------------------------------*/
 
     /**
      * EditText 光标在最后
@@ -547,7 +547,6 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
         editText.setSelection(editText.getText().length());
     }
 
-    /**----------------------------------------------------------抽象函数如下--------------------------------------------------------------------------------*/
 
     /**
      * 提醒继承者填充FrameLayout
@@ -572,6 +571,9 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
     protected abstract void refreshData();
 
 
+    /**
+     * 用于继承或者插件自动生成
+     */
     public void initView() {
     }
 
@@ -710,10 +712,6 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
             mFrameContent.addView(inflateView, params == null ? new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT) : params);
         }
     }
-
-    /**
-     * -------------------------------------------------------------标题处理----------------------------------------------------------------------------------------
-     */
 
     /**
      * 是否插入并使用了{@linkplain R.layout layout_toolbar}
@@ -901,7 +899,8 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
         }
     }
 
-    public int getToolbarBackgroundColor() {
+    public @ColorInt
+    int getToolbarBackgroundColor() {
         if (useInitToolbar()) {
 
             return (findViewById(R.id.layout_toolbar_tb)).getDrawingCacheBackgroundColor();
