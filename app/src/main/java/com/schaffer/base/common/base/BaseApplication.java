@@ -22,9 +22,6 @@ import com.tencent.bugly.beta.Beta;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
-
 /**
  * @author SchafferWang
  */
@@ -184,12 +181,12 @@ public /*abstract*/ class BaseApplication extends Application {
 
 
     public static void initRealm() {
-        //Realm的配置与使用    http://www.jianshu.com/p/28912c2f31db
-        Realm.init(getInstance());
-        Realm.setDefaultConfiguration(new RealmConfiguration
-                .Builder()
-                .name("realm")
-                .deleteRealmIfMigrationNeeded().build());
+//          Realm的配置与使用    http://www.jianshu.com/p/28912c2f31db
+//        Realm.init(getInstance());
+//        Realm.setDefaultConfiguration(new RealmConfiguration
+//                .Builder()
+//                .name("realm")
+//                .deleteRealmIfMigrationNeeded().build());
     }
 
     /**

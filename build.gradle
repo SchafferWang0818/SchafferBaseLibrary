@@ -8,10 +8,9 @@ buildscript {
         google()
     }
     dependencies {
-//        classpath 'com.android.tools.build:gradle:3.0.1'
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath "com.tencent.bugly:tinker-support:1.0.8"
-        classpath "io.realm:realm-gradle-plugin:2.0.2"
+        classpath 'com.android.tools.build:gradle:3.1.0'
+        classpath "com.tencent.bugly:tinker-support:1.1.1"
+//        classpath "io.realm:realm-gradle-plugin:2.0.2"
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.1'
     }
 }

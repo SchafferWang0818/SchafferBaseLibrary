@@ -1,9 +1,10 @@
 apply plugin: 'com.android.application'
-apply plugin: 'realm-android'
+//apply plugin: 'realm-android'
 apply from: 'tinker-support.gradle'
 apply plugin: 'org.greenrobot.greendao'
 
 android {
+    flavorDimensions "applicationId"
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
     defaultConfig {
@@ -107,35 +108,34 @@ greendao {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    testCompile 'junit:junit:4.12'
-    compile rootProject.ext.dependencies["appcompat-v7"]
-    compile rootProject.ext.dependencies["constraint"]
-    compile rootProject.ext.dependencies["design"]
-    compile rootProject.ext.dependencies["recyclerview"]
-    compile rootProject.ext.dependencies["multidex"]
-    compile rootProject.ext.dependencies["retrofit"]
-    compile rootProject.ext.dependencies["retrofit-converter"]
-    compile rootProject.ext.dependencies["retrofit-adapter"]
-    compile rootProject.ext.dependencies["okhttp"]
-    compile rootProject.ext.dependencies["okhttp-logging"]
-    compile rootProject.ext.dependencies["rxandroid"]
-    compile rootProject.ext.dependencies["rxjava"]
-    compile rootProject.ext.dependencies["gson"]
-    compile rootProject.ext.dependencies["glide"]
-    compile rootProject.ext.dependencies["circleimageview"]
-    compile rootProject.ext.dependencies["banner"]
-    compile rootProject.ext.dependencies["eventbus"]
-    compile rootProject.ext.dependencies["xlhratingbar_lib"]
-    compile rootProject.ext.dependencies["pickerview"]
-    compile rootProject.ext.dependencies["buglyupgrade"]
-    compile rootProject.ext.dependencies["buglynative"]
-    compile rootProject.ext.dependencies["okhttputils"]
-    compile rootProject.ext.dependencies["airbnbLottie"]
-    compile rootProject.ext.dependencies["greendao"]
-    debugCompile rootProject.ext.dependencies["leak"]
-    releaseCompile rootProject.ext.dependencies["leak_no"]
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    testImplementation 'junit:junit:4.12'
+    implementation rootProject.ext.dependencies["appcompat-v7"]
+    implementation rootProject.ext.dependencies["constraint"]
+    implementation rootProject.ext.dependencies["design"]
+    implementation rootProject.ext.dependencies["recyclerview"]
+    implementation rootProject.ext.dependencies["multidex"]
+    implementation rootProject.ext.dependencies["retrofit"]
+    implementation rootProject.ext.dependencies["retrofit-converter"]
+    implementation rootProject.ext.dependencies["retrofit-adapter"]
+    implementation rootProject.ext.dependencies["okhttp"]
+    implementation rootProject.ext.dependencies["okhttp-logging"]
+    implementation rootProject.ext.dependencies["rxandroid"]
+    implementation rootProject.ext.dependencies["rxjava"]
+    implementation rootProject.ext.dependencies["gson"]
+    implementation rootProject.ext.dependencies["glide"]
+    implementation rootProject.ext.dependencies["circleimageview"]
+    implementation rootProject.ext.dependencies["banner"]
+    implementation rootProject.ext.dependencies["eventbus"]
+    implementation rootProject.ext.dependencies["xlhratingbar_lib"]
+    implementation rootProject.ext.dependencies["pickerview"]
+    implementation rootProject.ext.dependencies["buglyupgrade"]
+    implementation rootProject.ext.dependencies["buglynative"]
+    implementation rootProject.ext.dependencies["okhttputils"]
+    implementation rootProject.ext.dependencies["airbnbLottie"]
+    implementation rootProject.ext.dependencies["greendao"]
+//    debugImplementation rootProject.ext.dependencies["leak"]
+//    releaseImplementation rootProject.ext.dependencies["leak_no"]
 }
