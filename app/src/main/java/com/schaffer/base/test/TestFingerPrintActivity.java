@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.schaffer.base.R;
+import com.schaffer.base.ui.dialog.LoadDialog;
 
 public class TestFingerPrintActivity extends AppCompatActivity {
 
@@ -23,6 +24,7 @@ public class TestFingerPrintActivity extends AppCompatActivity {
     private FingerprintManagerCompat mManagerCompat;
     private Handler mHandler;
     private boolean mLongPress;
+    private LoadDialog mDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,6 +51,10 @@ public class TestFingerPrintActivity extends AppCompatActivity {
                         break;
                     case 2:
                         mTvState.setText("指纹解锁成功!");
+                        if (mDialog != null) {
+                            mDialog.dismiss();
+                            mDialog = null;
+                        }
                         break;
                     case 3:
                         mTvState.setText("指纹解锁失败...");
@@ -73,6 +79,9 @@ public class TestFingerPrintActivity extends AppCompatActivity {
                     Toast.makeText(this, "请按下指纹", Toast.LENGTH_SHORT).show();
                     mManager.authenticate(null, new CancellationSignal(), 0, mCallback, mHandler);
                     mTvState.setText("正在获取中....");
+                    if (mDialog == null)
+                        mDialog = new LoadDialog(this);
+                    mDialog.show();
                 }
             } else {
                 mTvState.setText("当前设备没有指纹");
