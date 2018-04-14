@@ -4,7 +4,7 @@ apply from: 'tinker-support.gradle'
 apply plugin: 'org.greenrobot.greendao'
 
 android {
-    flavorDimensions "applicationId"
+    flavorDimensions "minSdkVersion"
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
     defaultConfig {
@@ -33,20 +33,20 @@ android {
     signingConfigs {
         config {
             try {
-                storeFile file('C:/jks/kjb.jks')
-                storePassword 'k123456'
-                keyAlias 'kjb'
-                keyPassword 'k123456'
+                keyAlias 'fentu'
+                keyPassword 'yglfentu'
+                storeFile file('C:/appkey/fentu.jks')
+                storePassword 'yglfentu'
             } catch (ex) {
                 throw new InvalidUserDataException(ex.toString())
             }
         }
         debug_config {
             try {
-                storeFile file('C:/jks/kjb.jks')
-                storePassword 'k123456'
-                keyAlias 'kjb'
-                keyPassword 'k123456'
+                keyAlias 'fentu'
+                keyPassword 'yglfentu'
+                storeFile file('C:/appkey/fentu.jks')
+                storePassword 'yglfentu'
             } catch (ex) {
                 throw new InvalidUserDataException(ex.toString())
             }
@@ -64,7 +64,7 @@ android {
         }
         debug {
             buildConfigField "boolean", "LOG_DEBUG", "true"
-            versionNameSuffix "-debug"
+//            versionNameSuffix "-debug"
             minifyEnabled false
             zipAlignEnabled false
             shrinkResources false
