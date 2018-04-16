@@ -7,6 +7,9 @@ android {
     flavorDimensions "minSdkVersion"
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
     defaultConfig {
         applicationId "com.schaffer.base"
         minSdkVersion rootProject.ext.android.minSdkVersion
@@ -15,7 +18,7 @@ android {
         versionName rootProject.ext.android.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
-        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "mainflavor"]
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "tencent"]
         //5.0以下兼容SVG
         vectorDrawables.useSupportLibrary = true
         ndk {
@@ -83,7 +86,7 @@ android {
         abortOnError false              //打包报错是否停止打包
     }
     productFlavors {
-        mainflavor {}
+//        mainflavor {}
         tencent {}
 //        ali {}
 //        qh360 {}
@@ -93,7 +96,7 @@ android {
 //        oppo {}
 //        vivo {}
 //        wandoujia {}
-//        baidu {}
+        baidu {}
         productFlavors.all { flavor ->
             flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
         }
@@ -108,7 +111,8 @@ greendao {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+//    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    //noinspection GradleCompatible
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     testImplementation 'junit:junit:4.12'
@@ -136,6 +140,8 @@ dependencies {
     implementation rootProject.ext.dependencies["okhttputils"]
     implementation rootProject.ext.dependencies["airbnbLottie"]
     implementation rootProject.ext.dependencies["greendao"]
+    implementation "android.arch.lifecycle:extensions:1.1.0"
+//    implementation 'com.android.support:support-v4:'+rootProject.ext.android.supportVersion
 //    debugImplementation rootProject.ext.dependencies["leak"]
 //    releaseImplementation rootProject.ext.dependencies["leak_no"]
 }

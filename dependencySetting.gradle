@@ -2,13 +2,13 @@ ext {
     android = [
             compileSdkVersion: /*27*/'android-P',
             buildToolsVersion: "28.0.0-rc1",
-            minSdkVersion    : 15,
+            minSdkVersion    : 16,
             targetSdkVersion : /*28*/'P',
             versionCode      : 1,
             versionName      : "1.0",
-            tinkerId         : "base-4.2.0-patch",
+            tinkerId         : "schaffer-1.0.1",
+            supportVersion   : "27.1.0"/*27.0.2*/,
             baseApkDir       : "app-1201-19-21-49",
-            supportVersion   : "27.0.2",
             greendaoVersion  : 1
     ]
 
@@ -41,11 +41,11 @@ ext {
             "banner"              : "com.youth.banner:banner:1.4.10",
             "svganimview"         : "com.github.mcxtzhang:PathAnimView:V1.0.0",
             "gifview"             : "com.github.Cutta:GifView:1.1",
-            "airbnbLottie"        : "com.airbnb.android:lottie:2.5.0-beta3",
+            "airbnbLottie"        : "com.airbnb.android:lottie:2.5.4",
 
             "gson"                : "com.google.code.gson:gson:2.6.2",
             "butterknife"         : "com.jakewharton:butterknife:7.0.1",
-            "multidex"            : "com.android.support:multidex:1.0.0",
+            "multidex"            : "com.android.support:multidex:1.0.2",
             "eventbus"            : "org.greenrobot:eventbus:3.0.0",
             "imagepicker"         : "com.lzy.widget:imagepicker:0.6.1",
             "zxing_core"          : "com.google.zxing:core:3.2.1",
@@ -60,9 +60,9 @@ ext {
             "umeng-analytics"     : "com.umeng.sdk:analytics:latest.integration",
 
             /*bugly*/
-            "buglyreport"         : "com.tencent.bugly:crashreport:2.6.5",
+            "buglyreport"         : "com.tencent.bugly:crashreport:2.6.6",
             "buglynative"         : "com.tencent.bugly:nativecrashreport:3.3.1",
-            "buglyupgrade"        : "com.tencent.bugly:crashreport_upgrade:1.3.1",
+            "buglyupgrade"        : "com.tencent.bugly:crashreport_upgrade:1.3.4",
 
             "butterknife"         : "com.jakewharton:butterknife:8.8.1",
             "butterknifeCompiler" : "com.jakewharton:butterknife-compiler:8.8.1",
