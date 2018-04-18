@@ -17,14 +17,12 @@ tags:
 `inPurgeable`|API19及以下，= `true`，`BitmapFactory` 创建的用于存储`Bitmap Pixel`的内存空间，可以在系统内存不足时被回收。<br>APP需要再次访问`Bitmap`的`Pixel`时（例如：绘制 `Bitmap` 或是调用`getPixel()`)，系统会再次调用`BitmapFactory#decode...()`重新生成`Bitmap`的`Pixel`数组。
 `inInputShareable`|与 `inPurgeable = true` 结合使用<br>= `true` ,	浅拷贝;<br>= `false`,	深拷贝;<br>
 `inSampleSize`|图片宽高和像素的取样值做为缩略;<br>当 `inSampleSize = 2` 时,宽 / 高方向上2个单位仅取1个单位，2×2 取 1×1。
-`inPreferredConfig`|-
 
 
-
-参数取值	| 存储 | 详解 
+`inPreferredConfig`	| 存储 | 详解 
 -|:-|:-
 `ALPHA_8`	|每个像素一个字节（8位），只存储8位的透明度值|不包含颜色信息
-`RGB_565`	|**每个像素两个字节（16位）**，颜色通道比 `R:G:B = 5 : 6 : 5`| `65536 = 2^5 × 2^6 × 2^5`,可用相近颜色代替
+`RGB_565(默认)`	|**每个像素两个字节（16位）**，颜色通道比 `R:G:B = 5 : 6 : 5`| `65536 = 2^5 × 2^6 × 2^5`,可用相近颜色代替
 ~~`ARGB_4444`~~	|~~每个像素两个字节（16位），`Alpha，R，G，B`四个通道每个通道用4位表示~~ | **已弃用**
 `ARGB_8888`	|每个像素四个字节（32位），`Alpha，R，G，B`四个通道每个通道用8位表示 | 完全表示32位真彩色,占用内存过大,是`RGB_565`模式的2倍，是`ALPHA_8`模式的4倍
 
@@ -32,60 +30,82 @@ tags:
 	inPreferredConfig = null或者在解码时无法满足此参数指定的颜色模式，
 			解码器会自动根据原始图片的特征以及当前设备的屏幕位深，选取合适的颜色模式来解码
 
-<font color = "red">指定RGB_565 和不设置inPreferredConfig的效果是一样的。</font>
-
-	参考自:http://blog.csdn.net/ccpat/article/details/46834089
-
 - `inBitmap`
 
+```
 	Bitmap,API11添加用于重用已有的Bitmap
 		
-		- API 11 ~ API 19
+	- API 11 ~ API 19
 
-			- 被复用的Bitmap的宽高必须等于被加载的Bitmap的原始宽高。（注意这里是指原始宽高，即没进行缩放之前的宽高）
-			- 被加载Bitmap的Options.inSampleSize = 1。
-			- 被加载Bitmap的Options.inPreferredConfig字段失效，会被被复用的Bitmap的inPreferredConfig值所覆盖（不然，所占内存可能就不一样了）
+		- 被复用的Bitmap的宽高必须等于被加载的Bitmap的原始宽高。（注意这里是指原始宽高，即没进行缩放之前的宽高）
+		- 被加载Bitmap的Options.inSampleSize = 1。
+		- 被加载Bitmap的Options.inPreferredConfig字段失效，会被被复用的Bitmap的inPreferredConfig值所覆盖（不然，所占内存可能就不一样了）
 
-		- API 19 以上
+	- API 19 以上
 
-			- 被复用的Bitmap必须是Mutable。违反此限制会返回新申请内存的Bitmap。
-			- 被复用的Bitmap的内存大小（通过Bitmap.getAllocationByteCount方法获得，API19及以上才有）必须大于等于被加载的Bitmap的内存大小。违反此限制，将会导致复用失败，抛出异常IllegalArgumentException(Problem decoding into existing bitmap）
+		- 被复用的Bitmap必须是Mutable。违反此限制会返回新申请内存的Bitmap。
+		- 被复用的Bitmap的内存大小（通过Bitmap.getAllocationByteCount方法获得，API19及以上才有）必须大于等于被加载的Bitmap的内存大小。违反此限制，将会导致复用失败，抛出异常IllegalArgumentException(Problem decoding into existing bitmap）
+```
 
 - `inScaled`、`inDensity`、`inTargetDensity`、`inScreenDensity`
 
-		inScaled 表示是否进行缩放,默认 = true;
-		= true , bitmap.mDensity = inTargetDensity,缩放因子 = inTargetDensity/inDensity;
+```
+	inScaled 表示是否进行缩放,默认 = true;
+	= true , bitmap.mDensity = inTargetDensity,缩放因子 = inTargetDensity/inDensity;
 
-			从res加载图片时,
-				inDensity = 图片所在文件夹的密度,
-				inTargetDensity = 系统密度;
+		从res加载图片时,
+			inDensity = 图片所在文件夹的密度,
+			inTargetDensity = 系统密度;
 
-			从文件加载图片时,默认不缩放
-				inDensity = inTargetDensity = 0;
-				inTargetDensity 一般设为系统密度;
+		从文件加载图片时,默认不缩放
+			inDensity = inTargetDensity = 0;
+			inTargetDensity 一般设为系统密度;
 
-		= false, bitmap.mDensity = inDensity或者系统默认密度160;
+	= false, bitmap.mDensity = inDensity或者系统默认密度160;
 
-		inDensity = 
-			ldpi：120(dpi)
-			mdpi：160
-			hdpi：240
-			xhdpi：320
-			xxhdpi：480
-			xxxhdpi：640
-			nodpi：不压缩
+	inDensity = 
+		drawable-ldpi：120(dpi)
+		drawable-mdpi：160(dpi)
+		drawable-hdpi：240(dpi)
+		drawable-xhdpi：320(dpi)
+		drawable-xxhdpi：480(dpi)
+		drawable-xxxhdpi：640(dpi)
+		drawable-nodpi：不压缩
 
-		https://www.jianshu.com/p/1294462f1ac8
+```
+#### 附录: `drawable` 与 `mipmap`
+
+##### drawable
+drawable适配过程如下:
+- 在对应dpi下找到<font color=red>不缩放使用</font>;
+- 找不到向更高dpi文件夹下查找,找到后<font color=red>缩放使用</font>;
+- 在`-nodpi`下找到<font color=red>不缩放使用</font>;
+- 找不到向更低dpi文件夹下查找,找到后<font color=red>放大使用</font>;
+
+![适配过程](https://i.imgur.com/V4CjZH6.png)
+
+##### mipmap
+用于图标的存放,建议尺寸如下:
+
+密度			|	建议尺寸
+		-	|	-
+`mdpi`		|	<font size=2>48*48</font>
+`hdpi`		|	<font size=2>72*72</font>
+`xhdpi`		|	<font size=2>96*96</font>
+`xxhdpi`	|	<font size=2>144*144</font>
+`xxxhdpi`	|	<font size=2>192*192</font>
+
 ---
 	
 ### Bitmap内存占用
 
+```
 	Bitmap占用内存		
 	= 每个像素所占字节 × 像素数 
+	[从res/raw加载Bitmap, option.inScaled = true]
 	= 每个像素所占字节 × (原始宽度 × 缩放因子) × (原始高度 × 缩放因子)
-
-	[从res/raw加载Bitmap]
 	= 每个像素所占字节 × originWidth  × originHeight × (inTargetDensity / inDensity)^2
+	[从res/raw加载Bitmap, option.inScaled = true, 采样缩放]
 	= 每个像素所占字节 × (originWidth / inSampleSize) × (inTargetDensity / inDensity)
 					 × (originHeight / inSampleSize) × (inTargetDensity / inDensity)
 					
@@ -97,7 +117,7 @@ tags:
 	= getByteCount() = getRowBytes() * getHeight()
 	// 复用Bitmap来解码图片时, 表示被复用Bitmap真实占用的内存大小
 	≈ getAllocationByteCount() = mBuffer.length //像素数据的字节数组的长度
-
+```
 
 ---
 ### [Bitmap的压缩(点击查看参考原文)](https://juejin.im/post/58bc1f11ac502e006b0957b7#heading-7)
@@ -186,7 +206,8 @@ tags:
 ```
 
 #### 采样`(Sample)` ####
-宽高**同时同量等比缩放**，内存占用量 / 取样之前内存占用量 = `1 / (inSampleSize * inSampleSize)`
+宽高**同时同量等比缩放**，内存占用量 / 取样之前内存占用量 = `1 / (inSampleSize * inSampleSize)`。
+**`inSampleSize`比1小的话会被当做1，任何`inSampleSize`的值会被取接近2的幂值。**
 
 ```java
     private Bitmap getRealCompressedBitmap(String pathName, int reqWidth, int reqHeight) {
@@ -213,8 +234,9 @@ tags:
 
 ```
 ---
-### 
+### [`Bitmap`与`Matrix`变形](https://juejin.im/entry/56f0d244f3609a00548c44a8) ###
 
 
 ---
+
 
