@@ -71,7 +71,7 @@ android {
             minifyEnabled false
             zipAlignEnabled false
             shrinkResources false
-            signingConfig signingConfigs.debug_config
+//            signingConfig signingConfigs.debug_config
         }
     }
     sourceSets {

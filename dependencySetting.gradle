@@ -3,7 +3,7 @@ ext {
             compileSdkVersion: /*27*/'android-P',
             buildToolsVersion: "28.0.0-rc1",
             minSdkVersion    : 16,
-            targetSdkVersion : /*28*/'P',
+            targetSdkVersion : 28/*'P'*/,
             versionCode      : 1,
             versionName      : "1.0",
             tinkerId         : "schaffer-1.0.1",

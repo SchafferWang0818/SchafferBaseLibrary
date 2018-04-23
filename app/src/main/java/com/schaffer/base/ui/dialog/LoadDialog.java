@@ -13,7 +13,6 @@ import com.schaffer.base.common.base.BaseDialog;
 public class LoadDialog extends BaseDialog {
 
 
-    protected View rootView;
     protected LottieAnimationView mLavLottie;
     protected TextView mTvText;
 
@@ -24,12 +23,16 @@ public class LoadDialog extends BaseDialog {
         initView(view);
     }
 
+    public LoadDialog(Context context, String show) {
+        this(context);
+        mTvText.setText(show);
+    }
 
     @Override
     protected void initView(View view) {
         super.initView(view);
-        mLavLottie = (LottieAnimationView) rootView.findViewById(R.id.dialog_load_lav_lottie);
-        mTvText = (TextView) rootView.findViewById(R.id.dialog_load_tv_text);
+        mLavLottie = view.findViewById(R.id.dialog_load_lav_lottie);
+        mTvText = view.findViewById(R.id.dialog_load_tv_text);
         mLavLottie.addAnimatorListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
@@ -51,16 +54,15 @@ public class LoadDialog extends BaseDialog {
 
             }
         });
-        mLavLottie.setAnimationFromJson("material_wave_loading.json");
         mLavLottie.loop(true);
     }
 
     @Override
     public void show() {
-        super.show();
         if (mLavLottie != null) {
             mLavLottie.playAnimation();
         }
+        super.show();
     }
 
     @Override

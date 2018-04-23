@@ -9,9 +9,11 @@
     android:padding="@dimen/dimen_30dp">
 
     <com.airbnb.lottie.LottieAnimationView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/dialog_load_lav_lottie"
-        android:layout_width="@dimen/dimen_150dp"
-        android:layout_height="wrap_content"/>
+        android:layout_width="@dimen/dimen_80dp"
+        android:layout_height="@dimen/dimen_80dp"
+        app:lottie_fileName="material_wave_loading.json"/>
 
     <TextView
         android:id="@+id/dialog_load_tv_text"
@@ -21,6 +23,6 @@
         android:text="请 稍 后"
         android:textColor="@color/colorMainTheme"
         android:textSize="@dimen/textSize_16sp"
-        android:textStyle="bold"/>
+        android:textStyle="normal"/>
 
 </LinearLayout>

@@ -1,0 +1,6 @@
+1. P 版本还不能作为buildToolVersion
+
+Installation failed with message INSTALL_FAILED_OLDER_SDK:failed parse during installPackageLI:/data/app/vmdl546778630.tmp/base.apk(at Binary XML file line #2):requires development platform p but this is a release plateform..
+It is possible that this is resolved by uninstalling an existing version of the apk if it is present,and re-installing 
+WARNING:Uninstalling will remove the application data!
+
