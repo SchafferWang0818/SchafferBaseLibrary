@@ -73,7 +73,7 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
     protected Handler handler;
     protected boolean mActivityBeShown = false;
     protected P mPresenter;
-    private int mainThemeColor = getResources().getColor(R.color.colorMainTheme);
+    private int mainThemeColor;
     public static final int REQUEST_CODE_PERMISSIONS = 20;
     public static final int REQUEST_CODE_PERMISSION = 19;
     protected ProgressDialog progress;
@@ -192,6 +192,7 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         onCreateInit();
+        mainThemeColor = getResources().getColor(R.color.colorMainTheme);
         setCurrentTransition(getIntent().getIntExtra(Constants.WINDOW_TRANSITION, -1));
     }
 
@@ -731,7 +732,7 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             String title = getTitle().toString();
 
-            if (TextUtils.isEmpty(title)) {
+            if (!TextUtils.isEmpty(title)) {
                 setActivityTitle(title);
             }
             setLeftClick(null);
@@ -754,7 +755,7 @@ public abstract class BaseEmptyActivity<V extends BaseView, P extends BasePresen
 
     protected void setLeftIcon(@DrawableRes int resId, View.OnClickListener listener) {
         if (useInitToolbar()) {
-            ImageView mIvBack = (ImageView) findViewById(R.id.layout_toolbar_iv_back);
+            ImageView mIvBack = findViewById(R.id.layout_toolbar_iv_back);
             mIvBack.setImageResource(resId);
             setLeftIconVisible(View.VISIBLE);
             setLeftClick(listener);
