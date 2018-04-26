@@ -34,9 +34,7 @@
 			... ...
 			Looper.loop();
 
-
 2. `Looper#prepare(boolean)`中
-
 
 	<font color="red">初始化Looper,并在构造方法中关联一个MessageQueue对象;</font>
 
@@ -45,8 +43,6 @@
 		private Looper(boolean quitAllowed) { 
 			mQueue = new MessageQueue(quitAllowed); mThread = Thread.currentThread(); 
 		}
-
-
 
 3. Handler构造函数:
 
@@ -76,9 +72,9 @@
 	<font color="red">`MessageQueue#enqueueMessage()`中使用`message.next`保存下一个Message,按照时间对Message进行排序;</font>
 
 6. <font color="red">`Looper#loop()`方法起了一个死循环，不断的判断MessageQueue中的消息是否为空，如果为空则直接return掉，然后执行`queue.next()`方法</font>
-	7. `MessageQueue#next()`主要是Message出栈,然后继续执行`Looper#loop()`中的`msg.target.dispatchMessage(msg);`也就是`Handler#dispatchMessage(msg)`
-	8. `Handler#dispatchMessage(msg)`
-	
+7. `MessageQueue#next()`主要是Message出栈,然后继续执行`Looper#loop()`中的`msg.target.dispatchMessage(msg);`也就是`Handler#dispatchMessage(msg)`
+8. `Handler#dispatchMessage(msg)`
+
 			public void dispatchMessage(Message msg) {
 		        if (msg.callback != null) {
 		            handleCallback(msg);
@@ -92,12 +88,11 @@
 		        }
 		    }
 	
-		1. `Message#callback`为Runnable类型,`handleCallback(msg)`内部实现为`message.callback.run();`
+	1. `Message#callback`为Runnable类型,`handleCallback(msg)`内部实现为`message.callback.run();`
 
 			- Message内部可以封装一个Runnable类的callback,当Handler调用post系列函数时就是创建一个新的Message并传入刚传入的Runnable实现对象,然后enqueueMessage()入队列;
 
-
-		2. Handler可传入Handler$Callback对象,`Callback#handleMessage(msg)`,与`Handler#handleMessage(msg)`均为空实现,使用方式相同;
+	2. Handler可传入Handler$Callback对象,`Callback#handleMessage(msg)`,与`Handler#handleMessage(msg)`均为空实现,使用方式相同;
 	
 ----
 
