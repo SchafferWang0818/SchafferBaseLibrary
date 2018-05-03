@@ -140,7 +140,8 @@ dependencies {
     implementation rootProject.ext.dependencies["okhttputils"]
     implementation rootProject.ext.dependencies["airbnbLottie"]
     implementation rootProject.ext.dependencies["greendao"]
-    implementation "android.arch.lifecycle:extensions:1.1.0"
+    implementation rootProject.ext.dependencies["auto-ex"]
+//    implementation "android.arch.lifecycle:extensions:1.1.0"
 //    implementation 'com.android.support:support-v4:'+rootProject.ext.android.supportVersion
 //    debugImplementation rootProject.ext.dependencies["leak"]
 //    releaseImplementation rootProject.ext.dependencies["leak_no"]

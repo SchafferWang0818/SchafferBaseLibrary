@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Process;
 import android.support.multidex.MultiDex;
 
+import com.bolex.autoEx.AutoEx;
 import com.schaffer.base.BuildConfig;
 import com.schaffer.base.common.block.BlockError;
 import com.schaffer.base.common.block.BlockLooper;
@@ -117,6 +118,9 @@ public /*abstract*/ class BaseApplication extends Application {
         initOkHttpUtils();
         initImagePicker();
         initOthersLibrary();
+        AutoEx.apply(BaseApplication.getInstance(),5,
+                BaseApplication.getInstance().getPackageName(),
+                BuildConfig.LOG_DEBUG);
     }
 
     public static synchronized BaseApplication getInstance() {
