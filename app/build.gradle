@@ -57,21 +57,23 @@ android {
     }
     buildTypes {
         release {
-            signingConfig signingConfigs.config
 
             buildConfigField "boolean", "LOG_DEBUG", "false"
+            buildConfigField "String", "APP_ID_BUGLY", "\"69353c4a55\""
             zipAlignEnabled true
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
         debug {
             buildConfigField "boolean", "LOG_DEBUG", "true"
-//            versionNameSuffix "-debug"
+            buildConfigField "String", "APP_ID_BUGLY", "\"69353c4a55\""
+            versionNameSuffix "-debug"
             minifyEnabled false
             zipAlignEnabled false
             shrinkResources false
-//            signingConfig signingConfigs.debug_config
+            signingConfig signingConfigs.debug_config
         }
     }
     sourceSets {

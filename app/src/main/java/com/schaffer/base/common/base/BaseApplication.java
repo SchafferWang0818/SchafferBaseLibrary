@@ -79,20 +79,22 @@ public /*abstract*/ class BaseApplication extends Application {
         return application.install;
     }*/
 
+    /**
+     * 独立进程导致onCreate()函数多次调用
+     */
     @Override
     public void onCreate() {
         super.onCreate();
-        int pid = Process.myPid();
-        /* 多进程判断 */
-        if (getProcessName(this, pid).equals("com.schaffer.base")) {
-
-        } else {
-
-        }
         mActivityManager = ActivityManager.getScreenManager();
         app = this;
         registerActivityLifecycleCallbacks(new DefinedActivityLifeCycleCallback());
-        initLibrary();
+        int pid = Process.myPid();
+        /* 多进程判断 */
+        if (getProcessName(this, pid).equals(getPackageName())) {
+            initLibrary();
+        } else {
+            //当前应用的其他进程
+        }
     }
 
     public String getProcessName(Context cxt, int pid) {
@@ -111,7 +113,7 @@ public /*abstract*/ class BaseApplication extends Application {
 
     private static void libraryInit() {
         //bugly
-        Bugly.init(BaseApplication.getInstance(), "69353c4a55", BuildConfig.DEBUG);
+        Bugly.init(BaseApplication.getInstance(), BuildConfig.APP_ID_BUGLY/*"69353c4a55"*/, BuildConfig.DEBUG);
         //leaks
         /*install = LeakCanary.install(this);*/
         initRealm();

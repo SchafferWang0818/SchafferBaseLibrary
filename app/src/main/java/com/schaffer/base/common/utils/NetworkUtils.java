@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 
 import java.lang.reflect.Method;
 import java.net.InetAddress;
@@ -51,6 +53,27 @@ public final class NetworkUtils {
         NETWORK_2G,
         NETWORK_UNKNOWN,
         NETWORK_NO
+    }
+
+    public boolean isUseWifiProxy(){
+        if (getNetworkType()==NetworkType.NETWORK_WIFI){
+
+            String proxyAddress=null;
+            int proxyPort=-1;
+            if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.ICE_CREAM_SANDWICH){
+                proxyAddress = System.getProperty("http.proxyHost");
+                try {
+                    proxyPort= Integer.valueOf(System.getProperty("http.proxyPort"));
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                proxyAddress = android.net.Proxy.getHost(Utils.getContext());
+                proxyPort = android.net.Proxy.getPort(Utils.getContext());
+            }
+            return !TextUtils.isEmpty(proxyAddress)&&proxyPort!=-1;
+        }
+        return false;
     }
 
     /**

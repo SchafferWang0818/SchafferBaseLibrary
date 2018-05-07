@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.net.Proxy;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -48,14 +49,18 @@ public abstract class BaseModel<T> {
         if (retrofit == null) {
             synchronized (BaseModel.class) {
                 if (retrofit == null) {
-                    OkHttpClient client = new OkHttpClient().newBuilder()
+                    OkHttpClient.Builder builder = new OkHttpClient().newBuilder()
                             .connectTimeout(20, TimeUnit.SECONDS)
                             .readTimeout(20, TimeUnit.SECONDS)
                             .writeTimeout(20, TimeUnit.SECONDS)
                             .addInterceptor(createHttpLoggingInterceptor())
                             //.addInterceptor(new MultiBaseUrlInterceptor())//多BaseUrl的情况
-                            .addInterceptor(new MyHeaderInterceptor())
-                            .build();
+                            .addInterceptor(new MyHeaderInterceptor());
+                    /*阻止Flidder抓包*/
+                    if (!BuildConfig.DEBUG){
+                        builder.proxy(Proxy.NO_PROXY);
+                    }
+                    OkHttpClient client = builder.build();
 
                     if (ApiInterface.HOST_BASE_URL.startsWith("https")) {
                         //https 跳过SSL认证
